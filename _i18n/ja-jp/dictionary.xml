@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <blocks>
-  <block id="f1574d51fcf9f775687f0113052df518" category="summary">これらのテクニカルレポートには、ONTAPの概要と推奨されるプラクティスが記載されています</block>
   <block id="4434424bd2c1011098a508e85df56b94" category="doc">ONTAPテクニカルレポート</block>
   <block id="f282b1ca0090a5b43997888b90926fdd" category="summary">これらのテクニカルレポートには、NetApp ONTAPを使用した業界ソリューションの概要と推奨されるプラクティスが記載されています</block>
   <block id="0fa7990fb9bf5e1fa283be0a561304a6" category="doc">業界ソリューションのテクニカルレポート</block>
@@ -411,4 +410,5 @@ VMware ESX の最初の日から VMware 環境を管理するには、自動化�
   <block id="0dca6505dd29defef873a6ae40e5ba67" category="sidebar">VMware vSphere Virtual Volume（VVOL）とONTAP</block>
   <block id="2d90ac09cbf108bddad31dd341f8614e" category="sidebar">VMware Site Recovery ManagerとONTAP</block>
   <block id="16d877785afd5e8f401c4bd07d5afe32" category="sidebar">仮想化に関するその他のテクニカルレポート</block>
+  <block id="606ae2d52250c5830b4f47feec9aadee" category="summary">ONTAPテクニカルレポートでは、さまざまなエコシステム内またはさまざまなプロトコルを使用したONTAPの導入を計画および最適化するための詳細情報や、ONTAP機能の推奨事項について説明します。</block>
 </blocks>

@@ -3,7 +3,7 @@ layout: landing-page
 sidebar: sidebar 
 keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
 permalink: index.html 
-summary: これらのテクニカルレポートには、ONTAPの概要と推奨されるプラクティスが記載されています 
+summary: ONTAPテクニカルレポートでは、さまざまなエコシステム内またはさまざまなプロトコルを使用したONTAPの導入を計画および最適化するための詳細情報や、ONTAP機能の推奨事項について説明します。 
 ---
 = ONTAPテクニカルレポート
 :hardbreaks:
