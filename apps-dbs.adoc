@@ -1,0 +1,73 @@
+---
+layout: landing-page 
+sidebar: sidebar 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
+permalink: apps-dbs.html 
+summary: これらのテクニカルレポートには、ONTAP上のアプリケーションとデータベースの概要と推奨されるプラクティスが記載されています 
+---
+= アプリケーションおよびデータベースのテクニカルレポート
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+ONTAPは、多くのエンタープライズアプリケーションやデータベーステクノロジのデータ管理とデータ保護の基盤です。次のテクニカルレポートでは、Microsoft SQL Server、MySQL、Oracle、およびPostgreSQLのNetApp推奨プラクティスと実装手順について説明します。
+
+
+
+== Microsoft SQL Server の場合
+
+link:https://www.netapp.com/pdf.html?item=/media/8585-tr4590.pdf["TR-4590：『Best Practice Guide for Microsoft SQL Server with ONTAP』"^]
+ストレージ管理者およびデータベース管理者がMicrosoft SQL ServerをONTAPストレージに正常に導入する方法について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/12400-tr4714.pdf["TR-4714：『Best Practices for Microsoft SQL Server using SnapCenter』"^]
+SnapCenterテクノロジを使用してONTAPストレージにMicrosoft SQL Serverを適切に導入し、データを保護する方法をご紹介します。
+
+
+
+== MySQL
+
+link:https://www.netapp.com/pdf.html?item=/media/16423-tr-4722pdf.pdf["ONTAP上のMySQLデータベース"^]
+MySQLとその派生であるMariaDBやPerconaなどは、多くのエンタープライズアプリケーションで広く使用されています。これらのアプリケーションは、グローバルなソーシャルネットワーキングサイトや大規模なeコマースシステムから、数千ものデータベースインスタンスを含むSMBホスティングシステムまで多岐にわたります。ONTAPにMySQLを導入するための調整とストレージ構成に関する要件とガイダンスについて説明します。
+
+
+
+== Oracle の場合
+
+link:https://www.netapp.com/pdf.html?item=/media/8744-tr3633pdf.pdf["TR-3633：『ONTAP 上のOracleデータベース』"^]
+ストレージ管理者およびデータベース管理者がONTAPストレージにOracleを正常に導入するための推奨事項について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/85630-tr-4969.pdf["TR-4969：『Oracle Database Performance on AFF A-Series and C-Series』"^]
+ONTAPは、インライン圧縮、ハードウェアの無停止アップグレード、外部ストレージアレイからのLUNインポートなどの機能を標準搭載した強力なデータ管理プラットフォームです。最大24ノードのクラスタ構成が可能で、Network File System（NFS）、Server Message Block（SMB；サーバメッセージブロック）、iSCSI、Fibre Channel（FC；ファイバチャネル）、Nonvolatile Memory Express（NVMe）の各プロトコルを通じてデータを同時に提供できます。さらに、Snapshotテクノロジは、数万個のオンラインバックアップと完全に運用可能なデータベースクローンを作成するための基盤となります。ONTAPの豊富な機能セットに加えて、データベースのサイズ、パフォーマンス要件、データ保護のニーズなど、ユーザにはさまざまな要件があります。AFFストレージシステム（AシリーズとCシリーズの両方を含む）を使用したベアメタルデータベースのパフォーマンスについて説明し、2つのAFFオプションの最大値と実際の違いについて説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/85629-tr-4971.pdf["TR-4971：『Virtualized Oracle database performance on AFF A-Series and C-Series』"^]
+ONTAPは、インライン圧縮、ハードウェアの無停止アップグレード、外部ストレージアレイからのLUNインポートなどの機能を標準搭載した強力なデータ管理プラットフォームです。最大24ノードのクラスタ構成が可能で、Network File System（NFS）、Server Message Block（SMB；サーバメッセージブロック）、iSCSI、Fibre Channel FC（ファイバチャネルFC）、Nonvolatile Memory Express（NVMe）の各プロトコルを通じてデータを同時に提供できます。さらに、Snapshotテクノロジは、数万個のオンラインバックアップと完全に運用可能なデータベースクローンを作成するための基盤となります。ONTAPの豊富な機能セットに加えて、データベースのサイズ、パフォーマンス要件、データ保護のニーズなど、ユーザにはさまざまな要件があります。AFFストレージシステム（AシリーズとCシリーズの両方を含む）を使用した仮想データベースのパフォーマンスについて説明し、最大値と2つのAFFオプションの実際の違いについて説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/19666-tr-4591.pdf["TR-4591：『Oracle data protection：Backup、recovery、replication、and disaster recovery』"^]
+ストレージ管理者およびデータベース管理者は、ONTAPストレージ上のOracleに対して、バックアップ、リカバリ、複製、ディザスタリカバリを正常に実行できるようにするための推奨されるプラクティスについて説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/8583-tr4592.pdf["TR-4592：『Oracle on MetroCluster』"^]
+MetroCluster同期レプリケーション機能でOracleデータベースを運用する場合の推奨事項、テスト手順、およびその他の考慮事項について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/19750-tr-4534.pdf["TR-4534：『Migration of Oracle Databases to ONTAP Storage Systems』"^]
+移行戦略を計画する際の全体的な考慮事項、データ移動を行う3つの異なるレベル、使用可能なさまざまな手順の詳細について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/9138-tr4695.pdf["TR-4695：『Database storage tiering with FabricPool』"^]
+Oracle Relational Database Management System（RDBMS）など、さまざまなデータベースを使用するFabricPoolのメリットと構成オプションについて説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/40384-tr-4899.pdf["TR-4899：『Oracle Database transparent application failover with SnapMirror Business Continuity』"^]
+SnapMirrorビジネス継続性（SM-BC）とOracle Real Application Cluster（RAC）は、透過的なアプリケーションフェイルオーバー（TAF）と、サイト障害や実際の災害が発生した場合の継続性を提供します。SM-BCをOracle RACのストレージコンポーネントとして使用するAFFストレージアレイの構成ガイダンスと推奨事項について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/21901-tr-4876.pdf["TR-4876：『Oracle multitenancy with ONTAP 解決策and deployment best practices』"^]
+ONTAPストレージを使用してOracleマルチテナントデータベースをプロビジョニング、管理、保護し、OracleマルチテナントデータベースとONTAPソフトウェアの機能の両方のメリットを最大限に活用する方法について、解決策が推奨するプラクティスを紹介します。
+
+
+
+== PostgreSQL
+
+link:https://www.netapp.com/pdf.html?item=/media/17140-tr4770.pdf["TR-4770：『PostgreSQL database on ONTAP』"^]
+PostgreSQLには、PostgreSQL、PostgreSQL Plus、EDB Postgres Advanced Server（EPAS）などのバリアントが付属しています。PostgreSQLは通常、多層アプリケーションのバックエンドデータベースとして導入されます。一般的なミドルウェアパッケージ(PHP、Java、Python、Tcl/Tk、ODBCなど)でサポートされています。 とJDBC）は、オープンソースのデータベース管理システムでは、歴史的に人気のある選択肢でした。ONTAPにPostgreSQLを導入するためのチューニングとストレージ構成に関する設定要件とガイダンスについて説明します。

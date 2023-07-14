@@ -1,0 +1,120 @@
+---
+indexpage:
+  lead: ONTAPテクニカルレポートでは、さまざまなエコシステム内またはさまざまなプロトコルを使用したONTAP環境の計画と最適化について、詳細な情報を提供します。一部のONTAPテクニカルレポートでは、ONTAPの機能に関するアーキテクチャのコンテキストと推奨されるプラクティスを紹介しています。
+  tiles:
+  - title: アプリケーションおよびデータベースのテクニカルレポート
+    links:
+    - title: ONTAPを搭載したMicrosoft SQL Server
+      url: apps-dbs.html
+    - title: AFF AシリーズおよびCシリーズでのOracleデータベースのパフォーマンス
+      url: apps-dbs.html
+    - title: AFF AシリーズおよびCシリーズ上での仮想化されたOracleデータベースのパフォーマンス
+      url: apps-dbs.html
+    - title: ONTAP上のOracleデータベース
+      url: apps-dbs.html
+    - title: その他のアプリケーションおよびデータベースに関するテクニカルレポート
+      url: apps-dbs.html
+  - title: ビジネス継続性に関するテクニカルレポート
+    links:
+    - title: SnapMirror のビジネス継続性（ SM-BC ）
+      url: business-continuity.html
+    - title: MetroCluster 解決策 のアーキテクチャと設計
+      url: business-continuity.html
+    - title: MetroCluster IP の略
+      url: business-continuity.html
+    - title: MetroCluster FCの略
+      url: business-continuity.html
+    - title: ビジネス継続性に関するその他のテクニカルレポート
+      url: business-continuity.html
+  - title: データ保護とディザスタリカバリに関するテクニカルレポート
+    links:
+    - title: SnapMirror非同期構成とベストプラクティス
+      url: data-protection-disaster-recovery.html
+    - title: SnapMirror Synchronousの設定とベストプラクティス
+      url: data-protection-disaster-recovery.html
+    - title: SnapLockを使用したWORMストレージ
+      url: data-protection-disaster-recovery.html
+    - title: データ保護とディザスタリカバリに関するその他のテクニカルレポート
+      url: data-protection-disaster-recovery.html
+  - title: "『FlexCache and FlexGroup volumes』テクニカルレポートを参照してください"
+    links:
+    - title: FlexCache ボリューム
+      url: nas-containers.html
+    - title: FlexGroupボリュームの実装とベストプラクティス
+      url: nas-containers.html
+    - title: データ保護とバックアップのONTAP FlexGroupボリューム
+      url: nas-containers.html
+    - title: FlexCacheおよびFlexGroup Volumeに関するその他のテクニカルレポート
+      url: nas-containers.html
+  - title: NASテクニカルレポート
+    links:
+    - title: NetApp ONTAPにおけるNFSのベストプラクティスと実装
+      url: nas.html
+    - title: "『Multiprotocol NAS in ONTAP Overview and Best Practices』"
+      url: nas.html
+    - title: ONTAP におけるS3のベストプラクティスです
+      url: nas.html
+    - title: ネームサービスのベストプラクティス
+      url: nas.html
+    - title: ONTAPでのNFS Kerberos
+      url: nas.html
+    - title: その他のNASテクニカル・レポート
+      url: nas.html
+  - title: ネットワークテクニカルレポート
+    links:
+    - title: ONTAPを使用したBGP / VIP
+      url: networking.html
+  - title: SANテクニカルレポート
+    links:
+    - title: ONTAPの最新SANに関するベストプラクティス
+      url: san.html
+    - title: NVMe over Fabrics（NVMe-oF）を使用した最新SANの実装と設定
+      url: san.html
+    - title: ONTAP AFFオールSANアレイ（ASA）システム
+      url: san.html
+  - title: セキュリティテクニカルレポート
+    links:
+    - title: セキュリティ強化ガイド
+      url: security-hardening-guides.html
+    - title: "『The NetApp 解決策for Ransomware』"
+      url: security.html
+    - title: NetAppとゼロトラスト
+      url: security.html
+    - title: NetApp SnapLockを使用したWORMストレージ
+      url: security.html
+    - title: 認証（SSH、MFA）
+      url: security.html
+    - title: ONTAPのセキュアマルチテナンシー
+      url: security.html
+    - title: その他のセキュリティテクニカルレポート
+      url: security.html
+  - title: SnapCenterテクニカルレポート
+    links:
+    - title: SnapCenter for Oracleの略
+      url: snapcenter.html
+    - title: SnapCenter for Microsoft SQLの略
+      url: snapcenter.html
+    - title: SnapCenter for Virtualizationの略
+      url: snapcenter.html
+    - title: SnapCenter サービス
+      url: snapcenter.html
+    - title: その他のSnapCenterテクニカルレポート
+      url: snapcenter.html
+  - title: 階層化に関するテクニカルレポート
+    links:
+    - title: FabricPoolのベストプラクティス
+      url: tiering.html
+    - title: FabricPoolとStorageGRIDの推奨事項
+      url: tiering.html
+    - title: FabricPoolによるデータベースストレージの階層化
+      url: tiering.html
+  - title: 仮想化に関するテクニカルレポート
+    links:
+    - title: VMware vSphere for ONTAP の略
+      url: virtualization.html
+    - title: VMware vSphere Virtual Volume（VVOL）とONTAP
+      url: virtualization.html
+    - title: VMware Site Recovery ManagerとONTAP
+      url: virtualization.html
+    - title: 仮想化に関するその他のテクニカルレポート
+      url: virtualization.html

@@ -1,0 +1,74 @@
+---
+layout: landing-page 
+sidebar: sidebar 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, NAS, best practices, best-practices 
+permalink: nas.html 
+summary: これらのテクニカルレポートには、NetApp ONTAPでのNFS、SMB / CIFS、S3、ネームサービスの概要と推奨されるプラクティスが記載されています。 
+---
+= NASテクニカルレポート
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp NASソリューションは、データ管理を簡易化し、コストを最適化しながら成長に対応できるようにします。ONTAP NASソリューションは、ユニファイドアーキテクチャにより、ノンストップオペレーション、効率性、シームレスな拡張性を実現します。NetApp ONTAPを基盤とするスケールアウトNASは、大規模なONTAPエコシステムを活用し、イノベーションをリードする重要なビジョンと、今後の積極的なイノベーションを実現します。
+
+[NOTE]
+====
+これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/nas-management/index.html["ONTAP NASストレージ管理"] および link:https://docs.netapp.com/us-en/ontap/object-storage-management/index.html["ONTAP S3ストレージ管理"] 製品ドキュメント
+
+====
+
+
+== NFS
+
+link:https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067：『NFS in ONTAP best practice and implementation guide』"^]
+ONTAPでのNFSの基本概念、サポート情報、設定のヒント、および推奨される方法について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/84595-tr-4962.pdf["TR-4962：『NFSv4.2 extended attributes』"^]
+ONTAP 9.12.1以降でのNFSv4.2拡張属性の有効化と使用について説明します。
+
+
+
+== SMB
+
+link:https://www.netapp.com/pdf.html?item=/media/17136-tr4740.pdf["TR-4740：『SMB 3.0 multichannel』"^]
+Microsoftは、SMB1およびSMB2のパフォーマンスと信頼性の制限に対処することでSMB3プロトコルを改善することを目的として、SMB 3.0プロトコルにマルチチャネルを導入しました。ONTAPのマルチチャネル機能の機能、推奨される方法、パフォーマンステストの結果などについて説明します。
+
+
+
+== マルチプロトコル
+
+link:https://www.netapp.com/pdf.html?item=/media/27436-tr-4887.pdf["TR-4887：『Multiprotocol NAS in ONTAP Overview and Best Practices』"^]
+ONTAPでのマルチプロトコルNASアクセスの仕組みと、マルチプロトコル環境の推奨事項について説明します。
+
+
+
+== ONTAP S3の略
+
+link:https://www.netapp.com/pdf.html?item=/media/17219-tr4814.pdf["TR-4814：『S3 in ONTAP best practices』"^]
+Amazon Simple Storage Service（S3）をONTAPソフトウェアで使用するための推奨されるプラクティス、およびONTAPをネイティブのS3アプリケーションを使用するオブジェクトストアとして、またはFabricPoolの階層化のデスティネーションとして使用するための機能と設定について説明します。
+
+
+
+== ネームサービス
+
+link:https://www.netapp.com/pdf.html?item=/media/19370-tr-4523.pdf["TR-4523：『DNS load balancing in ONTAP』"^]
+ONTAPのDNSを含むDNSロードバランシング方式で使用するためのONTAPの設定方法、さまざまな設定方法、および推奨される方法について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/16328-tr-4668.pdf["TR-4668：『Name services best practices guide』"^]
+CIFS / SMBやNFSなどのネットワーク接続型ストレージ（NAS）ソリューションをONTAPに実装する際の推奨されるプラクティス、制限事項、考慮事項について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/19423-tr-4835.pdf["TR-4835：『How to configure LDAP in ONTAP multiprotocol NAS identity management』"^]
+マルチプロトコルNAS用にONTAPでLightweight Directory Access Protocol（LDAP）ID管理を設定する方法について説明します。
+
+
+
+== NASセキュリティ
+
+link:https://www.netapp.com/pdf.html?item=/media/19384-tr-4616.pdf["TR-4616 ：『 NFS Kerberos in ONTAP 』"^]
+Active DirectoryクライアントとRed Hat Enterprise Linux（RHEL）クライアントを使用した設定手順など、ONTAPでのNFS Kerberosについて説明します。

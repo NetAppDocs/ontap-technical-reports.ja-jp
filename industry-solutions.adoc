@@ -1,0 +1,35 @@
+---
+layout: landing-page 
+sidebar: sidebar 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
+permalink: industry-solutions.html 
+summary: これらのテクニカルレポートには、NetApp ONTAPを使用した業界ソリューションの概要と推奨されるプラクティスが記載されています 
+---
+= 業界ソリューションのテクニカルレポート
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+ネットアップの業界固有のデータストレージソリューションは、戦略的パートナーシップによって強化され、ビジネス上の重要な課題に対応します。
+
+
+
+== エダ
+
+link:https://www.netapp.com/pdf.html?item=/media/19368-tr-4617.pdf["ONTAPの電子設計自動化のベストプラクティス"^]
+電子設計自動化（EDA）ワークロード向けのNetApp ONTAPで推奨されるプラクティスと実装のヒントを紹介します。さらに、EDA環境で高いメタデータオーバーヘッドを処理するのに最適なFlexGroupボリュームも紹介します。
+
+
+
+== 医療機関
+
+link:https://www.netapp.com/pdf.html?item=/media/17137-tr3928pdf.pdf["EpicのNetAppベストプラクティス"^]
+Epicは医療業界向けのソフトウェアを開発しています。NetAppストレージとEpicソフトウェア環境を統合するための推奨されるプラクティスを紹介します。
+
+link:https://www.netapp.com/pdf.html?item=/media/86527-tr-4975.pdf["FlexPod -大規模病院のためのEpic"^]
+FlexPodが提供するエンドツーエンドのパフォーマンス機能について説明します。システム間データベースを使用した電子カルテ（EHR）アプリケーションの必要性を実証し、大規模病院のFlexPod 解決策 でEHRを設定するためのストレージレイアウトとベストプラクティスに焦点を当てています。

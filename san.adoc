@@ -1,0 +1,38 @@
+---
+layout: landing-page 
+sidebar: sidebar 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, SAN, NVMe, NVMeoF, NVMeoTCP, NVMeoFC, iSCSI, fibre channel, fiber channel, igroups, namespaces, namespace, LUN, subsystem, best practices, best-practices 
+permalink: san.html 
+summary: これらのテクニカルレポートには、ONTAPのブロックプロトコルの概要と推奨されるプラクティスが記載されています。 
+---
+= SANテクニカルレポート
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+ONTAP SANストレージは、シンプルなSAN環境を実現し、ミッションクリティカルなデータベースやその他のSANワークロードに高可用性を提供します。ONTAP SANは、Oracle、SAP、Microsoft SQL Serverのデータベースに加え、VMwareやその他の主要なハイパーバイザーとの業界最高レベルのデータサービス統合により、エンタープライズデータベースアプリケーションの価値実現までの時間を短縮します。
+
+[NOTE]
+====
+これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/san-management/index.html["ONTAP SANストレージ管理"] 製品ドキュメント
+
+====
+link:https://www.netapp.com/pdf.html?item=/media/10680-tr4080.pdf["TR-4080：『Best Practices for Modern SAN in ONTAP』"^]
+ONTAPのブロックプロトコルと推奨事項について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/10681-tr4684.pdf["TR-4684：『Implementing and configuring Modern SANs with NVMe over Fabrics（NVMe-oF）』"^]
+NVMe over Fabricsトランスポート（NVMe over Fibre ChannelおよびNVMe over TCP）の実装と設定方法について説明します。トピックには、NVMeプロトコルとトランスポートを使用して可用性とパフォーマンスに優れた最新SANソリューションを構築するための設計、実装、設定、管理ガイドライン、推奨プラクティスなどがあります。
+
+link:https://www.netapp.com/pdf.html?item=/media/10379-tr4515.pdf["TR-4515：『ONTAP AFF All SAN Array（ASA）systems』"^]
+NetApp AFFオールSANアレイ（ASA）システムの概要と、ビジネスクリティカルな常時稼働のSAN構成の推奨プラクティスに基づく実装方法について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf["TR-4968：『NetApp All-SAN Array data availability and integrity』"^]
+オールSANアレイシステムのさまざまなデータ保護機能とデータ整合性機能によってアプリケーションのアップタイムを最大限に高める方法と、SANネットワークの設計、実装、管理に関する推奨事項について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/9222-nva-1145-design.pdf["最新のSANクラウド対応フラッシュ解決策"^]
+このNetApp検証済みアーキテクチャは、NetApp、VMware、Broadcomによって共同で設計および検証されています。最新のBrocade、Emulex、VMware vSphereテクノロジソリューションとNetAppオールフラッシュストレージを併用しており、エンタープライズSANストレージとデータ保護の新たな標準を打ち立て、卓越したビジネスバリューを生み出します。

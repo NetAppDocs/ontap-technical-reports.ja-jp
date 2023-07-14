@@ -1,0 +1,31 @@
+---
+layout: landing-page 
+sidebar: sidebar 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
+permalink: tiering.html 
+summary: これらのテクニカルレポートでは、NetApp ONTAPでの階層化の概要と推奨されるプラクティスについて説明します。 
+---
+= 階層化に関するテクニカルレポート
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+
+
+[role="lead"]
+FabricPoolのデータ階層化解決策を使用すると、ストレージ効率を高めるためにアプリケーションを再設計する手間を回避しながら、フラッシュシステムの全体的なユーザエクスペリエンスを向上させることができます。FabricPoolは、システム環境のストレージの設置面積と関連コストを削減します。アクティブデータはハイパフォーマンスSSDに保持されます。アクセス頻度の低いデータは、ストレージの効率性を維持しながら、低コストのオブジェクトストレージに階層化されます。
+
+[NOTE]
+====
+これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/fabricpool/index.html["ONTAP FabricPool"] 製品ドキュメント
+
+====
+link:https://www.netapp.com/pdf.html?item=/media/17239-tr4598.pdf["TR-4598：『FabricPool best bests』"^]
+FabricPoolの機能、要件、実装、推奨されるプラクティスについて説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/19403-tr-4826.pdf["TR-4826：『NetApp FabricPool with StorageGRID Recommendation Guide』"^]
+ONTAPコンポーネントのFabricPoolの大容量階層としてStorageGRIDを導入し、サイジングする際の推奨されるプラクティスについて説明します。また、StorageGRIDを使用する際のコア機能、要件、実装、推奨される方法についても説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/9138-tr4695.pdf["TR-4695：『Database storage tiering with NetApp FabricPool』"^]
+Oracle Relational Database Management System（RDBMS）など、さまざまなデータベースを使用するFabricPoolのメリットと構成オプションについて説明します。

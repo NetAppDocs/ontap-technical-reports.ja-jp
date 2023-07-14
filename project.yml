@@ -1,0 +1,42 @@
+---
+settings:
+  name: ONTAP technical reports
+  internal:
+    pdf_enabled: false
+  prod:
+    pdf_enabled: true
+    harmony_enabled: false
+  langs: ja-jp,us-en,ko-kr,zh-cn,zh-tw,de-de,es-es,fr-fr,it-it
+sidebar:
+  entries:
+  - title: ONTAPテクニカルレポート
+    url: "/index.html"
+  - title: アプリケーションおよびデータベースのテクニカルレポート
+    url: "/apps-dbs.html"
+  - title: ビジネス継続性に関するテクニカルレポート
+    url: "/business-continuity.html"
+  - title: データ保護とディザスタリカバリに関するテクニカルレポート
+    url: "/data-protection-disaster-recovery.html"
+  - title: "『FlexCache and FlexGroup volumes』テクニカルレポートを参照してください"
+    url: "/nas-containers.html"
+  - title: NASテクニカルレポート
+    url: "/nas.html"
+  - title: ネットワークテクニカルレポート
+    url: "/networking.html"
+  - title: SANテクニカルレポート
+    url: "/san.html"
+  - title: セキュリティテクニカルレポート
+    url: "/security.html"
+  - title: セキュリティ強化ガイド
+    url: "/security-hardening-guides.html"
+  - title: SnapCenterテクニカルレポート
+    url: "/snapcenter.html"
+  - title: 階層化に関するテクニカルレポート
+    url: "/tiering.html"
+  - title: 仮想化に関するテクニカルレポート
+    url: "/virtualization.html"
+  - title: 法的通知
+    url: "/legal-notices.html"
+product-family:
+  name: ONTAP
+  repo: ontap-family

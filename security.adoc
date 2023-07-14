@@ -1,0 +1,71 @@
+---
+layout: landing-page 
+sidebar: sidebar 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, MAV, MFA, Ransomware, Security, best practices, best-practices, tamperproof, tamper proof, tamperproof snapshots tamper-proof snapshots 
+permalink: security.html 
+summary: これらのテクニカルレポートには、NetApp ONTAPのセキュリティの概要と推奨されるプラクティスが記載されています。 
+---
+= セキュリティテクニカルレポート
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+ONTAPは進化を続けており、セキュリティは解決策に不可欠な要素となっています。ONTAPの最新リリースには多数のセキュリティ機能が新たに追加されており、ハイブリッドクラウド全体でデータを保護し、ランサムウェア攻撃を防止し、業界の推奨プラクティスに準拠するうえで、組織にとって計り知れない価値があります。これらの新機能は、組織のゼロトラストモデルへの移行もサポートします。
+
+[NOTE]
+====
+これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/security-encryption/index.html["ONTAPセキュリティとデータ暗号化"] 製品ドキュメント
+
+====
+
+
+== ランサムウェア
+
+link:https://www.netapp.com/pdf.html?item=/media/7334-tr4572.pdf["TR-4572：『The NetApp 解決策for ransomware』"^]
+NetApp 解決策for ransomwareを使用して、ランサムウェアがどのように進化したか、攻撃を特定し、拡散を防止し、できるだけ迅速にリカバリする方法をご紹介します。このドキュメントで提供されるガイダンスとソリューションは、情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成しながら、サイバーレジリエントなソリューションを組織に提供することを目的としています。
+
+link:https://www.netapp.com/pdf.html?item=/media/6158-tr4526.pdf["TR-4526：『Compliant WORM storage using NetApp SnapLock』"^]
+多くの企業では、コンプライアンス要件を満たすため、または単にデータ保護戦略にレイヤを追加するために、Write Once、Read Many（WORM）データストレージをある程度使用しています。ONTAPのWORM解決策であるSnapLockを、WORMデータストレージが必要な環境に統合する方法を説明します。
+
+
+
+== ゼロトラスト
+
+link:https://www.netapp.com/pdf.html?item=/media/19756-tr-4829.pdf["TR-4829：『NetApp and Zero Trust』"^]
+ゼロトラストは、従来、マイクロコアと境界（MCAP）を構築してデータ、サービス、アプリケーション、資産を保護するネットワーク中心のアプローチであり、セグメンテーションゲートウェイと呼ばれる制御機能を備えていました。ONTAPは、ゼロトラストに対してデータ主体のアプローチを採用しています。このアプローチでは、ストレージ管理システムがセグメンテーションゲートウェイとなり、お客様のデータへのアクセスを保護および監視します。特に、FPolicyゼロトラストエンジンとFPolicyパートナーエコシステムは、正常なデータアクセスパターンと異常なデータアクセスパターンを詳細に把握し、内部の脅威を特定するためのコントロールセンターとなります。
+
+
+
+== 多要素認証
+
+link:https://www.netapp.com/pdf.html?item=/media/17055-tr4647.pdf["TR-4647：『Multifactor authentication in ONTAP best practices and Implementation guide』"^]
+System Manager、Active IQ Unified Manager、およびONTAP Secure Shell（SSH）CLI認証を使用した管理者アクセス用のONTAPの多要素認証機能について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/17036-tr4717.pdf["TR-4717：『ONTAP SSH authentication with a common access card』"^]
+サードパーティのSSHクライアントをActivClientソフトウェアと組み合わせて設定し、Common Access Card（CAC;共通アクセスカード）に保存されている公開鍵を使用してONTAPストレージ管理者を認証する方法について説明します（ONTAPで設定されている場合）。
+
+
+
+== マルチテナンシー
+
+link:https://www.netapp.com/pdf.html?item=/media/16886-tr-4160.pdf["TR-4160：『Secure multitenancy in ONTAP』"^]
+ONTAPでStorage VMを使用してセキュアマルチテナンシーを実装する方法と、設計上の考慮事項や推奨事項について説明します。
+
+
+
+== ロギング
+
+link:https://www.netapp.com/pdf.html?item=/media/16880-tr-4303.pdf["TR-4303：『Logging in ONTAP』"^]
+ONTAPによって生成されるさまざまなログを定義する方法、提供される機能、ログの表示およびアクセス方法について説明します。
+
+
+
+== 標準
+
+link:https://www.netapp.com/pdf.html?item=/media/17180-tr4401.pdf["TR-4401：『PCI-DSS 4.0 and ONTAP』"^]
+PCI DSS 4.0規格に照らしてシステムを検証する方法と、NetApp ONTAPシステムに適用する制御の要件を満たす方法について説明します。

@@ -1,0 +1,46 @@
+---
+layout: landing-page 
+sidebar: sidebar 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
+permalink: nas-containers.html 
+summary: これらのテクニカルレポートには、NetApp ONTAPのFlexCacheボリュームとFlexGroupボリュームの概要と推奨されるベストプラクティスが記載されています 
+---
+= 『FlexCache and FlexGroup Volume Technical Report』を参照してください
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp NASソリューションは、データ管理を簡易化し、コストを最適化しながら成長に対応できるようにします。ONTAP NASソリューションは、ユニファイドアーキテクチャにより、ノンストップオペレーション、実証済みの効率性、シームレスな拡張性を実現します。ONTAPを基盤とするスケールアウトNASは、大規模なONTAPエコシステムを活用し、イノベーションをリードする重要なビジョンと、今後の積極的なイノベーションを実現します。
+
+[NOTE]
+====
+これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/task_nas_flexcache.html["ONTAP FlexCacheボリューム"] および link:https://docs.netapp.com/us-en/ontap/task_nas_provision_flexgroup.html["ONTAP FlexGroupボリューム"] 製品ドキュメント
+
+====
+
+
+== FlexCache
+
+link:https://www.netapp.com/pdf.html?item=/media/7336-tr4743.pdf["TR-4743 ：『 FlexCache in ONTAP 』"^]
+FlexCacheは、同一または異なるONTAPクラスタ上にボリュームの書き込み可能なスパースレプリカを作成するキャッシュテクノロジです。データやファイルをユーザの近くに配置できるため、設置面積を抑えながらスループットを高速化できます。FlexCacheの使用方法、設計と実装に関する推奨事項、制限事項、考慮事項について説明します。
+
+
+
+== FlexGroup ボリューム
+
+link:https://www.netapp.com/pdf.html?item=/media/17251-tr4571a.pdf["TR-4571a：『FlexGroup Top 10 Best Practices』"^]
+本テクニカルレポートは、TR-4571：『NetApp ONTAP FlexGroup volumes best practices and Implementation guide for quick consumption』を要約したものです。
+
+link:https://www.netapp.com/pdf.html?item=/media/7337-tr4557.pdf["TR-4557：『NetApp ONTAP FlexGroup volumes - A technical overview』"^]
+メタデータ負荷の高いワークロードにおいて、ほぼ無限の容量と予測可能な低レイテンシのパフォーマンスを融合する、ONTAPスケールアウトNASコンテナであるFlexGroup Volumeについて説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/12385-tr4571.pdf["TR-4571：『NetApp ONTAP FlexGroup volumes best practices and Implementation guide』"^]
+FlexGroupボリューム、推奨されるプラクティス、実装のヒントを紹介します。FlexGroupボリュームは、ONTAPスケールアウトNASコンテナの進化形であり、メタデータ負荷の高いワークロードにおいて、ほぼ無限の容量と予測可能な低レイテンシのパフォーマンスを兼ね備えています。
+
+link:https://www.netapp.com/pdf.html?item=/media/17064-tr4678.pdf["TR-4678：『Data protection and backup of FlexGroup volumes』"^]
+Snapshotコピー、SnapMirror、その他のデータ保護およびバックアップのソリューションなど、FlexGroupボリュームのデータ保護とバックアップについて説明します。
