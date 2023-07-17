@@ -2,7 +2,7 @@
 indexpage:
   lead: ONTAPテクニカルレポートでは、さまざまなエコシステム内またはさまざまなプロトコルを使用したONTAP環境の計画と最適化について、詳細な情報を提供します。一部のONTAPテクニカルレポートでは、ONTAPの機能に関するアーキテクチャのコンテキストと推奨されるプラクティスを紹介しています。
   tiles:
-  - title: アプリケーションおよびデータベースのテクニカルレポート
+  - title: アプリケーションとデータベース
     links:
     - title: ONTAPを搭載したMicrosoft SQL Server
       url: apps-dbs.html
@@ -14,7 +14,7 @@ indexpage:
       url: apps-dbs.html
     - title: その他のアプリケーションおよびデータベースに関するテクニカルレポート
       url: apps-dbs.html
-  - title: ビジネス継続性に関するテクニカルレポート
+  - title: ビジネス継続性
     links:
     - title: SnapMirror のビジネス継続性（ SM-BC ）
       url: business-continuity.html
@@ -26,7 +26,7 @@ indexpage:
       url: business-continuity.html
     - title: ビジネス継続性に関するその他のテクニカルレポート
       url: business-continuity.html
-  - title: データ保護とディザスタリカバリに関するテクニカルレポート
+  - title: データ保護とディザスタリカバリ
     links:
     - title: SnapMirror非同期構成とベストプラクティス
       url: data-protection-disaster-recovery.html
@@ -36,7 +36,7 @@ indexpage:
       url: data-protection-disaster-recovery.html
     - title: データ保護とディザスタリカバリに関するその他のテクニカルレポート
       url: data-protection-disaster-recovery.html
-  - title: "『FlexCache and FlexGroup volumes』テクニカルレポートを参照してください"
+  - title: FlexCacheボリュームとFlexGroupボリューム
     links:
     - title: FlexCache ボリューム
       url: nas-containers.html
@@ -46,7 +46,7 @@ indexpage:
       url: nas-containers.html
     - title: FlexCacheおよびFlexGroup Volumeに関するその他のテクニカルレポート
       url: nas-containers.html
-  - title: NASテクニカルレポート
+  - title: NAS
     links:
     - title: NetApp ONTAPにおけるNFSのベストプラクティスと実装
       url: nas.html
@@ -60,11 +60,11 @@ indexpage:
       url: nas.html
     - title: その他のNASテクニカル・レポート
       url: nas.html
-  - title: ネットワークテクニカルレポート
+  - title: ネットワーキング
     links:
     - title: ONTAPを使用したBGP / VIP
       url: networking.html
-  - title: SANテクニカルレポート
+  - title: SAN
     links:
     - title: ONTAPの最新SANに関するベストプラクティス
       url: san.html
@@ -72,7 +72,7 @@ indexpage:
       url: san.html
     - title: ONTAP AFFオールSANアレイ（ASA）システム
       url: san.html
-  - title: セキュリティテクニカルレポート
+  - title: セキュリティ
     links:
     - title: セキュリティ強化ガイド
       url: security-hardening-guides.html
@@ -88,7 +88,7 @@ indexpage:
       url: security.html
     - title: その他のセキュリティテクニカルレポート
       url: security.html
-  - title: SnapCenterテクニカルレポート
+  - title: SnapCenter
     links:
     - title: SnapCenter for Oracleの略
       url: snapcenter.html
@@ -100,7 +100,7 @@ indexpage:
       url: snapcenter.html
     - title: その他のSnapCenterテクニカルレポート
       url: snapcenter.html
-  - title: 階層化に関するテクニカルレポート
+  - title: 階層化
     links:
     - title: FabricPoolのベストプラクティス
       url: tiering.html
@@ -108,7 +108,7 @@ indexpage:
       url: tiering.html
     - title: FabricPoolによるデータベースストレージの階層化
       url: tiering.html
-  - title: 仮想化に関するテクニカルレポート
+  - title: 仮想化
     links:
     - title: VMware vSphere for ONTAP の略
       url: virtualization.html

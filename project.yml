@@ -11,29 +11,29 @@ sidebar:
   entries:
   - title: ONTAPテクニカルレポート
     url: "/index.html"
-  - title: アプリケーションおよびデータベースのテクニカルレポート
+  - title: アプリケーションとデータベース
     url: "/apps-dbs.html"
-  - title: ビジネス継続性に関するテクニカルレポート
+  - title: ビジネス継続性
     url: "/business-continuity.html"
-  - title: データ保護とディザスタリカバリに関するテクニカルレポート
+  - title: データ保護とディザスタリカバリ
     url: "/data-protection-disaster-recovery.html"
-  - title: "『FlexCache and FlexGroup volumes』テクニカルレポートを参照してください"
+  - title: FlexCacheボリュームとFlexGroupボリューム
     url: "/nas-containers.html"
-  - title: NASテクニカルレポート
+  - title: NAS
     url: "/nas.html"
-  - title: ネットワークテクニカルレポート
+  - title: ネットワーキング
     url: "/networking.html"
-  - title: SANテクニカルレポート
+  - title: SAN
     url: "/san.html"
-  - title: セキュリティテクニカルレポート
+  - title: セキュリティ
     url: "/security.html"
   - title: セキュリティ強化ガイド
     url: "/security-hardening-guides.html"
-  - title: SnapCenterテクニカルレポート
+  - title: SnapCenter
     url: "/snapcenter.html"
-  - title: 階層化に関するテクニカルレポート
+  - title: 階層化
     url: "/tiering.html"
-  - title: 仮想化に関するテクニカルレポート
+  - title: 仮想化
     url: "/virtualization.html"
   - title: 法的通知
     url: "/legal-notices.html"
