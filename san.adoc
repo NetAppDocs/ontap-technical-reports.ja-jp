@@ -28,9 +28,6 @@ ONTAPのブロックプロトコルと推奨事項について説明します。
 link:https://www.netapp.com/pdf.html?item=/media/10681-tr4684.pdf["TR-4684：『Implementing and configuring Modern SANs with NVMe over Fabrics（NVMe-oF）』"^]
 NVMe over Fabricsトランスポート（NVMe over Fibre ChannelおよびNVMe over TCP）の実装と設定方法について説明します。トピックには、NVMeプロトコルとトランスポートを使用して可用性とパフォーマンスに優れた最新SANソリューションを構築するための設計、実装、設定、管理ガイドライン、推奨プラクティスなどがあります。
 
-link:https://www.netapp.com/pdf.html?item=/media/10379-tr4515.pdf["TR-4515：『ONTAP AFF All SAN Array（ASA）systems』"^]
-NetApp AFFオールSANアレイ（ASA）システムの概要と、ビジネスクリティカルな常時稼働のSAN構成の推奨プラクティスに基づく実装方法について説明します。
-
 link:https://www.netapp.com/pdf.html?item=/media/85671-tr-4968.pdf["TR-4968：『NetApp All-SAN Array data availability and integrity』"^]
 オールSANアレイシステムのさまざまなデータ保護機能とデータ整合性機能によってアプリケーションのアップタイムを最大限に高める方法と、SANネットワークの設計、実装、管理に関する推奨事項について説明します。
 

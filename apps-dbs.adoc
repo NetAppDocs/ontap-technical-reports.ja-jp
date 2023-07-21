@@ -71,3 +71,49 @@ ONTAPストレージを使用してOracleマルチテナントデータベース
 
 link:https://www.netapp.com/pdf.html?item=/media/17140-tr4770.pdf["TR-4770：『PostgreSQL database on ONTAP』"^]
 PostgreSQLには、PostgreSQL、PostgreSQL Plus、EDB Postgres Advanced Server（EPAS）などのバリアントが付属しています。PostgreSQLは通常、多層アプリケーションのバックエンドデータベースとして導入されます。一般的なミドルウェアパッケージ(PHP、Java、Python、Tcl/Tk、ODBCなど)でサポートされています。 とJDBC）は、オープンソースのデータベース管理システムでは、歴史的に人気のある選択肢でした。ONTAPにPostgreSQLを導入するためのチューニングとストレージ構成に関する設定要件とガイダンスについて説明します。
+
+
+
+== SAP HANA のサポート
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/bp/saphana_aff_nfs_introduction.html["TR-4435：『SAP HANA on NetApp AFF Systems with NFS』"]
+NFSを使用するAFFシステムでSAP HANAを運用する際の推奨事項や考慮事項について説明します。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/bp/saphana_aff_fc_introduction.html["TR-4436 ：『 SAP HANA on NetApp AFF Systems with Fibre Channel Protocol 』"]
+ファイバチャネルを使用するAFFシステムでSAP HANAを運用する際の推奨事項や考慮事項について説明します。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/bp/saphana-fas-nfs_introduction.html["TR-4290：『SAP HANA on NetApp FAS systems with NFS』"]
+NFSを使用するFASシステムでSAP HANAを運用する際の推奨事項や考慮事項について説明します。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/bp/saphana_fas_fc_introduction.html["TR-4384：『SAP HANA on NetApp FAS Systems with Fibre Channel Protocol』"]
+ファイバチャネルを使用するFASシステムでSAP HANAを運用する際の推奨事項や考慮事項について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/19887-TR-4821.pdf["TR-4821 ：『 SAP HANA on IBM Power Systems and NetApp AFF Systems with NFS 』"^]
+IBM Power Systems は、 SAP HANA などの大量のデータを処理するミッションクリティカルなワークロード向けに設計されています。IBM Power Systems は、優れた仮想化と柔軟性、高速なプロビジョニング、手頃な価格の拡張性、最大限のアップタイムという 4 つの主要機能を提供することで、 SAP HANA の導入を簡易化し、高速化します。AFF製品ファミリは、TDI（テーラードデータセンター統合）プロジェクトでSAP HANAとの使用が認定されており、IBM Power Systemsを完全に補完します。このドキュメントでは、ONTAPとAFF製品ファミリーおよびIBM電源システムを使用したNAS（NFS）ストレージのセットアップに関する推奨事項について説明します。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/backup/saphana-br-scs-overview.html["TR-4614 ：『 SAP HANA Backup and Recovery with SnapCenter 』"]
+SnapCenterは、SAP HANAなどのデータベース向けに、アプリケーションと整合性のあるデータ保護を実現する、拡張性に優れたユニファイドプラットフォームです。SnapCenter では一元的な管理と監視が可能ですが、一方で、アプリケーション固有のバックアップ、リストア、クローニングのジョブの管理を各ユーザに委譲することができます。SnapCenter を使用すれば、データベース管理者やストレージ管理者は、さまざまなアプリケーションやデータベースのバックアップ、リストア、クローニングの処理を 1 つのツールで管理できます。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/backup/amazon-fsx-overview.html["TR-4926：『SAP HANA on Amazon FSX for NetApp ONTAP - Backup and Recovery with SnapCenter 』"]
+Amazon FSx for NetApp ONTAPおよびSnapCenterでSAP HANAのデータ保護を実現するための推奨プラクティスをご紹介します。SnapCenterの概念、設定の推奨事項、処理のワークフロー（設定、バックアップ処理など）などのトピックが含まれます。 リストア処理とリカバリ処理を実行できます。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/sc-copy-clone-introduction.html["TR-4667：『Automating SAP HANA System copy and clone operations with SnapCenter』"]
+SnapCenterストレージのクローニングと、クローニング前処理とクローニング後処理を柔軟に定義できるオプションにより、SAP Basisの管理者は、SAPシステムのコピー、クローニング、更新処理を高速化、自動化できます。詳細はこちら任意のプライマリストレージまたはセカンダリストレージに任意のSnapCenter Snapshotバックアップを選択できるため、論理的破損、ディザスタリカバリテスト、SAP QAシステムの更新など、最も重要なユースケースに対応できます。
+
+link:https://www.netapp.com/pdf.html?item=/media/17030-tr4719.pdf["TR-4719：『SAP HANA system replication backup and recovery with SnapCenter』"^]
+SAP HANAシステムレプリケーション環境で、SnapCenterテクノロジとSAP HANAプラグインを使用したバックアップとリカバリについて説明します。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/sc-copy-clone-introduction.html["TR-4667：『Automating SAP HANA system copy and clone operations with SnapCenter』"]
+アプリケーションと整合性のあるNetApp Snapshotバックアップをストレージレイヤに作成する機能は、システムコピー処理やシステムクローニング処理の基盤となります。ストレージベースのSnapshotバックアップは、SAP HANA用のNetApp SnapCenter プラグインと、SAP HANAデータベースが提供するインターフェイスを使用して作成します。SnapCenter は、SnapshotバックアップをSAP HANAバックアップカタログに登録して、リストアやリカバリ、クローニング処理に使用できるようにします。
+
+link:https://www.netapp.com/pdf.html?item=/media/8584-tr4646pdf.pdf["TR-4646：『SAP HANA disaster recovery with storage replication』"^]
+このドキュメントでは、SAP HANA向けのディザスタリカバリ保護のオプションの概要を説明します。同期および非同期のSnapMirrorストレージレプリケーションに基づく、3サイトのディザスタリカバリ解決策の詳細なセットアップ情報とユースケース概要が含まれています。説明している解決策では、SnapCenterとSAP HANAプラグインを使用してデータベースの整合性を管理しています。
+
+link:https://www.netapp.com/pdf.html?item=/media/17050-tr4711pdf.pdf["TR-4711：『SAP HANA backup and Recovery Using NetApp Storage Systems and Commvault software』"^]
+本ドキュメントでは、NetAppおよびCommvault解決策for SAP HANAの設計について説明します。これには、Commvault IntelliSnapスナップショット管理テクノロジとSnapshotテクノロジが含まれます。解決策は、ネットアップストレージと Commvault データ保護スイートを基盤としています。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/lama-ansible-introduction.html["TR-4953：『NetApp SAP Landscape Management Integration using Ansible』"]
+SAP Landscape Management（LaMa）を使用すると、SAPシステム管理者は、SAPシステムのエンドツーエンドのクローニング、コピー、更新などのSAPシステム運用を自動化できます。ネットアップは、SAP LaMa対応の各種Ansibleモジュールを搭載しており、SAP LaMaのAutomation Studioを通じて、NetApp SnapshotやFlexCloneなどのテクノロジにアクセスできます。これらのテクノロジを使用することで、SAPシステムのクローニング、コピー、更新の処理を簡易化、高速化できます。この統合は、ネットアップのストレージソリューションをオンプレミスで運用しているお客様や、Amazon Web Services、Microsoft Azure、Google Cloud Platformなどのパブリッククラウドプロバイダでネットアップのストレージサービスを使用しているお客様が利用できます。このドキュメントでは、Ansibleによる自動化を使用して、SAPシステムのコピー、クローニング、更新の処理に対応するネットアップのストレージ機能を利用したSAP LaMaの設定について説明します。
+
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/libelle-sc-overview.html["TR-4929：Libelle SystemCopyによるSAPシステムのコピー処理の自動化"]
+Libelle SystemCopyは、完全に自動化されたシステムコピーとランドスケープコピーを作成するフレームワークベースのソフトウェア解決策 です。ボタンを口頭で操作することで、QAおよびテストシステムを新しい本番データで更新できます。Libelle SystemCopyは、従来のすべてのデータベースとオペレーティングシステムをサポートし、すべてのプラットフォームに独自のコピーメカニズムを提供しますが、同時にバックアップ/リストア手順や、NetApp SnapshotコピーやNetApp FlexCloneボリュームなどのストレージツールを統合します。

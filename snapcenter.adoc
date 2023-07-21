@@ -50,6 +50,9 @@ SnapCenterを使用してNetAppストレージにMicrosoft Exchange Serverを正
 
 == <xmt-block0>SnapCenter</xmt-block> for SAP HANAを参照してください
 
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/backup/saphana-br-scs-overview.html["TR-4614 ：『 SAP HANA Backup and Recovery with SnapCenter 』"]
+SnapCenterは、SAP HANAなどのデータベース向けに、アプリケーションと整合性のあるデータ保護を実現する、拡張性に優れたユニファイドプラットフォームです。SnapCenter では一元的な管理と監視が可能ですが、一方で、アプリケーション固有のバックアップ、リストア、クローニングのジョブの管理を各ユーザに委譲することができます。SnapCenter を使用すれば、データベース管理者やストレージ管理者は、さまざまなアプリケーションやデータベースのバックアップ、リストア、クローニングの処理を 1 つのツールで管理できます。
+
 link:https://docs.netapp.com/us-en/netapp-solutions-sap/backup/amazon-fsx-overview.html["TR-4926：『SAP HANA on Amazon FSX for NetApp ONTAP - Backup and Recovery with SnapCenter 』"]
 Amazon FSx for NetApp ONTAPおよびSnapCenterでSAP HANAのデータ保護を実現するための推奨プラクティスをご紹介します。SnapCenterの概念、設定の推奨事項、処理のワークフロー（設定、バックアップ処理など）などのトピックが含まれます。 リストア処理とリカバリ処理を実行できます。
 
