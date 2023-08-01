@@ -14,7 +14,7 @@ summary: これらのテクニカルレポートには、ONTAP上のアプリケ
 
 
 [role="lead"]
-ONTAPは、多くのエンタープライズアプリケーションやデータベーステクノロジのデータ管理とデータ保護の基盤です。次のテクニカルレポートでは、Microsoft SQL Server、MySQL、Oracle、およびPostgreSQLのNetApp推奨プラクティスと実装手順について説明します。
+ONTAPは、多くのエンタープライズアプリケーションやデータベーステクノロジのデータ管理とデータ保護の基盤です。次のテクニカルレポートでは、Microsoft SQL Server、MySQL、Oracle、PostgreSQL、SAP HANAに対するNetAppの推奨プラクティスと実装手順について説明します。
 
 
 

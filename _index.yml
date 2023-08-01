@@ -4,13 +4,15 @@ indexpage:
   tiles:
   - title: アプリケーションとデータベース
     links:
-    - title: ONTAPを搭載したMicrosoft SQL Server
+    - title: ONTAP上のMicrosoft SQL Serverデータベース
       url: apps-dbs.html
-    - title: AFF AシリーズおよびCシリーズでのOracleデータベースのパフォーマンス
-      url: apps-dbs.html
-    - title: AFF AシリーズおよびCシリーズ上での仮想化されたOracleデータベースのパフォーマンス
+    - title: ONTAPノMySQLテタヘス
       url: apps-dbs.html
     - title: ONTAP上のOracleデータベース
+      url: apps-dbs.html
+    - title: ONTAP上のPostgreSQLデータベース
+      url: apps-dbs.html
+    - title: ONTAP上のSAP HANA
       url: apps-dbs.html
     - title: その他のアプリケーションおよびデータベースに関するテクニカルレポート
       url: apps-dbs.html
