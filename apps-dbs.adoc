@@ -20,6 +20,9 @@ ONTAPは、多くのエンタープライズアプリケーションやデータ
 
 == Microsoft SQL Server の場合
 
+link:https://www.netapp.com/pdf.html?item=/media/88704-tr-4976-virtualized-microsoft-sql-server-performance-on-netapp-aff-a-series-and-c-series.pdf["TR-4976：『Virtualized Microsoft SQL Server performance on NetApp AFF A-Series and C-Series systems』"^]
+NetApp AFF ASeriesシステムとAFF CシリーズシステムでMicrosoft SQL Serverを実行した場合のパフォーマンスと、ワークロードの使用量に基づいてストレージニーズに適したシステムを選択する方法について説明します。
+
 link:https://www.netapp.com/pdf.html?item=/media/8585-tr4590.pdf["TR-4590：『Best Practice Guide for Microsoft SQL Server with ONTAP』"^]
 ストレージ管理者およびデータベース管理者がMicrosoft SQL ServerをONTAPストレージに正常に導入する方法について説明します。
 
