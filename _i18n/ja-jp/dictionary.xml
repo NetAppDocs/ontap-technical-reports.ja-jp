@@ -476,6 +476,6 @@ Libelle SystemCopyは、完全に自動化されたシステムコピーとラ�
 <block ref="4d19e06382f392d0f1a50df789d77c13" category="inline-link-macro-rx"></block>
 <block ref="fe4ac88b6b3f1cb9f1dc6d5d4b5086ee" category="inline-link-macro-rx"></block></block>
   <block id="5bde4271a0d37b365d828370d9f295ea" category="inline-link-macro">TR-4976：『Virtualized Microsoft SQL Server performance on NetApp AFF A-Series and C-Series systems』</block>
-  <block id="44453345ffedbe1014fb3f8c356ab916" category="paragraph"><block ref="156ab091613d6163254f8cebcd80c3dc" category="inline-link-macro-rx"></block>
-NetApp AFF ASeriesシステムとAFF CシリーズシステムでMicrosoft SQL Serverを実行した場合のパフォーマンスと、ワークロードの使用量に基づいてストレージニーズに適したシステムを選択する方法について説明します。</block>
+  <block id="b6018356ef7ac30cce209c17c680d305" category="paragraph"><block ref="156ab091613d6163254f8cebcd80c3dc" category="inline-link-macro-rx"></block>
+NetApp AFF AシリーズおよびCシリーズシステムを使用したMicrosoft SQL Serverのパフォーマンス特性と、ワークロードに基づいて適切なシステムを選択する方法について説明します。</block>
 </blocks>
