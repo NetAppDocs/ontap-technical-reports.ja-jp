@@ -18,20 +18,20 @@ NetApp仮想化ソリューションは、サーバから最大限の価値を�
 
 これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap-tools-vmware-vsphere/index.html["VMware vSphere 用の ONTAP ツール"] 製品ドキュメント
 
-link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsphere_ontap_ontap_for_vsphere.html["TR-4597 ：『 VMware vSphere for ONTAP 』"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vsphere/overview.html["TR-4597 ：『 VMware vSphere for ONTAP 』"]
  ONTAPは、約20年にわたって業界をリードするVMware vSphere環境向けストレージ解決策であり、コストを削減しながら管理を簡易化する革新的な機能を継続的に追加しています。本ドキュメントでは、導入の合理化、リスクの軽減、管理の簡易化を実現するために、最新の製品情報と推奨されるプラクティスを含むONTAP 解決策for vSphereについて説明します。
 
-link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vvols-overview.html["TR-4400：『VMware vSphere Virtual Volumes（VVol）with NetApp ONTAP 』"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vvols/overview.html["TR-4400：『VMware vSphere Virtual Volumes（VVol）with NetApp ONTAP 』"]
 ONTAPは、20年以上にわたって業界をリードするVMware vSphere環境向けストレージ解決策であり、コストを削減しながら管理を簡易化する革新的な機能を継続的に追加しています。本ドキュメントでは、VMware vSphere Virtual Volumes（VVOL）向けのONTAP機能について説明します。最新の製品情報やユースケース、導入を合理化してエラーを削減するための推奨事項などの情報を紹介します。
 
-link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsrm-ontap9_1._introduction_to_srm_with_ontap.html["TR-4900：『VMware Site Recovery Manager with NetApp ONTAP』"]
-ONTAPは、2002年に最新のデータセンターに導入されて以来、VMware vSphere環境向けストレージ解決策として業界をリードしてきました。革新的な機能を継続的に追加し、コストを削減しながら管理を簡易化しています。このドキュメントでは、業界をリードするVMwareのディザスタリカバリ（DR）ソフトウェアであるONTAP 解決策for VMware Site Recovery Manager（SRM）について説明します。このソフトウェアには、導入の合理化、リスクの軽減、継続的な管理の簡易化を実現する最新の製品情報や推奨事項が含まれます。
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/srm/overview.html["TR-4900：『VMware Site Recovery Manager with NetApp ONTAP』"]
+ONTAPは、2002年に最新のデータセンターに導入されて以来、VMware vSphere環境向けストレージ解決策として業界をリードしてきました。革新的な機能を継続的に追加し、コストを削減しながら管理を簡易化しています。このドキュメントでは、業界をリードするVMwareのディザスタリカバリ（DR）ソフトウェアであるONTAP 解決策for VMware Site Recovery Manager（SRM）について説明します。このソフトウェアには、導入の合理化、リスクの軽減、継続的な管理の簡素化を実現するための最新の製品情報と推奨されるプラクティスが含まれます。
 
 link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsphere_auto_introduction.html["ONTAP と vSphere の自動化の概要"]
 VMware ESX の最初の日から VMware 環境を管理するには、自動化が不可欠です。インフラをコードとして導入し、手法をプライベートクラウドの運用に拡張できるため、拡張性、柔軟性、自己プロビジョニング、効率性に関する懸念を軽減できます。このドキュメントでは、ONTAPおよびVMware vSphere環境を自動化するためのONTAP 解決策 を紹介します。
 
-link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/tools-vmware-secure-development-activities.html["WP-7353：『ONTAP tools for VMware vSphere - Product security』"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/security/tools.html["WP-7353：『ONTAP tools for VMware vSphere - Product security』"]
 このドキュメントでは、ONTAP Tools for VMware vSphere 9.Xを製品環境の既存の脅威と新たな脅威の両方から保護するために使用される技術とテクノロジについて説明します。
 
-link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/tools-vmware-secure-development-activities.html["WP-7355：『SnapCenter plug-in VMware vSphere - Product security』"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/security/snapcenter.html["WP-7355：『SnapCenter plug-in VMware vSphere - Product security』"]
 このドキュメントでは、NetApp SnapCenter Plug-in for VMware vSphere 4.Xを製品環境の既存の脅威と新しい脅威の両方から保護するために使用される技術とテクノロジについて説明します。

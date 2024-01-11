@@ -44,5 +44,5 @@ link:https://www.netapp.com/pdf.html?item=/media/19369-tr-4832.pdf["TR-4832：�
 
 == SnapMirrorを使用したアプリケーションとインフラ
 
-link:https://docs.netapp.com/us-en/netapp-solutions/virtualization/vsrm-ontap9_1._introduction_to_srm_with_ontap.html["TR-4900：『VMware Site Recovery Manager with ONTAP』"]
+link:link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/srm/overview.html["TR-4900：『VMware Site Recovery Manager with ONTAP』"]
 ONTAPは、2002年に最新のデータセンターに導入されて以来、VMware vSphere環境向けストレージ解決策として業界をリードしてきました。革新的な機能を継続的に追加し、コストを削減しながら管理を簡易化しています。ONTAP 解決策for VMware Site Recovery Manager（SRM）は、業界をリードするVMwareのディザスタリカバリ（DR）ソフトウェアです。このソフトウェアには、導入の合理化、リスクの軽減、継続的な管理の簡素化を実現する最新の製品情報や推奨されるプラクティスが含まれます。

@@ -4,18 +4,16 @@ indexpage:
   tiles:
   - title: アプリケーションとデータベース
     links:
-    - title: ONTAP上のMicrosoft SQL Serverデータベース
-      url: apps-dbs.html
+    - title: ONTAP上のMicrosoft SQL Server
+      url: apps-dbs.html#microsoft-sql-server
     - title: ONTAPノMySQLテタヘス
-      url: apps-dbs.html
+      url: apps-dbs.html#mysql
     - title: ONTAP上のOracleデータベース
-      url: apps-dbs.html
+      url: apps-dbs.html#oracle
     - title: ONTAP上のPostgreSQLデータベース
-      url: apps-dbs.html
+      url: apps-dbs.html#postgresql
     - title: ONTAP上のSAP HANA
-      url: apps-dbs.html
-    - title: その他のアプリケーションおよびデータベースに関するテクニカルレポート
-      url: apps-dbs.html
+      url: apps-dbs.html#sap-hana
   - title: ビジネス継続性
     links:
     - title: SnapMirror のビジネス継続性（ SM-BC ）
