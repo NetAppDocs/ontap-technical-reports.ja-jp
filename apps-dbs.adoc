@@ -55,7 +55,7 @@ ONTAPはOracleデータベース向けに設計されています。ONTAPは数�
 link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-overview.html["ONTAP上のOracleデータベース"]
 ストレージ管理者およびデータベース管理者がONTAPストレージにOracleを正常に導入するための推奨事項について説明します。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-dp-introduction.html["ONTAPによるOracleデータ保護"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-dp-overview.html["ONTAPによるOracleデータ保護"]
 ストレージ管理者およびデータベース管理者は、ONTAPストレージ上のOracleに対して、バックアップ、リカバリ、複製、ディザスタリカバリを正常に実行できるようにするための推奨されるプラクティスについて説明します。
 
 link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-dr-overview.html["ONTAPによるOracle向けディザスタリカバリ"]
