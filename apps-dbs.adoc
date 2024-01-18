@@ -22,7 +22,7 @@ ONTAPは、多くのエンタープライズアプリケーションやデータ
 
 SQL ServerはMicrosoftのデータプラットフォームの基盤であり、オンプレミスでもクラウドでも、インメモリテクノロジを使用してミッションクリティカルなパフォーマンスを実現し、あらゆるデータの分析を高速化します。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/mssql/overview.html["ONTAPを使用したMicrosoft SQL Serverのベストプラクティス"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/mssql/mssql-overview.html["ONTAPを使用したMicrosoft SQL Serverのベストプラクティス"]
 ストレージ管理者およびデータベース管理者がMicrosoft SQL ServerをONTAPストレージに正常に導入する方法について説明します。
 
 
@@ -40,7 +40,7 @@ SnapCenterテクノロジを使用してONTAPストレージにMicrosoft SQL Ser
 
 このドキュメントでは、ONTAPにMySQLを導入するための構成要件と、調整とストレージ構成に関するガイダンスを提供します。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/mysql/overview.html["NetApp ONTAP上のMySQLデータベースのベストプラクティス"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/mysql/mysql-overview.html["NetApp ONTAP上のMySQLデータベースのベストプラクティス"]
 MySQLとその派生であるMariaDBやPerconaなどは、多くのエンタープライズアプリケーションで広く使用されています。これらのアプリケーションは、グローバルなソーシャルネットワーキングサイトや大規模なeコマースシステムから、数千ものデータベースインスタンスを含むSMBホスティングシステムまで多岐にわたります。ONTAPにMySQLを導入するための調整とストレージ構成に関する要件とガイダンスについて説明します。
 
 
@@ -52,16 +52,16 @@ NOTE: 本ドキュメントは、以前に公開されたテクニカルレポ�
 
 ONTAPはOracleデータベース向けに設計されています。ONTAPは数十年にわたり、リレーショナルデータベースI/O固有の要求に合わせて最適化されてきました。また、Oracleデータベースのニーズに対応するために、さらにはOracle Inc自体の要求にも対応するために、複数のONTAP機能が開発されました。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/overview.html["ONTAP上のOracleデータベース"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-overview.html["ONTAP上のOracleデータベース"]
 ストレージ管理者およびデータベース管理者がONTAPストレージにOracleを正常に導入するための推奨事項について説明します。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/dp/oracle-data-protection-introduction.html["ONTAPによるOracleデータ保護"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-dp-introduction.html["ONTAPによるOracleデータ保護"]
 ストレージ管理者およびデータベース管理者は、ONTAPストレージ上のOracleに対して、バックアップ、リカバリ、複製、ディザスタリカバリを正常に実行できるようにするための推奨されるプラクティスについて説明します。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/dr/oracle-dr-overview.html["ONTAPによるOracle向けディザスタリカバリ"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-dr-overview.html["ONTAPによるOracle向けディザスタリカバリ"]
 MetroClusterおよびSnapMirrorビジネス継続性を使用してOracleデータベースを運用する場合の推奨事項、テスト手順、およびその他の考慮事項について説明します。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/migration/oracle-migration-overview.html["ONTAPストレージシステムへのOracleデータベースの移行"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/oracle/oracle-migration-overview.html["ONTAPストレージシステムへのOracleデータベースの移行"]
 移行戦略を計画する際の全体的な考慮事項、データ移動を行う3つの異なるレベル、使用可能なさまざまな手順の詳細について説明します。
 
 
@@ -88,7 +88,7 @@ ONTAPストレージを使用してOracleマルチテナントデータベース
 
 PostgreSQLには、PostgreSQL、PostgreSQL Plus、EDB Postgres Advanced Server（EPAS）などのバリアントが付属しています。PostgreSQLは通常、多層アプリケーションのバックエンドデータベースとして導入されます。NetApp ONTAPは、信頼性、パフォーマンス、効率に優れたデータ管理機能を備えたPostgreSQLデータベースを実行するための優れた選択肢です。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/postgres/overview.html["ONTAP上のPostgreSQLデータベースのベストプラクティス"]
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/postgres/postgres-overview.html["ONTAP上のPostgreSQLデータベースのベストプラクティス"]
 PostgreSQLには、PostgreSQL、PostgreSQL Plus、EDB Postgres Advanced Server（EPAS）などのバリアントが付属しています。PostgreSQLは通常、多層アプリケーションのバックエンドデータベースとして導入されます。一般的なミドルウェアパッケージ(PHP、Java、Python、Tcl/Tk、ODBCなど)でサポートされています。 とJDBC）は、オープンソースのデータベース管理システムでは、歴史的に人気のある選択肢でした。ONTAPにPostgreSQLを導入するためのチューニングとストレージ構成に関する設定要件とガイダンスについて説明します。
 
 
