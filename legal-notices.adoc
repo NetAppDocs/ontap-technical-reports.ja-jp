@@ -16,9 +16,6 @@ summary:
 [role="lead"]
 著作権に関する声明、商標、特許などにアクセスできます。
 
-[role="lead"]
-著作権に関する声明、商標、特許などにアクセスできます。
-
 
 
 == 著作権
@@ -57,6 +54,8 @@ link:https://www.netapp.com/company/legal/privacy-policy/["https://www.netapp.co
 
 === ONTAP
 
+link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2886725["ONTAP 9.14.1に関する注意事項"^]
+link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2886298["ONTAP 9.14.0に関する注意事項"^]
 link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2885801["ONTAP 9.13.1に関する注意事項"^]
 link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2884813["ONTAP 9.12.1に関する注意事項"^]
 link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2883760["ONTAP 9.12.0の注意事項"^]
@@ -75,8 +74,8 @@ link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2516795["ONTAP 9.1に
 
 
 
-=== MCC IP向けONTAPメディエーター
+=== MCC IPのONTAP メディエーター
 
-link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2870521["9.9.1 ONTAP Mediator for MCC IPに関する通知"^]
-link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2870521["9.8 ONTAP Mediator for MCC IPに関する通知"^]
-link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2870521["9.7 ONTAP Mediator for MCC IPに関する通知"^]
+link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2870521["9.9.1 MCC IPのONTAP メディエーターについての通知"^]
+link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2870521["9.8 MCC IPのONTAP メディエーターに関する通知"^]
+link:https://library.netapp.com/ecm/ecm_download_file/ECMLP2870521["9.7 MCC IPのONTAP メディエーターについて注意が必要です"^]
