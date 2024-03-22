@@ -57,13 +57,6 @@ ONTAPでStorage VMを使用してセキュアマルチテナンシーを実装�
 
 
 
-== ロギング
-
-link:https://www.netapp.com/pdf.html?item=/media/103610-tr-4303i-0514-logging-in-clustered-dot.pdf["TR-4303：『Logging in ONTAP』"^]
-ONTAPによって生成されるさまざまなログを定義する方法、提供される機能、ログの表示およびアクセス方法について説明します。
-
-
-
 == 標準
 
 link:https://www.netapp.com/pdf.html?item=/media/17180-tr4401.pdf["TR-4401：『PCI-DSS 4.0 and ONTAP』"^]
