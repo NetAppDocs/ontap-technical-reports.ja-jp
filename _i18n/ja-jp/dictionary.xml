@@ -463,8 +463,8 @@ ONTAPは、2002年に最新のデータセンターに導入されて以来、VM
 <block ref="ddd7bb6791d512b6bbd035245f183b42" category="inline-link-macro-rx"></block>
 <block ref="2f9e1ae374fcd81bbb2bbbd4546951d9" category="inline-link-macro-rx"></block></block>
   <block id="beb3ca55ed0a53a38a2b97540b05d6e4" category="sidebar">ONTAP上のMicrosoft SQL Server</block>
-  <block id="8db7df66ab1d7ab5f1dc947acdb5fae4" category="section-title">ロギング</block>
-  <block id="4f86fd480a3b60659d82af4d7287d57a" category="inline-link-macro">TR-4303：『Logging in ONTAP』</block>
-  <block id="ffd46bdf1b63cf5b513ae89527869e27" category="paragraph"><block ref="9345b88722e99c268b49c1da01abbe4c" category="inline-link-macro-rx"></block>
-ONTAPによって生成されるさまざまなログを定義する方法、提供される機能、ログの表示およびアクセス方法について説明します。</block>
+  <block id="4ffeff5e5bc550c2069e1c9f5c8faf9b" category="inline-link-macro">TR-4568：『NetApp deployment guidelines and storage best practices for Windows Server』</block>
+  <block id="11001fb821f9ba1fb2e3a93608a688cb" category="paragraph"><block ref="c141febea7d2bd403fd12cb6dd24d35c" category="inline-link-macro-rx"></block>
+Microsoft Windows Serverは、ネットワーク、セキュリティ、仮想化、クラウド、仮想デスクトップインフラストラクチャ、 アクセス保護、情報保護、Webサービス、アプリケーションプラットフォームインフラなど。本ドキュメントでは、Microsoft Windowsに焦点を当て、特に最新の製品情報や推奨事項など、導入の合理化、リスクの軽減、管理の簡易化を実現するHyper-V仮想化テクノロジに重点を置いています。</block>
+  <block id="b0da974886af36b76614baf1f4df0289" category="sidebar">Microsoft Windows Server（Hyper-V）</block>
 </blocks>
