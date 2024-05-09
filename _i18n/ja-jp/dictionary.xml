@@ -467,4 +467,8 @@ ONTAPは、2002年に最新のデータセンターに導入されて以来、VM
   <block id="11001fb821f9ba1fb2e3a93608a688cb" category="paragraph"><block ref="c141febea7d2bd403fd12cb6dd24d35c" category="inline-link-macro-rx"></block>
 Microsoft Windows Serverは、ネットワーク、セキュリティ、仮想化、クラウド、仮想デスクトップインフラストラクチャ、 アクセス保護、情報保護、Webサービス、アプリケーションプラットフォームインフラなど。本ドキュメントでは、Microsoft Windowsに焦点を当て、特に最新の製品情報や推奨事項など、導入の合理化、リスクの軽減、管理の簡易化を実現するHyper-V仮想化テクノロジに重点を置いています。</block>
   <block id="b0da974886af36b76614baf1f4df0289" category="sidebar">Microsoft Windows Server（Hyper-V）</block>
+  <block id="ea80e7a221b7d29abbf2b1def0f49eff" category="inline-link-macro">ONTAP Tools for VMwareセキュリティ強化ガイド</block>
+  <block id="f0363ce68d8f8c316c89e502fa07f4a6" category="paragraph"><block ref="5b7528c0e47af54726e633b3e59db241" category="inline-link-macro-rx"></block>
+組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるように、VMware vSphere用のONTAPツールを構成する方法について説明します。</block>
+  <block id="47d29daaa26fbfa9c9a069d4cd023ac1" category="sidebar">ONTAP tools for VMware vSphere向けセキュリティ強化ガイド</block>
 </blocks>

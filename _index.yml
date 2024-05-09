@@ -115,6 +115,8 @@ indexpage:
     links:
     - title: VMware vSphere for ONTAP の略
       url: virtualization.html
+    - title: ONTAP tools for VMware vSphere向けセキュリティ強化ガイド
+      url: virtualization.html
     - title: VMware vSphere Virtual Volume（VVOL）とONTAP
       url: virtualization.html
     - title: VMware Site Recovery ManagerとONTAP
