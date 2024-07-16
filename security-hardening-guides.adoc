@@ -28,8 +28,7 @@ summary: これらのテクニカルレポートには、NetApp ONTAPおよび�
 link:https://www.netapp.com/pdf.html?item=/media/10674-tr4569.pdf["TR-4569：『Security Hardening Guide for NetApp ONTAP』"^]
 情報システムの機密性、整合性、可用性に関する規定のセキュリティ目標を組織が達成できるようにNetApp ONTAPを構成する方法について説明します。
 
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-otv-hardening-overview.html["ONTAP Tools for VMwareセキュリティ強化ガイド"]
-組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるように、VMware vSphere用のONTAPツールを構成する方法について説明します。
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-otv-hardening-overview.html["ONTAP tools for VMware vSphere向けセキュリティ強化ガイド"] 組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるように、VMware vSphere用のONTAPツールを構成する方法について説明します。
 
 link:https://www.netapp.com/pdf.html?item=/media/82393-tr-4957.pdf["TR-4957：『Security Hardening Guide for NetApp SnapCenter』"^]
 組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるようにNetApp SnapCenterソフトウェアを構成する方法について説明します。

@@ -82,7 +82,7 @@ indexpage:
     - title: "『The NetApp 解決策for Ransomware』"
       url: security.html
     - title: NetAppとゼロトラスト
-      url: security.html
+      url: https://docs.netapp.com/us-en/ontap/zero-trust/zero-trust-overview.html
     - title: NetApp SnapLockを使用したWORMストレージ
       url: security.html
     - title: 認証（SSH、MFA）

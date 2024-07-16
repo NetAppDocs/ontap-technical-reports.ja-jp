@@ -259,7 +259,6 @@ ONTAPコンポーネントのFabricPoolの大容量階層としてStorageGRIDを
 Oracle Relational Database Management System（RDBMS）など、さまざまなデータベースを使用するFabricPoolのメリットと構成オプションについて説明します。</block>
   <block id="afe5567d4585c6b672134af6bf96570a" category="summary">これらのテクニカルレポートには、NetApp ONTAPのセキュリティの概要と推奨されるプラクティスが記載されています。</block>
   <block id="e6bd708199eed7d8bf33ef8308be0b3e" category="doc">セキュリティテクニカルレポート</block>
-  <block id="786a25f6930c9ae71ad21603f498741d" category="paragraph">ONTAPは進化を続けており、セキュリティは解決策に不可欠な要素となっています。ONTAPの最新リリースには多数のセキュリティ機能が新たに追加されており、ハイブリッドクラウド全体でデータを保護し、ランサムウェア攻撃を防止し、業界の推奨プラクティスに準拠するうえで、組織にとって計り知れない価値があります。これらの新機能は、組織のゼロトラストモデルへの移行もサポートします。</block>
   <block id="232a2b16a1710c0ed1d16548ba8bb8f1" category="section-title">ランサムウェア</block>
   <block id="afd7e2b4105b3c0f637124474c6780aa" category="inline-link-macro">TR-4572：『The NetApp 解決策for ransomware』</block>
   <block id="df81339197d6de37b537d325e629a34e" category="paragraph"><block ref="a2efee7226a0c9a1c73909308a4929db" category="inline-link-macro-rx"></block>
@@ -268,9 +267,6 @@ NetApp 解決策for ransomwareを使用して、ランサムウェアがどの�
   <block id="6e10a9f29ea4d83a086b7ceba4cc08f6" category="paragraph"><block ref="bfdf2cce49faba7e8af63e592a46208a" category="inline-link-macro-rx"></block>
 多くの企業では、コンプライアンス要件を満たすため、または単にデータ保護戦略にレイヤを追加するために、Write Once、Read Many（WORM）データストレージをある程度使用しています。ONTAPのWORM解決策であるSnapLockを、WORMデータストレージが必要な環境に統合する方法を説明します。</block>
   <block id="95708632a08675f7e77e5312ce2c047c" category="section-title">ゼロトラスト</block>
-  <block id="bbcfb10585a3382302149f55fb634e3a" category="inline-link-macro">TR-4829：『NetApp and Zero Trust』</block>
-  <block id="dbc994b1de7c805f4c68c6a884d9974a" category="paragraph"><block ref="ede7b56a16d5b347f860a68734d83076" category="inline-link-macro-rx"></block>
-ゼロトラストは、従来、マイクロコアと境界（MCAP）を構築してデータ、サービス、アプリケーション、資産を保護するネットワーク中心のアプローチであり、セグメンテーションゲートウェイと呼ばれる制御機能を備えていました。ONTAPは、ゼロトラストに対してデータ主体のアプローチを採用しています。このアプローチでは、ストレージ管理システムがセグメンテーションゲートウェイとなり、お客様のデータへのアクセスを保護および監視します。特に、FPolicyゼロトラストエンジンとFPolicyパートナーエコシステムは、正常なデータアクセスパターンと異常なデータアクセスパターンを詳細に把握し、内部の脅威を特定するためのコントロールセンターとなります。</block>
   <block id="1a98f49f191845835d6fd3e13eb29812" category="section-title">多要素認証</block>
   <block id="c7c6fadf35a14d865d768c5f30ccec0b" category="inline-link-macro">TR-4647：『Multifactor authentication in ONTAP best practices and Implementation guide』</block>
   <block id="51c9464c6f30a83c1321f77012016e78" category="paragraph"><block ref="d26c196c7d19a03267c0e824fa346801" category="inline-link-macro-rx"></block>
@@ -467,8 +463,8 @@ ONTAPは、2002年に最新のデータセンターに導入されて以来、VM
   <block id="11001fb821f9ba1fb2e3a93608a688cb" category="paragraph"><block ref="c141febea7d2bd403fd12cb6dd24d35c" category="inline-link-macro-rx"></block>
 Microsoft Windows Serverは、ネットワーク、セキュリティ、仮想化、クラウド、仮想デスクトップインフラストラクチャ、 アクセス保護、情報保護、Webサービス、アプリケーションプラットフォームインフラなど。本ドキュメントでは、Microsoft Windowsに焦点を当て、特に最新の製品情報や推奨事項など、導入の合理化、リスクの軽減、管理の簡易化を実現するHyper-V仮想化テクノロジに重点を置いています。</block>
   <block id="b0da974886af36b76614baf1f4df0289" category="sidebar">Microsoft Windows Server（Hyper-V）</block>
-  <block id="ea80e7a221b7d29abbf2b1def0f49eff" category="inline-link-macro">ONTAP Tools for VMwareセキュリティ強化ガイド</block>
-  <block id="f0363ce68d8f8c316c89e502fa07f4a6" category="paragraph"><block ref="5b7528c0e47af54726e633b3e59db241" category="inline-link-macro-rx"></block>
-組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるように、VMware vSphere用のONTAPツールを構成する方法について説明します。</block>
   <block id="47d29daaa26fbfa9c9a069d4cd023ac1" category="sidebar">ONTAP tools for VMware vSphere向けセキュリティ強化ガイド</block>
+  <block id="afe5eececc3992e7e8e44f347b2bbc31" category="paragraph"><block ref="0b6b331794436048d74957e0e33c82da" category="inline-link-macro-rx"></block> 組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるように、VMware vSphere用のONTAPツールを構成する方法について説明します。</block>
+  <block id="616a596fed976ac186fb4ab027a61a06" category="paragraph">ONTAPは進化を続けており、セキュリティは解決策に不可欠な要素となっています。ONTAPの最新リリースには多数のセキュリティ機能が新たに追加されており、ハイブリッドクラウド全体でデータを保護し、ランサムウェア攻撃を防止し、業界の推奨プラクティスに準拠するうえで、組織にとって計り知れない価値があります。これらの新機能は、組織のゼロトラストモデルへの移行もサポートします。</block>
+  <block id="2158f5b864e69e6da6a479c8dfd0d7c3" category="paragraph"><block ref="f37660acb14ff92b1690c18e493ff86b" category="inline-link-macro-rx"></block> ゼロトラストは、従来、マイクロコアと境界（MCAP）を構築してデータ、サービス、アプリケーション、資産を保護するネットワーク中心のアプローチであり、セグメンテーションゲートウェイと呼ばれる制御機能を備えていました。ONTAPは、ゼロトラストに対してデータ主体のアプローチを採用しています。このアプローチでは、ストレージ管理システムがセグメンテーションゲートウェイとなり、お客様のデータへのアクセスを保護および監視します。特に、FPolicyゼロトラストエンジンとFPolicyパートナーエコシステムは、正常なデータアクセスパターンと異常なデータアクセスパターンを詳細に把握し、内部の脅威を特定するためのコントロールセンターとなります。</block>
 </blocks>
