@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, MFA, best practices, best-practices 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, MFA, best practices, best-practices, TR-4569 
 permalink: security-hardening-guides.html 
 summary: これらのテクニカルレポートには、NetApp ONTAPおよびその他のONTAP関連製品を強化する方法に関するガイダンスが記載されています。 
 ---
@@ -25,8 +25,7 @@ summary: これらのテクニカルレポートには、NetApp ONTAPおよび�
 
 == 硬化ガイド
 
-link:https://www.netapp.com/pdf.html?item=/media/10674-tr4569.pdf["TR-4569：『Security Hardening Guide for NetApp ONTAP』"^]
-情報システムの機密性、整合性、可用性に関する規定のセキュリティ目標を組織が達成できるようにNetApp ONTAPを構成する方法について説明します。
+link:https://docs.netapp.com/us-en/ontap/ontap-security-hardening/security-hardening-overview.html["TR-4569：『Security Hardening Guide for NetApp ONTAP』"^] 情報システムの機密性、整合性、可用性に関する規定のセキュリティ目標を組織が達成できるようにNetApp ONTAPを構成する方法について説明します。
 
 link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-otv-hardening-overview.html["ONTAP tools for VMware vSphere向けセキュリティ強化ガイド"] 組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるように、VMware vSphere用のONTAPツールを構成する方法について説明します。
 
