@@ -1,6 +1,6 @@
 ---
 sidebar: sidebar 
-keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices, SM-BC, SnapMirror Business Continuity 
 permalink: business-continuity.html 
 summary: これらのテクニカルレポートには、NetApp ONTAPのビジネス継続性の概要と推奨されるプラクティスが記載されています 
 ---
@@ -14,19 +14,18 @@ summary: これらのテクニカルレポートには、NetApp ONTAPのビジ�
 
 
 [role="lead"]
-NetAppは、アプリケーションやデータが配置されている場所を合理化して、パフォーマンスをコスト効率よく向上する幅広いソリューションを提供しています。データ保護、レプリケーション、継続的可用性：ONTAPデータ管理は、一度設定するだけで運用できるポリシー管理でシンプルなデータ保護を実現し、MetroClusterとSnapMirrorのビジネス継続性を実現します。
+NetAppは、アプリケーションやデータが配置されている場所を合理化して、パフォーマンスをコスト効率よく向上する幅広いソリューションを提供しています。データ保護、レプリケーション、継続的可用性：ONTAPデータ管理は、一度設定するだけで運用できるポリシー管理でシンプルなデータ保護を実現し、MetroClusterとSnapMirrorのアクティブな同期機能でビジネスの継続性を維持します。
 
 [NOTE]
 ====
-これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/smbc/index.html["ONTAP SnapMirrorビジネス継続性"] および link:https://docs.netapp.com/us-en/ontap-metrocluster/index.html["ONTAP MetroCluster"] 製品ドキュメント
+これらのテクニカルレポートでは、およびの製品ドキュメントについて詳しく説明し link:https://docs.netapp.com/us-en/ontap/smbc/index.html["ONTAP SnapMirrorアクティブ同期"] link:https://docs.netapp.com/us-en/ontap-metrocluster/index.html["ONTAP MetroCluster"] ます。
 
 ====
 
 
-== SnapMirror のビジネス継続性（ SM-BC ）
+== SnapMirrorアクティブ同期（旧称SM-BC）
 
-link:https://www.netapp.com/pdf.html?item=/media/21888-tr-4878.pdf["TR-4878：『SnapMirror Business Continuity（SM-BC）』"^]
-SnapMirrorビジネス継続性（SM-BC）は、アプリケーションレベルのきめ細かい継続的可用性を備えたストレージ解決策です。AFFまたはオールSANアレイ（ASA）ストレージシステムで実行されるONTAPで使用できるため、最も重要なビジネスアプリケーションのRPO 0とRTO 0のニーズを満たすことができます。
+link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/index.html["TR-4878：『SnapMirror active sync』"^] SnapMirrorアクティブ同期は、アプリケーションレベルのきめ細かさを備えた継続的可用性を備えたストレージソリューションです。AFFまたはオールSANアレイ（ASA）ストレージシステムで実行されるONTAPで使用できるため、最も重要なビジネスアプリケーションのRPO 0とRTO 0のニーズを満たすことができます。
 
 
 

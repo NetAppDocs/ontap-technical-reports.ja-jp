@@ -76,8 +76,7 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
 link:https://www.netapp.com/pdf.html?item=/media/9138-tr4695.pdf["TR-4695：『Database storage tiering with FabricPool』"^]
 Oracle Relational Database Management System（RDBMS）など、さまざまなデータベースを使用するFabricPoolのメリットと構成オプションについて説明します。
 
-link:https://www.netapp.com/pdf.html?item=/media/40384-tr-4899.pdf["TR-4899：『Oracle Database transparent application failover with SnapMirror Business Continuity』"^]
-SnapMirrorビジネス継続性（SM-BC）とOracle Real Application Cluster（RAC）は、透過的なアプリケーションフェイルオーバー（TAF）と、サイト障害や実際の災害が発生した場合の継続性を提供します。SM-BCをOracle RACのストレージコンポーネントとして使用するAFFストレージアレイの構成ガイダンスと推奨事項について説明します。
+link:https://www.netapp.com/pdf.html?item=/media/40384-tr-4899.pdf["TR-4899：『Oracle database transparent application failover with SnapMirror active sync』"^] SnapMirror Active Sync（旧SM-BC）とOracle Real Application Cluster（RAC）は、サイト障害や実際の災害が発生した場合に透過的なアプリケーションフェイルオーバー（TAF）と継続性を提供します。SnapMirror Active SyncをOracle RACのストレージコンポーネントとして使用するAFFストレージアレイの構成ガイダンスと推奨事項について説明します。
 
 link:https://www.netapp.com/pdf.html?item=/media/21901-tr-4876.pdf["TR-4876：『Oracle multitenancy with ONTAP 解決策and deployment best practices』"^]
 ONTAPストレージを使用してOracleマルチテナントデータベースをプロビジョニング、管理、保護し、OracleマルチテナントデータベースとONTAPソフトウェアの機能の両方のメリットを最大限に活用する方法について、解決策が推奨するプラクティスを紹介します。
