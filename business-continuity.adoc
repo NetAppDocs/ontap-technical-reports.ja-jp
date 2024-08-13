@@ -34,9 +34,7 @@ link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/index.html["TR-4
 link:https://www.netapp.com/pdf.html?item=/media/13480-tr4705.pdf["TR-4705：『NetApp MetroCluster 解決策architecture and design』"^]
 このドキュメントでは、ONTAPのMetroCluster機能のアーキテクチャの概要と設計の概念について説明します。
 
-* MetroCluster IP *
-link:http://www.netapp.com/us/media/tr-4689.pdf["TR-4689：『NetApp MetroCluster IP』"^]
-MetroClusterは、FASおよびAFFシステムで実行される、ONTAP向けの継続的可用性を備えたストレージ解決策です。MetroCluster IPは、イーサネットベースのバックエンドストレージファブリックを使用する最新の進化形です。MetroCluster IPは、最も重要なビジネスアプリケーションのニーズを満たす高度な冗長構成を提供します。MetroCluster IPはONTAPに含まれており、ONTAPストレージを使用するクライアントおよびサーバにNASおよびSAN接続を提供します。
+* MetroCluster IP * link:https://www.netapp.com/pdf.html?item=/media/13481-tr4689pdf.pdf["TR-4689：『NetApp MetroCluster IP』"^] MetroClusterは、FASおよびAFFシステム上で動作するONTAP向けの継続的な可用性を備えたストレージ・ソリューションです。MetroCluster IPは、イーサネットベースのバックエンドストレージファブリックを使用する最新の進化形です。MetroCluster IPは、最も重要なビジネスアプリケーションのニーズを満たす高度な冗長構成を提供します。MetroCluster IPはONTAPに含まれており、ONTAPストレージを使用するクライアントおよびサーバにNASおよびSAN接続を提供します。
 
 * MetroCluster FC *
 link:https://www.netapp.com/pdf.html?item=/media/13482-tr4375.pdf["TR-4375：『NetApp MetroCluster FC』"^]

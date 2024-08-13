@@ -43,6 +43,8 @@ indexpage:
     links:
     - title: FlexCache ボリューム
       url: nas-containers.html
+    - title: FlexCacheライトバック
+      url: https://docs.netapp.com/us-en/ontap/flexcache-writeback/flexcache-write-back-overview.html
     - title: FlexGroupボリュームの実装とベストプラクティス
       url: nas-containers.html
     - title: データ保護とバックアップのONTAP FlexGroupボリューム

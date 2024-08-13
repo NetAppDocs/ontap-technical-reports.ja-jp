@@ -30,6 +30,12 @@ FlexCacheは、同一または異なるONTAPクラスタ上にボリュームの
 
 
 
+== FlexCacheライトバック
+
+link:https://docs.netapp.com/us-en/ontap/flexcache-writeback/flexcache-write-back-overview.html["FlexCacheライトバック"^] ONTAP 9.15.1で導入されたFlexCacheライトバックは、キャッシュへの書き込み処理の代替モードです。ライトバックを使用すると、書き込みがキャッシュの安定したストレージにコミットされ、データが元のストレージに到達するのを待たずにクライアントに確認応答が返されます。データは非同期的に元のデータにフラッシュされます。その結果、グローバルに分散されたファイルシステムが実現し、特定のワークロードや環境に対してローカルに近い速度で書き込みを実行できるようになり、パフォーマンスが大幅に向上します。
+
+
+
 == FlexGroup ボリューム
 
 link:https://www.netapp.com/pdf.html?item=/media/17251-tr4571a.pdf["TR-4571a：『FlexGroup Top 10 Best Practices』"^]
