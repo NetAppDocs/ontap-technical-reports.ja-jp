@@ -82,7 +82,7 @@ indexpage:
     - title: セキュリティ強化ガイド
       url: security-hardening-guides.html
     - title: "『The NetApp 解決策for Ransomware』"
-      url: security.html
+      url: https://docs.netapp.com/us-en/ontap/ransomware-solutions/ransomware-overview.html
     - title: NetAppとゼロトラスト
       url: https://docs.netapp.com/us-en/ontap/zero-trust/zero-trust-overview.html
     - title: NetApp SnapLockを使用したWORMストレージ

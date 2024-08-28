@@ -25,8 +25,7 @@ ONTAPは進化を続けており、セキュリティは解決策に不可欠な
 
 == ランサムウェア
 
-link:https://www.netapp.com/pdf.html?item=/media/7334-tr4572.pdf["TR-4572：『The NetApp 解決策for ransomware』"^]
-NetApp 解決策for ransomwareを使用して、ランサムウェアがどのように進化したか、攻撃を特定し、拡散を防止し、できるだけ迅速にリカバリする方法をご紹介します。このドキュメントで提供されるガイダンスとソリューションは、情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成しながら、サイバーレジリエントなソリューションを組織に提供することを目的としています。
+link:https://docs.netapp.com/us-en/ontap/ransomware-solutions/ransomware-overview.html["TR-4572：『The NetApp 解決策for ransomware』"^] ランサムウェアに対応したNetAppソリューションを使用して、ランサムウェアがどのように進化したか、攻撃を特定し、拡散を防止し、できるだけ迅速にリカバリする方法をご紹介します。このドキュメントで提供されるガイダンスとソリューションは、情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成しながら、サイバーレジリエントなソリューションを組織に提供することを目的としています。
 
 link:https://www.netapp.com/pdf.html?item=/media/6158-tr4526.pdf["TR-4526：『Compliant WORM storage using NetApp SnapLock』"^]
 多くの企業では、コンプライアンス要件を満たすため、または単にデータ保護戦略にレイヤを追加するために、Write Once、Read Many（WORM）データストレージをある程度使用しています。ONTAPのWORM解決策であるSnapLockを、WORMデータストレージが必要な環境に統合する方法を説明します。
