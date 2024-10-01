@@ -44,5 +44,10 @@ link:https://www.netapp.com/pdf.html?item=/media/19369-tr-4832.pdf["TR-4832：�
 
 == SnapMirrorを使用したアプリケーションとインフラ
 
-link:link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html["TR-4900：『VMware Site Recovery Manager with ONTAP』"]
-ONTAPは、2002年に最新のデータセンターに導入されて以来、VMware vSphere環境向けストレージ解決策として業界をリードしてきました。革新的な機能を継続的に追加し、コストを削減しながら管理を簡易化しています。ONTAP 解決策for VMware Site Recovery Manager（SRM）は、業界をリードするVMwareのディザスタリカバリ（DR）ソフトウェアです。最新の製品情報や推奨されるプラクティスなど、導入の合理化、リスクの軽減、継続的な管理の簡素化を実現します。
+link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-srm-overview.html["TR-4900：『VMware Site Recovery Manager with ONTAP』"] ONTAPは、2002年に最新のデータセンターに導入されて以来、業界をリードするVMware vSphere環境向けのストレージソリューションであり、コストを削減しながら管理を簡易化する革新的な機能を継続的に追加しています。ONTAP 解決策for VMware Site Recovery Manager（SRM）は、業界をリードするVMwareのディザスタリカバリ（DR）ソフトウェアです。最新の製品情報や推奨されるプラクティスなど、導入の合理化、リスクの軽減、継続的な管理の簡素化を実現します。
+
+
+
+== ONTAPサイバーボールト
+
+link:https://docs.netapp.com/us-en/netapp-solutions/cyber-vault/ontap-cyber-vault-overview.html["ONTAPサイバーボールト"^]NetAppのONTAPベースのサイバーボールトは、最も重要なデータ資産を保護するための包括的で柔軟なソリューションを組織に提供します。ONTAPでは、論理的なエアギャップと堅牢な強化手法を活用することで、進化するサイバー脅威に対して耐障害性に優れた、セキュアで分離されたストレージ環境を構築できます。ONTAPを使用すると、ストレージインフラの即応性と効率性を維持しながら、データの機密性、整合性、可用性を確保できます。

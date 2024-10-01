@@ -81,6 +81,8 @@ indexpage:
     links:
     - title: セキュリティ強化ガイド
       url: security-hardening-guides.html
+    - title: ONTAPサイバーボールト
+      url: https://docs.netapp.com/us-en/netapp-solutions/cyber-vault/ontap-cyber-vault-overview.html
     - title: "『The NetApp 解決策for Ransomware』"
       url: https://docs.netapp.com/us-en/ontap/ransomware-solutions/ransomware-overview.html
     - title: NetAppとゼロトラスト

@@ -388,8 +388,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="2c1b27a986b5e37a810d61f72b23ee4b" category="paragraph">SAPソリューションの構成、管理、自動化に関するベストプラクティスについては、NetAppのSAPソリューションページを参照してください。</block>
   <block id="79e3a796ebb97492e0ca65b735e63753" category="inline-link-macro">ONTAP上のSAP HANAデータベースソリューション</block>
   <block id="ada0578499f1a7909dee7f18bbd44352" category="paragraph"><block ref="ada0578499f1a7909dee7f18bbd44352" category="inline-link-macro-rx"></block></block>
-  <block id="bf516b5e063503df33730496f5cd0e61" category="paragraph"><block ref="2ec362a557f59f60518807a9741e8a00" category="inline-link-macro-rx"></block>
-ONTAPは、2002年に最新のデータセンターに導入されて以来、VMware vSphere環境向けストレージ解決策として業界をリードしてきました。革新的な機能を継続的に追加し、コストを削減しながら管理を簡易化しています。ONTAP 解決策for VMware Site Recovery Manager（SRM）は、業界をリードするVMwareのディザスタリカバリ（DR）ソフトウェアです。最新の製品情報や推奨されるプラクティスなど、導入の合理化、リスクの軽減、継続的な管理の簡素化を実現します。</block>
   <block id="0655f58a0e33e8062619dcfd012221cc" category="paragraph"><block ref="8b011bfaf7ed1ab91e2467210b049c9a" category="inline-link-macro-rx"></block>
 ストレージ管理者およびデータベース管理者がMicrosoft SQL ServerをONTAPストレージに正常に導入する方法について説明します。</block>
   <block id="308de49ae5ecd612ee1f6ede409393ff" category="paragraph"><block ref="c3c557e05338fa6d9f996133fa1f30be" category="inline-link-macro-rx"></block>
@@ -464,4 +462,8 @@ Microsoft Windows Serverは、ネットワーク、セキュリティ、仮想�
   <block id="a617a1589fbc51aa91ee344b7a8c5019" category="section-title">FlexCacheライトバック</block>
   <block id="1023a95850648d729854972f880d5dd8" category="paragraph"><block ref="4546cc9f634c66c8aeff46cf87ac369c" category="inline-link-macro-rx"></block> ONTAP 9.15.1で導入されたFlexCacheライトバックは、キャッシュへの書き込み処理の代替モードです。ライトバックを使用すると、書き込みがキャッシュの安定したストレージにコミットされ、データが元のストレージに到達するのを待たずにクライアントに確認応答が返されます。データは非同期的に元のデータにフラッシュされます。その結果、グローバルに分散されたファイルシステムが実現し、特定のワークロードや環境に対してローカルに近い速度で書き込みを実行できるようになり、パフォーマンスが大幅に向上します。</block>
   <block id="1088e62eddbf9e553d6ce3869bb4c822" category="paragraph"><block ref="54a8bbc6323712b4103dba886677318d" category="inline-link-macro-rx"></block> ランサムウェアに対応したNetAppソリューションを使用して、ランサムウェアがどのように進化したか、攻撃を特定し、拡散を防止し、できるだけ迅速にリカバリする方法をご紹介します。このドキュメントで提供されるガイダンスとソリューションは、情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成しながら、サイバーレジリエントなソリューションを組織に提供することを目的としています。</block>
+  <block id="5306ae1644c92b97abf3b1c4050c8926" category="paragraph"><block ref="d486044208318d8adecc9ddd2f9433ed" category="inline-link-macro-rx"></block> ONTAPは、2002年に最新のデータセンターに導入されて以来、業界をリードするVMware vSphere環境向けのストレージソリューションであり、コストを削減しながら管理を簡易化する革新的な機能を継続的に追加しています。ONTAP 解決策for VMware Site Recovery Manager（SRM）は、業界をリードするVMwareのディザスタリカバリ（DR）ソフトウェアです。最新の製品情報や推奨されるプラクティスなど、導入の合理化、リスクの軽減、継続的な管理の簡素化を実現します。</block>
+  <block id="91d998bab304adb0fd27858a4295dcac" category="section-title">ONTAPサイバーボールト</block>
+  <block id="fc46505b6029ab4d0e386a4540afeecd" category="paragraph"><block ref="79305a8b61b53acc892506e6bcd6f49f" category="inline-link-macro-rx"></block>NetAppのONTAPベースのサイバーボールトは、最も重要なデータ資産を保護するための包括的で柔軟なソリューションを組織に提供します。ONTAPでは、論理的なエアギャップと堅牢な強化手法を活用することで、進化するサイバー脅威に対して耐障害性に優れた、セキュアで分離されたストレージ環境を構築できます。ONTAPを使用すると、ストレージインフラの即応性と効率性を維持しながら、データの機密性、整合性、可用性を確保できます。</block>
+  <block id="7d561ff1da15ec2093387d3679da3eb8" category="paragraph">これらのテクニカルレポートには、製品ドキュメントの詳細が記載され<block ref="9caf0d21f047a5bbe99f0781b871b34b" category="inline-link-macro-rx"></block>ています。</block>
 </blocks>
