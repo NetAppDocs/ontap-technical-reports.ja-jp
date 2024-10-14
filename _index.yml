@@ -2,7 +2,7 @@
 indexpage:
   title: ONTAPテクニカルレポート
   summary: ONTAPテクニカルレポートでは、さまざまなエコシステム内またはさまざまなプロトコルを使用したONTAP環境の計画と最適化について、詳細な情報を提供します。一部のONTAPテクニカルレポートでは、ONTAPの機能に関するアーキテクチャのコンテキストと推奨されるプラクティスを紹介しています。
-  keywords: ONTAP 9, ONTAP, Technical Reports, TR,
+  keywords: ONTAP 9, ONTAP, Technical Reports, TR
   lead: ONTAPテクニカルレポートでは、さまざまなエコシステム内またはさまざまなプロトコルを使用したONTAP環境の計画と最適化について、詳細な情報を提供します。一部のONTAPテクニカルレポートでは、ONTAPの機能に関するアーキテクチャのコンテキストと推奨されるプラクティスを紹介しています。
   tiles:
   - title: アプリケーションとデータベース
@@ -17,28 +17,20 @@ indexpage:
       url: apps-dbs.html#postgresql
     - title: ONTAP上のSAP HANA
       url: apps-dbs.html#sap-hana
-  - title: ビジネス継続性
+    - title: ONTAPのEpic
+      url: https://docs.netapp.com/us-en/ontap-apps-dbs/epic/epic-overview.html
+  - title: データ保護、ディザスタリカバリ、ビジネス継続性
     links:
-    - title: SnapMirrorアクティブ同期
-      url: https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/index.html
-    - title: MetroCluster 解決策 のアーキテクチャと設計
-      url: business-continuity.html
-    - title: MetroCluster IP の略
-      url: business-continuity.html
-    - title: MetroCluster FCの略
-      url: business-continuity.html
-    - title: ビジネス継続性に関するその他のテクニカルレポート
-      url: business-continuity.html
-  - title: データ保護とディザスタリカバリ
-    links:
-    - title: SnapMirror非同期構成とベストプラクティス
-      url: data-protection-disaster-recovery.html
-    - title: SnapMirror Synchronousの設定とベストプラクティス
+    - title: SnapMirrorの構成とベストプラクティス
       url: data-protection-disaster-recovery.html
     - title: SnapLockを使用したWORMストレージ
       url: data-protection-disaster-recovery.html
-    - title: データ保護とディザスタリカバリに関するその他のテクニカルレポート
-      url: data-protection-disaster-recovery.html
+    - title: SnapMirrorアクティブ同期
+      url: https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/index.html
+    - title: MetroCluster IPおよびFC
+      url: business-continuity.html
+    - title: ビジネス継続性に関するその他のテクニカルレポート
+      url: business-continuity.html
   - title: FlexCacheボリュームとFlexGroupボリューム
     links:
     - title: FlexCache ボリューム
@@ -65,10 +57,6 @@ indexpage:
       url: nas.html
     - title: その他のNASテクニカル・レポート
       url: nas.html
-  - title: ネットワーキング
-    links:
-    - title: ONTAPを使用したBGP / VIP
-      url: networking.html
   - title: SAN
     links:
     - title: ONTAPの最新SANに関するベストプラクティス
@@ -87,11 +75,7 @@ indexpage:
       url: https://docs.netapp.com/us-en/ontap/ransomware-solutions/ransomware-overview.html
     - title: NetAppとゼロトラスト
       url: https://docs.netapp.com/us-en/ontap/zero-trust/zero-trust-overview.html
-    - title: NetApp SnapLockを使用したWORMストレージ
-      url: security.html
     - title: 認証（SSH、MFA）
-      url: security.html
-    - title: ONTAPのセキュアマルチテナンシー
       url: security.html
     - title: その他のセキュリティテクニカルレポート
       url: security.html
