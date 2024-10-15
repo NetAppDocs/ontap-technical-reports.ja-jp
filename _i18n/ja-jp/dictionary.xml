@@ -456,4 +456,6 @@ Microsoft Windows Serverは、ネットワーク、セキュリティ、仮想�
   <block id="6393d669ce30abc667ac49b55f562310" category="sidebar">データ保護、ディザスタリカバリ、ビジネス継続性</block>
   <block id="64af762eb6280d5cce6eda4b03a6e65c" category="sidebar">SnapMirrorの構成とベストプラクティス</block>
   <block id="0d59051e1739c44ad573da05fecfe0e1" category="sidebar">MetroCluster IPおよびFC</block>
+  <block id="b845152aee89efdb663c0e7c1522d7bf" category="inline-link-macro">MetroCluster Tiebreakerホストおよびデータベースのセキュリティ強化ガイド</block>
+  <block id="ee1c2b388c2a8f940cf512d5f930d4f5" category="paragraph"><block ref="3ba6a3982660c818149aaeadc40d89b3" category="inline-link-macro-rx"></block>組織が情報システムの機密性、整合性、可用性に関して規定されたセキュリティ目標を達成できるように、NetApp MetroCluster Tiebreakerのホストとデータベースを構成する方法について説明します。</block>
 </blocks>

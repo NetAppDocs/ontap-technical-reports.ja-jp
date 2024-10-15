@@ -40,3 +40,5 @@ link:https://netapp.com/pdf.html?item=/media/78654-tr-4943.pdf["TR-4943：『Sec
 
 link:https://www.netapp.com/pdf.html?item=/media/78941-tr-4945.pdf["TR-4945：『Security Hardening Guide for NetApp Manageability SDK』"^]
 NetApp Manageability SDK(NMSDK)を構成して、組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるようにする方法について説明します。
+
+link:https://docs.netapp.com/us-en/ontap-metrocluster/tiebreaker/install_security.html["MetroCluster Tiebreakerホストおよびデータベースのセキュリティ強化ガイド"^]組織が情報システムの機密性、整合性、可用性に関して規定されたセキュリティ目標を達成できるように、NetApp MetroCluster Tiebreakerのホストとデータベースを構成する方法について説明します。
