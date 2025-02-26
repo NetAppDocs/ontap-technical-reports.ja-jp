@@ -50,7 +50,7 @@ indexpage:
     - title: "『Multiprotocol NAS in ONTAP Overview and Best Practices』"
       url: nas.html
     - title: ONTAP におけるS3のベストプラクティスです
-      url: nas.html
+      url: https://docs.netapp.com/us-en/ontap/s3-config/index.html
     - title: ネームサービスのベストプラクティス
       url: nas.html
     - title: ONTAPでのNFS Kerberos

@@ -49,8 +49,7 @@ ONTAPでのマルチプロトコルNASアクセスの仕組みと、マルチプ
 
 == ONTAP S3の略
 
-link:https://www.netapp.com/pdf.html?item=/media/17219-tr4814.pdf["TR-4814：『S3 in ONTAP best practices』"^]
-Amazon Simple Storage Service（S3）をONTAPソフトウェアで使用するための推奨されるプラクティス、およびONTAPをネイティブのS3アプリケーションを使用するオブジェクトストアとして、またはFabricPoolの階層化のデスティネーションとして使用するための機能と設定について説明します。
+link:https://docs.netapp.com/us-en/ontap/s3-config/index.html["TR-4814：『S3 in ONTAP best practices』"^] Amazon Simple Storage Service（S3）をONTAPソフトウェアで使用するための推奨されるプラクティス、およびONTAPをネイティブのS3アプリケーションを使用するオブジェクトストアとして、またはFabricPoolの階層化のデスティネーションとして使用するための機能と設定について説明します。
 
 
 
