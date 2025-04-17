@@ -1,10 +1,10 @@
 ---
-sidebar: sidebar 
-keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, MAV, MFA, Ransomware, Security, best practices, best-practices, tamperproof, tamper proof, tamperproof snapshots tamper-proof snapshots 
 permalink: security.html 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, MAV, MFA, Ransomware, Security, best practices, best-practices, tamperproof, tamper proof, tamperproof snapshots tamper-proof snapshots 
+sidebar: sidebar 
 summary: これらのテクニカルレポートには、NetApp ONTAPのセキュリティの概要と推奨されるプラクティスが記載されています。 
 ---
-= セキュリティテクニカルレポート
+= ONTAPセキュリティテクニカルレポート
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -31,7 +31,7 @@ link:https://docs.netapp.com/us-en/netapp-solutions/cyber-vault/ontap-cyber-vaul
 
 == ランサムウェア
 
-link:https://docs.netapp.com/us-en/ontap/ransomware-solutions/ransomware-overview.html["TR-4572：『The NetApp 解決策for ransomware』"^] ランサムウェアに対応したNetAppソリューションを使用して、ランサムウェアがどのように進化したか、攻撃を特定し、拡散を防止し、できるだけ迅速にリカバリする方法をご紹介します。このドキュメントで提供されるガイダンスとソリューションは、情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成しながら、サイバーレジリエントなソリューションを組織に提供することを目的としています。
+link:./ransomware-solutions/ransomware-overview.html["TR-4572：『The NetApp 解決策for ransomware』"] ランサムウェアに対応したNetAppソリューションを使用して、ランサムウェアがどのように進化したか、攻撃を特定し、拡散を防止し、できるだけ迅速にリカバリする方法をご紹介します。このドキュメントで提供されるガイダンスとソリューションは、情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成しながら、サイバーレジリエントなソリューションを組織に提供することを目的としています。
 
 link:https://www.netapp.com/pdf.html?item=/media/6158-tr4526.pdf["TR-4526：『Compliant WORM storage using NetApp SnapLock』"^]
 多くの企業では、コンプライアンス要件を満たすため、または単にデータ保護戦略にレイヤを追加するために、Write Once、Read Many（WORM）データストレージをある程度使用しています。ONTAPのWORM解決策であるSnapLockを、WORMデータストレージが必要な環境に統合する方法を説明します。
@@ -40,7 +40,7 @@ link:https://www.netapp.com/pdf.html?item=/media/6158-tr4526.pdf["TR-4526：『C
 
 == ゼロトラスト
 
-link:https://docs.netapp.com/us-en/ontap/zero-trust/zero-trust-overview.html["NetAppとゼロトラスト"] ゼロトラストは、従来、マイクロコアと境界（MCAP）を構築してデータ、サービス、アプリケーション、資産を保護するネットワーク中心のアプローチであり、セグメンテーションゲートウェイと呼ばれる制御機能を備えていました。ONTAPは、ゼロトラストに対してデータ主体のアプローチを採用しています。このアプローチでは、ストレージ管理システムがセグメンテーションゲートウェイとなり、お客様のデータへのアクセスを保護および監視します。特に、FPolicyゼロトラストエンジンとFPolicyパートナーエコシステムは、正常なデータアクセスパターンと異常なデータアクセスパターンを詳細に把握し、内部の脅威を特定するためのコントロールセンターとなります。
+link:./zero-trust/zero-trust-overview.html["NetAppとゼロトラスト"] ゼロトラストは、従来、マイクロコアと境界（MCAP）を構築してデータ、サービス、アプリケーション、資産を保護するネットワーク中心のアプローチであり、セグメンテーションゲートウェイと呼ばれる制御機能を備えていました。ONTAPは、ゼロトラストに対してデータ主体のアプローチを採用しています。このアプローチでは、ストレージ管理システムがセグメンテーションゲートウェイとなり、お客様のデータへのアクセスを保護および監視します。特に、FPolicyゼロトラストエンジンとFPolicyパートナーエコシステムは、正常なデータアクセスパターンと異常なデータアクセスパターンを詳細に把握し、内部の脅威を特定するためのコントロールセンターとなります。
 
 
 
@@ -65,3 +65,9 @@ ONTAPでStorage VMを使用してセキュアマルチテナンシーを実装�
 
 link:https://www.netapp.com/pdf.html?item=/media/17180-tr4401.pdf["TR-4401：『PCI-DSS 4.0 and ONTAP』"^]
 PCI DSS 4.0規格に照らしてシステムを検証する方法と、NetApp ONTAPシステムに適用する制御の要件を満たす方法について説明します。
+
+
+
+== 属性ベースのアクセス制御
+
+link:./abac/abac-overview.html["ONTAPによる属性ベースのアクセス制御"]NFSv4.2のセキュリティラベルと拡張属性（xattrs）を設定してRole-Based Access Control（RBAC；ロールベースアクセス制御）とAttribute-Based Access Control（ABAC；属性ベースアクセス制御）をサポートする方法について説明します。ABACは、ユーザ、リソース、および環境の属性に基づいて権限を定義する認証方式です。

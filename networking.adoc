@@ -1,10 +1,10 @@
 ---
+permalink: networking.html 
 sidebar: sidebar 
 keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
-permalink: networking.html 
 summary: これらのテクニカルレポートには、NetApp ONTAPのネットワークの概要と推奨されるプラクティスが記載されています。 
 ---
-= ネットワークテクニカルレポート
+= ONTAPネットワークテクニカルレポート
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -18,7 +18,7 @@ ONTAPは、非常に要件の厳しいスケールアウトアプリケーショ
 
 [NOTE]
 ====
-これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/network-management/index.html["ONTAPネットワーク管理"] 製品ドキュメント
+これらのテクニカルレポートには、製品ドキュメントの詳細が記載されlink:https://docs.netapp.com/us-en/ontap/network-management/index.html["ONTAPネットワーク管理"^]ています。
 
 ====
 link:https://www.netapp.com/pdf.html?item=/media/79703-TR-4949.pdf["TR-4949：『BGP / VIP with ONTAP in the data center』"^]

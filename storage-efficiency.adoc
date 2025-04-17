@@ -1,10 +1,10 @@
 ---
+permalink: storage-efficiency.html 
 sidebar: sidebar 
 keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
-permalink: storage-efficiency.html 
 summary: これらのテクニカルレポートには、NetApp ONTAPでのStorage Efficiencyの概要と推奨されるプラクティスが記載されています。 
 ---
-= Storage Efficiencyに関するテクニカルレポート
+= ONTAPのStorage Efficiencyに関するテクニカルレポート
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -18,9 +18,6 @@ ONTAPは、Storage Efficiency機能の包括的なポートフォリオを提供
 
 [NOTE]
 ====
-重複排除の手順については、を参照してください link:https://docs.netapp.com/us-en/ontap/volumes/enable-deduplication-volume-task.html["重複排除に関するドキュメント"]
-圧縮の手順については、を参照してください link:https://docs.netapp.com/us-en/ontap/volumes/enable-data-compression-volume-task.html["圧縮に関するドキュメント"]
-温度に基づくストレージ効率化の手順については、を参照してください link:https://docs.netapp.com/us-en/ontap/volumes/enable-temperature-sensitive-efficiency-concept.html["温度に基づくStorage Efficiencyに関するドキュメント"]
-コンパクションの手順については、を参照してください link:https://docs.netapp.com/us-en/ontap/volumes/enable-inline-data-compaction-fas-systems-task.html["コンパクションに関するドキュメント"]
+重複排除の手順書については、次のURLを参照してくださいlink:https://docs.netapp.com/us-en/ontap/volumes/enable-deduplication-volume-task.html["重複排除に関するドキュメント"^]。圧縮に関する手順書については、link:https://docs.netapp.com/us-en/ontap/volumes/enable-data-compression-volume-task.html["圧縮に関するドキュメント"^]温度に敏感なストレージ効率に関する手順書については、コンパクションに関する手順書については、次のURLを参照しlink:https://docs.netapp.com/us-en/ontap/volumes/enable-temperature-sensitive-efficiency-concept.html["温度に基づくStorage Efficiencyに関するドキュメント"^]てください。link:https://docs.netapp.com/us-en/ontap/volumes/enable-inline-data-compaction-fas-systems-task.html["コンパクションに関するドキュメント"^]
 
 ====

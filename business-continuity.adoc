@@ -1,7 +1,7 @@
 ---
+permalink: business-continuity.html 
 sidebar: sidebar 
 keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices, SM-BC, SnapMirror Business Continuity 
-permalink: business-continuity.html 
 summary: これらのテクニカルレポートには、NetApp ONTAPのビジネス継続性の概要と推奨されるプラクティスが記載されています 
 ---
 = ビジネス継続性に関するテクニカルレポート
@@ -18,7 +18,7 @@ NetAppは、アプリケーションやデータが配置されている場所�
 
 [NOTE]
 ====
-これらのテクニカルレポートでは、およびの製品ドキュメントについて詳しく説明し link:https://docs.netapp.com/us-en/ontap/smbc/index.html["ONTAP SnapMirrorアクティブ同期"] link:https://docs.netapp.com/us-en/ontap-metrocluster/index.html["ONTAP MetroCluster"] ます。
+これらのテクニカルレポートでは、およびの製品ドキュメントについて詳しく説明し link:https://docs.netapp.com/us-en/ontap/smbc/index.html["ONTAP SnapMirrorアクティブ同期"^] link:https://docs.netapp.com/us-en/ontap-metrocluster/index.html["ONTAP MetroCluster"^] ます。
 
 ====
 
@@ -34,8 +34,8 @@ link:https://docs.netapp.com/us-en/ontap/snapmirror-active-sync/index.html["TR-4
 link:https://www.netapp.com/pdf.html?item=/media/13480-tr4705.pdf["TR-4705：『NetApp MetroCluster 解決策architecture and design』"^]
 このドキュメントでは、ONTAPのMetroCluster機能のアーキテクチャの概要と設計の概念について説明します。
 
-* MetroCluster IP * link:https://www.netapp.com/pdf.html?item=/media/13481-tr4689pdf.pdf["TR-4689：『NetApp MetroCluster IP』"^] MetroClusterは、FASおよびAFFシステム上で動作するONTAP向けの継続的な可用性を備えたストレージ・ソリューションです。MetroCluster IPは、イーサネットベースのバックエンドストレージファブリックを使用する最新の進化形です。MetroCluster IPは、最も重要なビジネスアプリケーションのニーズを満たす高度な冗長構成を提供します。MetroCluster IPはONTAPに含まれており、ONTAPストレージを使用するクライアントおよびサーバにNASおよびSAN接続を提供します。
+.MetroCluster IP
+link:https://www.netapp.com/pdf.html?item=/media/13481-tr4689pdf.pdf["TR-4689：『NetApp MetroCluster IP』"^]MetroClusterは、FASおよびAFFシステムで実行されるONTAP向けの継続的可用性を備えたストレージソリューションです。MetroCluster IPは、イーサネットベースのバックエンドストレージファブリックを使用する最新の進化形です。MetroCluster IPは、最も重要なビジネスアプリケーションのニーズを満たす高度な冗長構成を提供します。MetroCluster IPはONTAPに含まれており、ONTAPストレージを使用するクライアントおよびサーバにNASおよびSAN接続を提供します。
 
-* MetroCluster FC *
-link:https://www.netapp.com/pdf.html?item=/media/13482-tr4375.pdf["TR-4375：『NetApp MetroCluster FC』"^]
-MetroClusterは、ミッションクリティカルなアプリケーション向けに、地理的に離れたデータセンター間で継続的なデータ可用性を実現します。MetroCluster FCの推奨プラクティス、設計上の決定事項、サポートされる構成について説明します。
+.MetroCluster FC
+link:https://www.netapp.com/pdf.html?item=/media/13482-tr4375.pdf["TR-4375：『NetApp MetroCluster FC』"^]MetroClusterは、ミッションクリティカルなアプリケーション向けに、地理的に離れたデータセンター間で継続的なデータ可用性を実現します。MetroCluster FCの推奨プラクティス、設計上の決定事項、サポートされる構成について説明します。

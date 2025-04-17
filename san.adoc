@@ -1,10 +1,10 @@
 ---
+permalink: san.html 
 sidebar: sidebar 
 keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, SAN, NVMe, NVMeoF, NVMeoTCP, NVMeoFC, iSCSI, fibre channel, fiber channel, igroups, namespaces, namespace, LUN, subsystem, best practices, best-practices 
-permalink: san.html 
 summary: これらのテクニカルレポートには、ONTAPのブロックプロトコルの概要と推奨されるプラクティスが記載されています。 
 ---
-= SANテクニカルレポート
+= ONTAP SANテクニカルレポート
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -18,7 +18,7 @@ ONTAP SANストレージは、シンプルなSAN環境を実現し、ミッシ�
 
 [NOTE]
 ====
-これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/san-management/index.html["ONTAP SANストレージ管理"] 製品ドキュメント
+これらのテクニカルレポートには、製品ドキュメントの詳細が記載されlink:https://docs.netapp.com/us-en/ontap/san-management/index.html["ONTAP SANストレージ管理"^]ています。
 
 ====
 link:https://www.netapp.com/pdf.html?item=/media/10680-tr4080.pdf["TR-4080：『Best Practices for Modern SAN in ONTAP』"^]

@@ -1,10 +1,10 @@
 ---
+permalink: snapcenter.html 
 sidebar: sidebar 
 keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
-permalink: snapcenter.html 
 summary: これらのテクニカルレポートには、NetApp ONTAPを使用したSnapCenterの概要と推奨されるプラクティスが記載されています。 
 ---
-= SnapCenterテクニカルレポート
+= ONTAP SnapCenterテクニカルレポート
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -18,7 +18,7 @@ SnapCenterは、アプリケーションと整合性のあるデータ保護と�
 
 [NOTE]
 ====
-これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/snapcenter/index.html["SnapCenter"] 製品ドキュメント
+これらのテクニカルレポートには、製品ドキュメントの詳細が記載されlink:https://docs.netapp.com/us-en/snapcenter/index.html["SnapCenter"^]ています。
 
 ====
 
@@ -28,8 +28,7 @@ SnapCenterは、アプリケーションと整合性のあるデータ保護と�
 link:https://www.netapp.com/pdf.html?item=/media/12403-tr4700.pdf["TR-4700：『SnapCenter Plug-in for Oracle database best practices』"^]
 NetApp SnapCenterは、Oracleと整合性のあるデータ保護を実現する、拡張性に優れたユニファイドプラットフォームです。複雑な運用を自動化し、一元的な管理と監視を実現します。SnapCenterを使用してOracleデータベースを導入する際の推奨事項について説明します。
 
-link:https://docs.netapp.com/us-en/netapp-solutions/databases/snapctr_svcs_ora.html["TR-4964：『Oracle Database backup、restore and clone with SnapCenter Services』"]
-Amazon FSx for ONTAPストレージおよびEC2コンピューティングインスタンスに導入されたOracleデータベースをバックアップ、リストア、クローニングするために、SnapCenterサービスを設定する方法をご紹介します。セットアップと使用ははるかに簡単ですが、SnapCenterサービスは、SnapCenterインターフェイスを介して利用できる主要な機能を提供します。
+link:https://docs.netapp.com/us-en/netapp-solutions/databases/snapctr_svcs_ora.html["TR-4964：『Oracle Database backup、restore and clone with SnapCenter Services』"^]Amazon FSx for ONTAPストレージおよびEC2コンピューティングインスタンスに導入されたOracleデータベースをバックアップ、リストア、クローニングするために、SnapCenterサービスを設定する方法をご紹介します。セットアップと使用ははるかに簡単ですが、SnapCenterサービスは、SnapCenterインターフェイスを介して利用できる主要な機能を提供します。
 
 
 
@@ -49,20 +48,16 @@ SnapCenterを使用してNetAppストレージにMicrosoft Exchange Serverを正
 
 == <xmt-block0>SnapCenter</xmt-block> for SAP HANAを参照してください
 
-link:https://docs.netapp.com/us-en/netapp-solutions-sap/backup/saphana-br-scs-overview.html["TR-4614 ：『 SAP HANA Backup and Recovery with SnapCenter 』"]
-SnapCenterは、SAP HANAなどのデータベース向けに、アプリケーションと整合性のあるデータ保護を実現する、拡張性に優れたユニファイドプラットフォームです。SnapCenter では一元的な管理と監視が可能ですが、一方で、アプリケーション固有のバックアップ、リストア、クローニングのジョブの管理を各ユーザに委譲することができます。SnapCenter を使用すれば、データベース管理者やストレージ管理者は、さまざまなアプリケーションやデータベースのバックアップ、リストア、クローニングの処理を 1 つのツールで管理できます。
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/backup/saphana-br-scs-overview.html["TR-4614 ：『 SAP HANA Backup and Recovery with SnapCenter 』"^]SnapCenterは、SAP HANAなどのデータベース向けに、アプリケーションと整合性のあるデータ保護を実現する、拡張性に優れたユニファイドプラットフォームです。SnapCenter では一元的な管理と監視が可能ですが、一方で、アプリケーション固有のバックアップ、リストア、クローニングのジョブの管理を各ユーザに委譲することができます。SnapCenter を使用すれば、データベース管理者やストレージ管理者は、さまざまなアプリケーションやデータベースのバックアップ、リストア、クローニングの処理を 1 つのツールで管理できます。
 
-link:https://docs.netapp.com/us-en/netapp-solutions-sap/backup/amazon-fsx-overview.html["TR-4926：『SAP HANA on Amazon FSX for NetApp ONTAP - Backup and Recovery with SnapCenter 』"]
-Amazon FSx for NetApp ONTAPおよびSnapCenterでSAP HANAのデータ保護を実現するための推奨プラクティスをご紹介します。SnapCenterの概念、設定の推奨事項、処理のワークフロー（設定、バックアップ処理など）などのトピックが含まれます。 リストア処理とリカバリ処理を実行できます。
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/backup/amazon-fsx-overview.html["TR-4926：『SAP HANA on Amazon FSX for NetApp ONTAP - Backup and Recovery with SnapCenter 』"^]Amazon FSx for NetApp ONTAPおよびSnapCenterでSAP HANAのデータ保護を実現するための推奨プラクティスをご紹介します。SnapCenterの概念、設定の推奨事項、処理のワークフロー（設定、バックアップ処理など）などのトピックが含まれます。 リストア処理とリカバリ処理を実行できます。
 
-link:https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/sc-copy-clone-introduction.html["TR-4667：『Automating SAP HANA System copy and clone operations with SnapCenter』"]
-SnapCenterストレージのクローニングと、クローニング前処理とクローニング後処理を柔軟に定義できるオプションにより、SAP Basisの管理者は、SAPシステムのコピー、クローニング、更新処理を高速化、自動化できます。詳細はこちら任意のプライマリストレージまたはセカンダリストレージに任意のSnapCenter Snapshotバックアップを選択できるため、論理的破損、ディザスタリカバリテスト、SAP QAシステムの更新など、最も重要なユースケースに対応できます。
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/sc-copy-clone-introduction.html["TR-4667：『Automating SAP HANA System copy and clone operations with SnapCenter』"^]SnapCenterストレージのクローニングと、クローニング前処理とクローニング後処理を柔軟に定義できるオプションにより、SAP Basisの管理者は、SAPシステムのコピー、クローニング、更新処理を高速化、自動化できます。詳細はこちら任意のプライマリストレージまたはセカンダリストレージに任意のSnapCenter Snapshotバックアップを選択できるため、論理的破損、ディザスタリカバリテスト、SAP QAシステムの更新など、最も重要なユースケースに対応できます。
 
 link:https://www.netapp.com/pdf.html?item=/media/17030-tr4719.pdf["TR-4719：『SAP HANA system replication backup and recovery with SnapCenter』"^]
 SAP HANAシステムレプリケーション環境で、SnapCenterテクノロジとSAP HANAプラグインを使用したバックアップとリカバリについて説明します。
 
-link:https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/sc-copy-clone-introduction.html["TR-4667：『Automating SAP HANA system copy and clone operations with SnapCenter』"]
-アプリケーションと整合性のあるNetApp Snapshotバックアップをストレージレイヤに作成する機能は、システムコピー処理やシステムクローニング処理の基盤となります。ストレージベースのSnapshotバックアップは、SAP HANA用のNetApp SnapCenter プラグインと、SAP HANAデータベースが提供するインターフェイスを使用して作成します。SnapCenter は、SnapshotバックアップをSAP HANAバックアップカタログに登録して、リストアやリカバリ、クローニング処理に使用できるようにします。
+link:https://docs.netapp.com/us-en/netapp-solutions-sap/lifecycle/sc-copy-clone-introduction.html["TR-4667：『Automating SAP HANA system copy and clone operations with SnapCenter』"^]アプリケーションと整合性のあるNetApp Snapshotバックアップをストレージレイヤに作成する機能は、システムコピー処理やシステムクローニング処理の基盤となります。ストレージベースのSnapshotバックアップは、SAP HANA用のNetApp SnapCenter プラグインと、SAP HANAデータベースが提供するインターフェイスを使用して作成します。SnapCenter は、SnapshotバックアップをSAP HANAバックアップカタログに登録して、リストアやリカバリ、クローニング処理に使用できるようにします。
 
 
 

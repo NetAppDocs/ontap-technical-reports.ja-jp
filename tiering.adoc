@@ -1,10 +1,10 @@
 ---
+permalink: tiering.html 
 sidebar: sidebar 
 keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, best practices, best-practices 
-permalink: tiering.html 
 summary: これらのテクニカルレポートでは、NetApp ONTAPでの階層化の概要と推奨されるプラクティスについて説明します。 
 ---
-= 階層化に関するテクニカルレポート
+= ONTAP Tieringに関するテクニカルレポート
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -18,7 +18,7 @@ FabricPoolデータ階層化ソリューションを使用すると、企業の�
 
 [NOTE]
 ====
-これらのテクニカルレポートでは、について詳しく説明します link:https://docs.netapp.com/us-en/ontap/fabricpool/index.html["ONTAP FabricPool"] 製品ドキュメント
+これらのテクニカルレポートには、製品ドキュメントの詳細が記載されlink:https://docs.netapp.com/us-en/ontap/fabricpool/index.html["ONTAP FabricPool"^]ています。
 
 ====
 link:https://www.netapp.com/pdf.html?item=/media/17239-tr4598.pdf["TR-4598：『FabricPool best bests』"^]

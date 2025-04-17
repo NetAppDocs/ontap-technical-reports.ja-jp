@@ -72,9 +72,9 @@ indexpage:
     - title: ONTAPサイバーボールト
       url: https://docs.netapp.com/us-en/netapp-solutions/cyber-vault/ontap-cyber-vault-overview.html
     - title: "『The NetApp 解決策for Ransomware』"
-      url: https://docs.netapp.com/us-en/ontap/ransomware-solutions/ransomware-overview.html
+      url: "/ransomware-solutions/ransomware-overview.html"
     - title: NetAppとゼロトラスト
-      url: https://docs.netapp.com/us-en/ontap/zero-trust/zero-trust-overview.html
+      url: "/zero-trust/zero-trust-overview.html"
     - title: 認証（SSH、MFA）
       url: security.html
     - title: その他のセキュリティテクニカルレポート
