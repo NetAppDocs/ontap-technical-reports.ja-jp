@@ -1,6 +1,6 @@
 ---
 section: zero-trust
-title: ゼロトラストモデルを実現
+title: NetAppとゼロトラスト
 entries:
 - title: ゼロトラストの概要
   url: "/zero-trust/zero-trust-overview.html"
