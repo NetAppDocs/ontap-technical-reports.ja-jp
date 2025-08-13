@@ -588,7 +588,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="87b37d576a3d417a763b6716a657e54d" category="summary">ONTAPに搭載された機械学習機能は、ボリュームワークロードとエントロピーに基づいてランサムウェアを検出します。</block>
   <block id="4b5a88fb0eba2539ebabbd46f4dcb8b1" category="doc">ONTAP自律型ランサムウェア対策</block>
   <block id="81100fa0e86058a8cc6023179d8c36d0" category="paragraph">ONTAPの自律型ランサムウェア対策は、ストレージワークロードのセキュリティに関するユーザ行動分析を補完するために、ボリュームのワークロードとエントロピーを分析してランサムウェアを検出し、Snapshotを作成して攻撃の疑いがある場合に管理者に通知します。</block>
-  <block id="0a3da53e3018de75e0cdd6f8db18f877" category="paragraph">ONTAP 9.10.1では、NetApp Cloud Insights / Cloud SecureおよびNetApp FPolicyパートナーエコシステムを使用した外部FPolicyユーザ行動分析（UBA）を使用したランサムウェアの検出と防止に加えて、自律型ランサムウェア対策も導入されています。ONTAP自律型ランサムウェア対策は、組み込みの機械学習（ML）機能を使用して、ボリュームワークロードのアクティビティとデータエントロピーを監視し、ランサムウェアを自動的に検出します。UBAとは異なるアクティビティを監視し、UBAではない攻撃を検出できるようにします。</block>
   <block id="ba9e3239d6ca99e8c46b7133a11c6075" category="inline-link-macro">ランサムウェア向けNetAppソリューション</block>
   <block id="6a8eb377e081654403c20caa9e99f1f7" category="inline-link-macro">ONTAP自律型ランサムウェア対策に関するドキュメント</block>
   <block id="ba2fb259d503f5ab982745a44ad4448f" category="paragraph">この機能の詳細については<block ref="5e85bbc0b2d98c8cbc00aeebe2a79647" category="inline-link-macro-rx"></block>、またはを参照して<block ref="0b8a0a77be6c33edabe68798f692e967" category="inline-link-macro-rx"></block>ください。</block>
@@ -1485,19 +1484,13 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="2ea32ef15999e1bed868d5a0a2676856" category="inline-link">Federal Information Processing Standard（FIPS）パブリケーション140</block>
   <block id="f775b98e1e8e8c6dd43ebb960972ecc0" category="paragraph"><block ref="f775b98e1e8e8c6dd43ebb960972ecc0" category="inline-link-rx"></block></block>
   <block id="b0cd35b6973121dd0ba2517d5fa9f16e" category="summary">NetAppのランサムウェア対策には、ストレージワークロードセキュリティが含まれています。これにより、ONTAP環境のセキュリティ体制、リカバリ性、説明責任が強化されます。</block>
-  <block id="cc84fd9aa03d898d3014953df3e962c6" category="doc">Cloud Insightsストレージワークロードセキュリティ（CISWS）</block>
-  <block id="197618825cd83538f25357f5da47ce55" category="paragraph">Storage Workload Security（SWS；ストレージワークロードセキュリティ）は、ONTAP環境のセキュリティ体制、リカバリ性、説明責任を大幅に強化するNetApp Cloud Insightsの機能です。SWSはユーザー中心のアプローチを採用し、環境内のすべての認証済みユーザーからのすべてのファイルアクティビティを追跡します。高度な分析を使用して、すべてのユーザーの通常のアクセスパターンと季節的なアクセスパターンを確立します。これらのパターンは、ランサムウェアシグネチャを使用せずに疑わしい動作を迅速に特定するために使用されます。</block>
   <block id="3d7e64eaab689a98da248753a3b08d69" category="paragraph">SWSは、ランサムウェア、データ削除、窃盗攻撃の可能性を検出すると、次のようなアクションを自動的に実行できます。</block>
   <block id="124233857b2999968b4ad049e72b4f14" category="list-text">該当するボリュームのSnapshotを作成します。</block>
   <block id="36b601b22a7a8c98bca9f4adee4b38b3" category="list-text">悪意のあるアクティビティの疑いがあるユーザアカウントとIPアドレスをブロックします。</block>
   <block id="f82ed199d4ac2e04db02489663df4c7d" category="list-text">管理者にアラートを送信します。</block>
   <block id="a2b4b4551ee550f59bfd855008eadc56" category="paragraph">SWSは、内部の脅威を迅速に阻止し、すべてのファイルアクティビティを追跡する自動化されたアクションを実行できるため、ランサムウェアイベントからのリカバリをはるかに簡単かつ迅速に実行できます。高度な監査ツールとフォレンジックツールが組み込まれているため、攻撃の影響を受けたボリュームやファイル、攻撃元のユーザアカウント、実行された悪意のあるアクションをすぐに確認できます。Snapshotの自動作成により、被害を軽減し、ファイルのリストアを高速化します。</block>
-  <block id="56c0a1d7e09684a19263940137095586" category="inline-image-macro">Cloud Insightsストレージワークロードセキュリティ攻撃の結果</block>
-  <block id="fe609d1027eb5fa234ee3f051dc2ff7f" category="paragraph"><block ref="fe609d1027eb5fa234ee3f051dc2ff7f" category="inline-image-macro-rx" type="image"></block></block>
   <block id="e5167d9bf9099f4b3c64bf97246c07a8" category="paragraph">ONTAPのAutonomous Ransomware Protection（ARP;自律型ランサムウェア対策）によるアラートもSWSに表示されるため、ARPとSWSの両方を使用してランサムウェア攻撃から保護する単一のインターフェイスが提供されます。</block>
   <block id="d59048f21fd887ad520398ce677be586" category="list-title">詳細</block>
-  <block id="a1722ee1a41c4364dfc3dcf1cca5c81b" category="inline-link">NetApp Cloud Insights の略</block>
-  <block id="d0cfb40d1d115ca8f5077098e1c1f60c" category="list-text"><block ref="d0cfb40d1d115ca8f5077098e1c1f60c" category="inline-link-rx"></block></block>
   <block id="d755a63c36cf4c0f9c6907ccfa9cd73c" category="summary">NetAppのランサムウェア対策には、NetAppストレージのプロアクティブなサポートと最適化を簡易化するデジタルアドバイザであるデジタルアドバイザが含まれています。</block>
   <block id="b9146cd276bd05c42b4605042c3bb243" category="doc">Digital Advisorによるランサムウェア対策</block>
   <block id="4897c02070da8b53d75b19c7322951d0" category="paragraph">Active IQデジタルアドバイザ（別名デジタルアドバイザ）は、実用的な情報に基づいてNetAppストレージのプロアクティブなサポートと最適化を簡易化し、最適なデータ管理を実現します。多種多様なインストールベースから収集された計測データを基に、AIとMLの高度な手法を活用して、リスクを軽減し、ストレージ環境のパフォーマンスと効率を向上させる機会を明らかにします。</block>
@@ -1604,7 +1597,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="c38a099dbef0225c8d6584a198e40fe1" category="paragraph">NetAppのランサムウェア対策は、進化し続ける脅威の状況にも安心して対応します。その包括的なアプローチは、現在のランサムウェア攻撃から防御するだけでなく、新たな脅威にも適応し、データインフラに長期的なセキュリティを提供します。</block>
   <block id="de81b112db5bdaa442e087c084d8196d" category="list-title">その他の保護オプションについて</block>
   <block id="49e75ae92123e02306b2a51e8c4791ee" category="list-text"><block ref="49e75ae92123e02306b2a51e8c4791ee" category="inline-link-macro-rx"></block></block>
-  <block id="61638d526ad3ccef65dfddcbba6203db" category="list-text"><block ref="61638d526ad3ccef65dfddcbba6203db" category="inline-link-macro-rx"></block></block>
   <block id="1a0f4bec43cf474af35c9e77aa8c28af" category="inline-link-macro">FPolicy</block>
   <block id="2b812b1e4d33e8a88c57b0de2c5b171f" category="list-text"><block ref="2b812b1e4d33e8a88c57b0de2c5b171f" category="inline-link-macro-rx"></block></block>
   <block id="88008d88fbfb6eaf5c9a011468671be7" category="inline-link-macro">SnapLockと改ざん防止スナップショット</block>
@@ -1756,8 +1748,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="67f18b2ca9a3d21929cfc3bc3e372d9d" category="paragraph">FPolicyパートナーは、ユーザ行動分析にとどまらず、機械学習（ML）や人工知能（AI）に移行しつつあります。これにより、イベントの忠実度が向上し、誤検出があった場合にはそれを減らすことができます。すべてのイベントは、syslogサーバ、またはMLやAIを使用できるセキュリティ情報イベント管理（SIEM）システムに記録する必要があります。</block>
   <block id="4a4a7ffe7f452f143272e14620a68b47" category="inline-image-macro">FPolicyのアーキテクチャ図</block>
   <block id="595525211d2a751f04368e86f8c37eab" category="paragraph"><block ref="595525211d2a751f04368e86f8c37eab" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="725fa6cc31a68ca7f439fce948043027" category="inline-link">Cloud Secure</block>
-  <block id="f23f878f71ed44db037af49b90cc235f" category="paragraph">ネットアップのストレージワークロードセキュリティ（旧称：<block ref="fe149cf7c354d9caedc0b5c73f29d824" category="inline-link-rx"></block>）は、クラウドとオンプレミスの両方のONTAPストレージシステムでFPolicyインターフェイスとユーザ行動分析を使用して、悪意のあるユーザの行動に関するリアルタイムのアラートを提供します。Storage Workload Securityは、高度な機械学習と異常検出機能を通じて、悪意のあるユーザや不正ユーザによる不正使用を防ぎます。Storage Workload Securityは、ランサムウェア攻撃やその他の不正な行動を特定し、スナップショットを起動して悪意のあるユーザを隔離できます。Storage Workload Securityには、ユーザとエンティティのアクティビティの詳細を表示するフォレンジック機能もあります。ストレージワークロードセキュリティはNetApp Cloud Insightsの一部です。</block>
   <block id="922c9b9157162dd09e21ff3f0db05bbc" category="paragraph">ONTAPには、ストレージワークロードのセキュリティに加えて、（ARP）と呼ばれるランサムウェア検出機能が搭載され <block ref="1b5ca5e6db0400e20efef2d18e2ed058" category="inline-link-macro-rx"></block> ています。ARPは機械学習を使用して、ランサムウェア攻撃が進行中であることを示す異常なファイルアクティビティがないかどうかを判断し、スナップショットを呼び出して管理者にアラートを送信します。Storage Workload Securityは、ONTAPと統合してARPイベントを受信し、追加の分析機能と自動応答レイヤを提供します。</block>
   <block id="b11c58611f4ced373f9a2d5a76634ffc" category="paragraph">この手順で説明されているコマンドの詳細については、を<block ref="bc2602c5a66493ba7d85e8bd5d0e7f9b" category="inline-link-macro-rx"></block>参照してください。</block>
   <block id="93f72ec31746c079bf3b6ef2347e4fa8" category="summary">自動化により、組織はゼロトラストの導入を手動の手順にとどまらず拡張して、自動化された不正なアクティビティから防御できます。</block>
@@ -1767,7 +1757,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="e324cad333a8ae935bdedabc3161f715" category="inline-link">GitHubで公開</block>
   <block id="a69180363dd046ea9f802bccc0475dcf" category="paragraph">Ansibleは、オープンソースのソフトウェアプロビジョニング、構成管理、アプリケーション導入ツールです。多くのUnixライクなシステムで動作し、Microsoft Windowsと同様にUnixライクなシステムの両方を構成することができる。システム構成を記述するための独自の宣言言語が含まれています。AnsibleはMichael DeHaanによって書かれ、2015年にRed Hatに買収された。Ansibleはエージェントレスで、SSHまたはWindowsリモート管理（リモートPowerShell実行可能）を使用して一時的にリモート接続し、タスクを実行します。NetAppはさらに多くの製品を開発し<block ref="90e2be68d7ef5ef37caa5bbf9b72c56c" category="inline-link-rx"></block>、Ansible自動化フレームワークとのさらなる統合を可能にしています。NetApp向けのAnsibleモジュールは、必要な状態を定義してターゲットのNetApp環境にリレーする方法に関する一連の指示を提供します。モジュールは、ライセンスのセットアップ、アグリゲートとStorage Virtual Machineの作成、ボリュームの作成、Snapshotのリストアなどのタスクをサポートするように構築されています。Ansibleのロールは<block ref="5fdef930261221a5b40d8cda047fc8e7" category="inline-link-rx"></block> 、NetApp DoD Unified Capabilities（UC）Deployment Guideに固有のものです。</block>
   <block id="49bbca49f7c368e958654489dc819cbb" category="paragraph">利用可能なモジュールのライブラリを使用することで、Ansibleプレイブックを簡単に開発し、独自のアプリケーションやビジネスニーズに合わせてカスタマイズして、日常的なタスクを自動化できます。作成したプレイブックを実行して指定したタスクを実行することで、時間を節約し、生産性を向上させることができます。NetAppでは、サンプルのプレイブックを作成して共有しています。プレイブックは直接使用することも、ニーズに合わせてカスタマイズすることもできます。</block>
-  <block id="416c0f6ce3039f9f6a2a1c8c2092442d" category="paragraph">Cloud Insightsは、インフラ全体を可視化できるインフラ監視ツールです。Cloud Insightsを使用すると、パブリッククラウドインスタンスやプライベートデータセンターを含む、すべてのリソースの監視、トラブルシューティング、最適化を実行できます。Cloud Insightsを使用すると、平均問題解決時間を90%短縮し、クラウドの問題の80%がエンドユーザに影響を及ぼすのを防止できます。また、実用的な情報に基づいてデータを保護することで、クラウドインフラのコストを平均33%削減し、内部の脅威によるリスクを軽減できます。Cloud Insightsのストレージワークロードセキュリティ機能を使用すると、内部の脅威が原因でユーザの異常な行動が発生した場合に、AIやMLを使用したユーザ行動分析でアラートを生成できます。ONTAPの場合、ストレージワークロードセキュリティはゼロトラストFPolicyエンジンを使用します。</block>
   <block id="f1756882d4ae036e7abc37ddd12020d3" category="summary">NetAppのオプションにより、オンプレミスのデータ管理システムをハイブリッドクラウドに拡張し、業界をリードするクラウドプロバイダはゼロトラストのセキュリティ管理をサポート</block>
   <block id="b5758c1d40c84af074568ec07577cb29" category="doc">ゼロトラストとハイブリッドクラウド環境</block>
   <block id="f36a5a91bc1bceb782694de5aad2fa2c" category="paragraph">ネットアップは、ハイブリッドクラウド環境におけるデータ管理のオーソリティです。NetAppは、Amazon Web Services（AWS）、Microsoft Azure、Google Cloud Platform（GCP）などの主要なクラウドプロバイダを利用して、オンプレミスのデータ管理システムをハイブリッドクラウドに拡張するためのさまざまなオプションを提供しています。NetAppハイブリッドクラウドソリューションは、オンプレミスのONTAPシステムとONTAP SelectのSoftware-Defined Storageと同じゼロトラストセキュリティ管理をサポートします。</block>
@@ -1804,7 +1793,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="94e6cee7fe1a1375bf9dc65d4f0dd995" category="sidebar">LIFのセキュリティ</block>
   <block id="dcd771e3d20c3c7415e08f5bf28a6e38" category="sidebar">ランサムウェアとNetAppの保護ポートフォリオ</block>
   <block id="06205ba9447bbde00fbe939539a25870" category="sidebar">SnapLockと改ざん防止機能を備えたSnapshotコピー</block>
-  <block id="e6a3ee6f35767ceec82038d17d54fb88" category="sidebar">CI Storage Workload Security（CISWS）</block>
   <block id="e59f82f50a98ebe0abf3807c82f2a63b" category="sidebar">サイバーヴォールティング</block>
   <block id="9c93de8987f6abeac5c25e0855470103" category="sidebar">Active IQランサムウェア対策</block>
   <block id="c8b78402f94fce212009aa61ceb6fa0d" category="sidebar">ゼロトラストの概要</block>
@@ -1815,4 +1803,15 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="998827b90d84e6f2876b33dda3bee943" category="sidebar">ランサムウェア向けNetAppソリューション</block>
   <block id="8f1df3d891a92d7cf641c00a5d10a5e1" category="inline-link-macro">ONTAPネットワークでIPセキュリティを使用するための準備</block>
   <block id="5f9cb39444846b3a2d2fc5e2f5a16a2e" category="paragraph"><block ref="5f9cb39444846b3a2d2fc5e2f5a16a2e" category="inline-link-macro-rx"></block></block>
+  <block id="f87ea968a2c9a13f2d32dd8df093fb60" category="paragraph">ONTAP 9.10.1 では、 NetApp Data Infrastructure Insights Storage Workload Security とNetApp FPolicy パートナー エコシステムによる外部 FPolicy ユーザー行動分析 (UBA) を使用したランサムウェアの検出と防止に加えて、自律的なランサムウェア保護が導入されています。ONTAP自律型ランサムウェア対策は、ボリューム ワークロード アクティビティとデータのエントロピーを監視する標準搭載の機械学習（ML）機能を使用して、ランサムウェアを自動的に検出します。UBAとは異なるアクティビティを監視し、UBAではない攻撃を検出できるようにします。</block>
+  <block id="3b1b0345d6277f2079095745ed7664ce" category="doc">Data Infrastructure Insights、ストレージ、ワークロードのセキュリティ</block>
+  <block id="50125301cb8a8879d92dd32ad354b8cf" category="paragraph">ストレージ ワークロード セキュリティ (SWS) は、 ONTAP環境のセキュリティ体制、回復性、アカウンタビリティを大幅に強化するNetApp Data Infrastructure Insightsの機能です。SWSはユーザ中心のアプローチを採用し、環境内のすべての認証済みユーザからのすべてのファイル アクティビティを追跡します。高度な分析を使用して、すべてのユーザの通常のアクセス パターンと季節的なアクセス パターンを確立します。これらのパターンは、ランサムウェア シグネチャを使用せずに疑わしい動作を迅速に特定するために使用されます。</block>
+  <block id="50381bd6b1da52576e6ac0339d5b5caf" category="inline-image-macro">Data Infrastructure Insightsサイトストレージワークロードセキュリティ攻撃結果</block>
+  <block id="ad869a201ac6d05d755c8b03a8a346a7" category="paragraph"><block ref="ad869a201ac6d05d755c8b03a8a346a7" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="94ad1ae30cf339fc2ec42b97a97e1097" category="inline-link">NetAppData Infrastructure Insights</block>
+  <block id="aac9ee9588b6904654417ff1aa088cce" category="list-text"><block ref="aac9ee9588b6904654417ff1aa088cce" category="inline-link-rx"></block></block>
+  <block id="beeace221a558dd2c906f0bdbe9fc38c" category="list-text"><block ref="beeace221a558dd2c906f0bdbe9fc38c" category="inline-link-macro-rx"></block></block>
+  <block id="8d480c386a79b0bc67bd88ac44cd794f" category="inline-link">ストレージワークロードセキュリティ</block>
+  <block id="703db3f06f315a9ea4f2d8fe24b92fe2" category="paragraph">NetAppの<block ref="d1088f5cdf9840e804f5e13b077264c0" category="inline-link-rx"></block>クラウドとオンプレミスの両方のONTAPストレージ システムで FPolicy インターフェイスとユーザー行動分析を利用して、悪意のあるユーザー行動に関するリアルタイムのアラートを提供します。また、高度な機械学習と異常検出機能により、悪意のあるユーザやセキュリティ侵害を受けたユーザが組織のデータを不正利用できないよう保護します。ストレージ ワークロード セキュリティは、ランサムウェア攻撃やその他の不正行為を識別し、スナップショットを呼び出して悪意のあるユーザーを隔離できます。また、フォレンジック機能により、ユーザとエンティティのアクティビティを詳細に把握できます。ストレージ ワークロード セキュリティは、 NetApp Data Infrastructure Insightsの一部です。</block>
+  <block id="ea8fdfe4995ff3c2e31a648205c74010" category="paragraph">Data Infrastructure Insightsは、インフラストラクチャ全体の可視性を提供するインフラストラクチャ監視ツールです。  Data Infrastructure Insightsを使用すると、パブリック クラウド インスタンスやプライベート データ センターを含むすべてのリソースを監視、トラブルシューティング、最適化できます。 Data Infrastructure Insights を使用すると、平均解決時間を 90% 短縮し、クラウドの問題の 80% がエンド ユーザーに影響を与えるのを防ぐことができます。クラウド インフラのコストを平均で33%削減可能なほか、実用的なインテリジェンスによりデータを保護し、内部の脅威に対するリスクも軽減できます。 Data Infrastructure Insightsのストレージ ワークロード セキュリティ機能により、AI と ML を使用したユーザー行動分析が可能になり、内部脅威によって異常なユーザー行動が発生したときに警告を発することができます。ONTAPの場合、Storage Workload Securityではゼロ トラストFPolicyエンジンを使用します。</block>
 </blocks>
