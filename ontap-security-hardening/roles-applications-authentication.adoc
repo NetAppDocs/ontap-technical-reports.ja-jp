@@ -188,7 +188,7 @@ NOTE:  `autosupport`ロールは事前定義されたアカウントに割り当
 `vsadmin-volume`
  a| 
 * 自身のユーザアカウントのローカルパスワードとキー情報の管理
-* ボリュームの管理（ボリュームの移動を含む）
+* ボリュームの管理（ボリュームの移動を除く）
 * クォータ、qtree、Snapshot、およびファイルを管理します。
 * LUNの管理
 * プロトコルの設定：NFS、SMB、iSCSI、FC、FCoE、 NVMe/FCとNVMe/TCP
