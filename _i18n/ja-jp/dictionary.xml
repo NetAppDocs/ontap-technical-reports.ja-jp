@@ -1116,7 +1116,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="93237a35aeba3532de3f2e8bdcc6b75f" category="list-text">ネットワーク接続とネットワーク インターフェイスの監視</block>
   <block id="0c07e74672928f195be6994f5229acd1" category="list-text">SVMの健全性の監視</block>
   <block id="b54c93b783e23c8aa5ad942ee5b97f96" category="paragraph"><block ref="862e66b2a82906e827d8f6ecf55928ca" prefix="" category="inline-code"></block></block>
-  <block id="9feae0759af17068fb755bd52a552c65" category="list-text">ボリュームの管理（ボリュームの移動を含む）</block>
   <block id="54ff7718d3f36983b14b51e55ffa28f3" category="list-text">ネットワーク インターフェイスの監視</block>
   <block id="88cb64c60adee459a81d6f7139f7dc6a" category="paragraph"><block ref="bdcf8208941906ed506ccfdeee8a8211" prefix="" category="inline-code"></block></block>
   <block id="e26e0a3f6d590249f954834fad70a92e" category="paragraph"><block ref="e3244459d95a89c8d3d2255d7628a49f" prefix="" category="inline-code"></block></block>
@@ -1484,7 +1483,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="2ea32ef15999e1bed868d5a0a2676856" category="inline-link">Federal Information Processing Standard（FIPS）パブリケーション140</block>
   <block id="f775b98e1e8e8c6dd43ebb960972ecc0" category="paragraph"><block ref="f775b98e1e8e8c6dd43ebb960972ecc0" category="inline-link-rx"></block></block>
   <block id="b0cd35b6973121dd0ba2517d5fa9f16e" category="summary">NetAppのランサムウェア対策には、ストレージワークロードセキュリティが含まれています。これにより、ONTAP環境のセキュリティ体制、リカバリ性、説明責任が強化されます。</block>
-  <block id="3d7e64eaab689a98da248753a3b08d69" category="paragraph">SWSは、ランサムウェア、データ削除、窃盗攻撃の可能性を検出すると、次のようなアクションを自動的に実行できます。</block>
   <block id="124233857b2999968b4ad049e72b4f14" category="list-text">該当するボリュームのSnapshotを作成します。</block>
   <block id="36b601b22a7a8c98bca9f4adee4b38b3" category="list-text">悪意のあるアクティビティの疑いがあるユーザアカウントとIPアドレスをブロックします。</block>
   <block id="f82ed199d4ac2e04db02489663df4c7d" category="list-text">管理者にアラートを送信します。</block>
@@ -1814,4 +1812,5 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="8d480c386a79b0bc67bd88ac44cd794f" category="inline-link">ストレージワークロードセキュリティ</block>
   <block id="703db3f06f315a9ea4f2d8fe24b92fe2" category="paragraph">NetAppの<block ref="d1088f5cdf9840e804f5e13b077264c0" category="inline-link-rx"></block>クラウドとオンプレミスの両方のONTAPストレージ システムで FPolicy インターフェイスとユーザー行動分析を利用して、悪意のあるユーザー行動に関するリアルタイムのアラートを提供します。また、高度な機械学習と異常検出機能により、悪意のあるユーザやセキュリティ侵害を受けたユーザが組織のデータを不正利用できないよう保護します。ストレージ ワークロード セキュリティは、ランサムウェア攻撃やその他の不正行為を識別し、スナップショットを呼び出して悪意のあるユーザーを隔離できます。また、フォレンジック機能により、ユーザとエンティティのアクティビティを詳細に把握できます。ストレージ ワークロード セキュリティは、 NetApp Data Infrastructure Insightsの一部です。</block>
   <block id="ea8fdfe4995ff3c2e31a648205c74010" category="paragraph">Data Infrastructure Insightsは、インフラストラクチャ全体の可視性を提供するインフラストラクチャ監視ツールです。  Data Infrastructure Insightsを使用すると、パブリック クラウド インスタンスやプライベート データ センターを含むすべてのリソースを監視、トラブルシューティング、最適化できます。 Data Infrastructure Insights を使用すると、平均解決時間を 90% 短縮し、クラウドの問題の 80% がエンド ユーザーに影響を与えるのを防ぐことができます。クラウド インフラのコストを平均で33%削減可能なほか、実用的なインテリジェンスによりデータを保護し、内部の脅威に対するリスクも軽減できます。 Data Infrastructure Insightsのストレージ ワークロード セキュリティ機能により、AI と ML を使用したユーザー行動分析が可能になり、内部脅威によって異常なユーザー行動が発生したときに警告を発することができます。ONTAPの場合、Storage Workload Securityではゼロ トラストFPolicyエンジンを使用します。</block>
+  <block id="199deca5ed39c68fa7f09001f48197ab" category="paragraph">SWS は、潜在的なランサムウェアやデータ削除を検出すると、次のような自動アクションを実行できます。</block>
 </blocks>
