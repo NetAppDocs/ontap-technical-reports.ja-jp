@@ -32,8 +32,7 @@ link:https://docs.netapp.com/us-en/ontap-apps-dbs/vmware/vmware-otv-hardening-ov
 link:https://www.netapp.com/pdf.html?item=/media/82393-tr-4957.pdf["TR-4957：『Security Hardening Guide for NetApp SnapCenter』"^]
 組織が情報システムの機密性、整合性、可用性に関する所定のセキュリティ目標を達成できるようにNetApp SnapCenterソフトウェアを構成する方法について説明します。
 
-link:https://www.netapp.com/pdf.html?item=/media/83591-tr-4963.pdf["TR-4963：『Security Hardening Guide：BlueXP Cloud Backup for Applications』"^]
-組織が情報システムの機密性、整合性、可用性に関して規定されたセキュリティ目標を達成できるように、NetApp Cloud Backup for Applicationsを構成する方法について説明します。
+link:https://www.netapp.com/pdf.html?item=/media/83591-tr-4963.pdf["TR-4963: セキュリティ強化ガイド: NetApp Backup and Recovery"^]組織が情報システムの機密性、整合性、可用性に関する規定のセキュリティ目標を達成できるように、 NetApp Cloud Backup for Applications を構成する方法を学習します。
 
 link:https://netapp.com/pdf.html?item=/media/78654-tr-4943.pdf["TR-4943：『Security Hardening Guide for NetApp Active IQ Unified Manager』"^]
 情報システムの機密性、整合性、可用性に関する規定のセキュリティ目標を組織が達成できるようにNetApp Active IQ Unified Managerを構成する方法について説明します。
