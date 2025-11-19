@@ -753,7 +753,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="1dde952248d0bd2612f27750d9ea6ecd" category="list-text">クラスタLIFは完全にオープンで設定可能なファイアウォール ポリシーがないため、分離されたセキュアなネットワークのプライベートIPサブネットに配置する必要があります。</block>
   <block id="70e881dcf58395b686bc9ce323d6c37a" category="list-text">LIFのロールをインターネットに公開しないでください。</block>
   <block id="ea0bd843613a20eb803001b279246689" category="inline-link-macro">LIFのファイアウォールポリシーを設定する</block>
-  <block id="188ec1c2236d76b450ecc7703e44a0bd" category="paragraph">LIFの保護の詳細については、を参照して <block ref="96282db2df36a6442998c6258ad3e2e9" category="inline-link-macro-rx"></block>ください。</block>
   <block id="161d8000cc54f43db7cefdff14a52ca3" category="summary">パスワードストレージのパスワードパラメータとハッシュ関数を変更するコマンド。</block>
   <block id="daaa34a7959b8b3a167ca267e8f8f5f1" category="doc">ログインとパスワードのパラメータ</block>
   <block id="e5764a1c88fe5a8f80fc6eb88beda3bb" category="paragraph">セキュリティ体制は、組織が規定したポリシーやガイドライン、および組織に適用されるガバナンスや標準に準拠していなければ効果的とはいえません。例としては、ユーザ名の有効期間、パスワードの長さ、使用できる文字、アカウントの保存などの要件があります。ONTAPソリューションには、これらのセキュリティ要素に対応する機能が用意されています。</block>
@@ -1812,4 +1811,7 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="364f2dc2688b81006a28502eb315eb81" category="paragraph">ゼロ トラスト モデルという用語の文脈では、データ分類の過程で高リスク データを特定する必要があります。高リスク データとは、組織外への公開が意図されていない機密データのことを指します。有害なデータの開示は、規制コンプライアンスに違反し、組織の評判を損なう可能性があります。規制遵守の観点から、有害データには、<block ref="f0242cdbe3012c10b984dca567890bf1" category="inline-link-rx"></block> EUの個人データ<block ref="1c1d72e8d281301bae54f599c2499978" category="inline-link-rx"></block>、またはヘルスケアデータ<block ref="3171a82ae3ab3874b2b355f2275ca212" category="inline-link-rx"></block>。  NetAppを利用できます<block ref="9cabaced3548b9ac7424f5195d176109" category="inline-link-rx"></block>(旧称 Cloud Data Sense) は、AI を活用したツールキットで、データを自動的にスキャン、分析、分類します。</block>
   <block id="013ffbcdcdb1baf0401d4fb97f3a053d" category="inline-link">DII ストレージ ワークロード セキュリティ</block>
   <block id="ec30e7fc4410e62b2187bbd40b7a20cf" category="paragraph">NetAppの<block ref="1574ae3bb673b89adc6481583a34727e" category="inline-link-rx"></block>クラウドとオンプレミスの両方のONTAPストレージ システムで FPolicy インターフェイスとユーザー行動分析を利用して、悪意のあるユーザー行動に関するリアルタイムのアラートを提供します。また、高度な機械学習と異常検出機能により、悪意のあるユーザやセキュリティ侵害を受けたユーザが組織のデータを不正利用できないよう保護します。ストレージ ワークロード セキュリティは、ランサムウェア攻撃やその他の不正行為を識別し、スナップショットを呼び出して悪意のあるユーザーを隔離できます。また、フォレンジック機能により、ユーザとエンティティのアクティビティを詳細に把握できます。ストレージ ワークロード セキュリティは、 NetApp Data Infrastructure Insightsの一部です。</block>
+  <block id="0b5afbf05d11e6ac9adfe1f86374ab53" category="paragraph">LIFのセキュリティ保護の詳細については、以下を参照してください。 <block ref="96282db2df36a6442998c6258ad3e2e9" category="inline-link-macro-rx"></block>。このページでは、 ONTAP 9.10.1 以降の LIF サービス ポリシーの詳細も説明します。</block>
+  <block id="fb3030d6c04abdfd96f25e5abb17c519" category="inline-link-macro">コマンドリファレンス。</block>
+  <block id="8ececa6c1580a337b174a3f201d4a2e7" category="paragraph">新しいサービスポリシーを作成する方法の詳細については、<block ref="bde3003423c900964c4ee350a2c93937" prefix=" " category="inline-code"></block> コマンドの <block ref="4c757f8118f458307cd8cbbe7cb0437b" category="inline-link-macro-rx"></block></block>
 </blocks>

@@ -53,4 +53,6 @@ LIFのロールは次のとおりです。
 
 
 ====
-LIFの保護の詳細については、を参照して link:https://docs.netapp.com/us-en/ontap/networking/configure_firewall_policies_for_lifs.html["LIFのファイアウォールポリシーを設定する"^]ください。
+LIFのセキュリティ保護の詳細については、以下を参照してください。 link:https://docs.netapp.com/us-en/ontap/networking/configure_firewall_policies_for_lifs.html["LIFのファイアウォールポリシーを設定する"^]。このページでは、 ONTAP 9.10.1 以降の LIF サービス ポリシーの詳細も説明します。
+
+新しいサービスポリシーを作成する方法の詳細については、 `network interface service-policy create` コマンドの link:https://docs.netapp.com/us-en/ontap-cli/network-interface-service-policy-create.html["コマンドリファレンス。"^]
