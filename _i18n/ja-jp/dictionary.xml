@@ -656,8 +656,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="97078bcee255554708a2dc43daad1d89" category="paragraph">管理者ロールにはすべてのアプリケーションを使用したアクセスが許可されているため、adminアカウントは制限する必要があります。diagアカウントはシステムシェルへのアクセスを許可します。テクニカルサポートがトラブルシューティングタスクを実行する場合にのみ使用してください。</block>
   <block id="c9accd8b029c8942d752f43699b37096" category="paragraph">デフォルトの管理アカウントには、との2つがあります。<block ref="21232f297a57a5a743894a0e4a801fc3" prefix=" " category="inline-code"></block><block ref="776e6c3d14fd9df9fc13e130d598c448" prefix=" " category="inline-code"></block></block>
   <block id="67d110324f28f5ad695d2812caac20f0" category="paragraph">アカウントの孤立は重大なセキュリティ ベクターで、権限の昇格などの脆弱性を招くことが珍しくありません。孤立したアカウントとは、ユーザ アカウント リポジトリに残っている使用されていない不要なアカウントのことです。孤立したアカウントの多くは、使用されたことがないかパスワードが更新または変更されていないデフォルト アカウントです。この問題に対処するために、ONTAPではアカウントの削除と名前変更がサポートされています。</block>
-  <block id="b6de1bc3879c1fa71330c661bc8a43d6" category="admonition">組み込みアカウントの削除と名前変更はONTAPではサポートされていません。ただし、NetAppでは、lockコマンドを使用して不要な組み込みアカウントをロックすることを推奨しています。</block>
-  <block id="e4f0e98df937959605d87463cbbc31b1" category="paragraph">孤立したアカウントはセキュリティ上の重大な問題となりますが、ローカル アカウント リポジトリから削除する場合はその影響についてテストすることを強く推奨します。</block>
   <block id="6cb6c61de00d2ea2ddc89f9bc1af9d56" category="section-title">ローカルアカウントをリスト表示</block>
   <block id="8af692810cb4817c76de0eac3fc74663" category="paragraph">ローカルアカウントを一覧表示するには、コマンドを実行し<block ref="025c83c1a746b39471a98aa72befe950" prefix=" " category="inline-code"></block> ます。</block>
   <block id="9fe6ad1a708406939d553d1950a0091c" category="section-title">診断（diag）アカウントのパスワードを設定する</block>
@@ -680,7 +678,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="2c7bd7f651e1707f9b742cbee6c80dc0" category="summary">監査イベントを生成するには、CIFS監査を有効にする必要があります。監査設定を作成するには、「vserver audit create」コマンドを使用してください。</block>
   <block id="8bd72155b8c97b023d15022524cfb0c0" category="doc">NASフアイルシステムノカンサ</block>
   <block id="c6aee334f16650400781c76024693fed" category="paragraph">NASファイル・システムは'今日の脅威の状況で使用量が増加しています監査機能は'可視性をサポートするために不可欠です</block>
-  <block id="2aeeab8bfaf9973e4cb353723dd50223" category="paragraph">セキュリティの維持には検証が欠かせません。ONTAP 9では、ソリューション全体をとおしてさらに多くの監査イベントや詳細が記録されます。今日の脅威の状況ではNASファイルシステムが占める割合が増加しているため、可視性を維持するには監査機能が不可欠です。ONTAP 9で強化された監査機能により、CIFS監査ではこれまでになく詳細な情報が提供されます。作成されるイベントには、次のような重要な情報が記録されます。</block>
   <block id="162e07d341435ffc1b2b21176789aacb" category="list-text">ファイル、フォルダ、共有へのアクセス</block>
   <block id="a7bf213cd0eaac79d826418a77d1fb6c" category="list-text">ファイルの作成、変更、削除</block>
   <block id="2231d958d39aa0f0ccdc938fcd72bfd9" category="list-text">ファイル読み取りアクセスの成功</block>
@@ -1487,7 +1484,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="d59048f21fd887ad520398ce677be586" category="list-title">詳細</block>
   <block id="d755a63c36cf4c0f9c6907ccfa9cd73c" category="summary">NetAppのランサムウェア対策には、NetAppストレージのプロアクティブなサポートと最適化を簡易化するデジタルアドバイザであるデジタルアドバイザが含まれています。</block>
   <block id="b9146cd276bd05c42b4605042c3bb243" category="doc">Digital Advisorによるランサムウェア対策</block>
-  <block id="4897c02070da8b53d75b19c7322951d0" category="paragraph">Active IQデジタルアドバイザ（別名デジタルアドバイザ）は、実用的な情報に基づいてNetAppストレージのプロアクティブなサポートと最適化を簡易化し、最適なデータ管理を実現します。多種多様なインストールベースから収集された計測データを基に、AIとMLの高度な手法を活用して、リスクを軽減し、ストレージ環境のパフォーマンスと効率を向上させる機会を明らかにします。</block>
   <block id="519c2a8fa4c04e06ca3cdf8bf1e36af8" category="inline-link">セキュリティの脆弱性を排除</block>
   <block id="76577e72432337ec3d67b6d505672afa" category="paragraph">だけで<block ref="c99e626cc10ed243c60409c4c9277251" category="inline-link-rx"></block><block ref="b106a6727b998eeea424b8da33e2facf" category="inline-link-rx"></block>なく、ランサムウェアからの保護に特化した分析情報やガイダンスも提供します。専用の健全性カードに必要な対処方法と対処されたリスクが表示されるため、システムがこれらのベストプラクティスの推奨事項を満たしていることを確認できます。</block>
   <block id="06cd9bbf1bdce12e9f926308f5ac9049" category="inline-image-macro">NetAppデジタルアドバイザダッシュボードの健全性監視</block>
@@ -1814,4 +1810,9 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="0b5afbf05d11e6ac9adfe1f86374ab53" category="paragraph">LIFのセキュリティ保護の詳細については、以下を参照してください。 <block ref="96282db2df36a6442998c6258ad3e2e9" category="inline-link-macro-rx"></block>。このページでは、 ONTAP 9.10.1 以降の LIF サービス ポリシーの詳細も説明します。</block>
   <block id="fb3030d6c04abdfd96f25e5abb17c519" category="inline-link-macro">コマンドリファレンス。</block>
   <block id="8ececa6c1580a337b174a3f201d4a2e7" category="paragraph">新しいサービスポリシーを作成する方法の詳細については、<block ref="bde3003423c900964c4ee350a2c93937" prefix=" " category="inline-code"></block> コマンドの <block ref="4c757f8118f458307cd8cbbe7cb0437b" category="inline-link-macro-rx"></block></block>
+  <block id="7a065dad17780417ecadd37ba8bae045" category="admonition">組み込みアカウントを削除したり名前を変更したりすることはできません。管理者がアカウントを削除した場合、再起動時に組み込みアカウントが再作成されます。*NetAppでは*、不要な組み込みアカウントはlockコマンドを使用してロックすることを推奨します。</block>
+  <block id="871d0d1970227521c025d4afdbdf144d" category="paragraph">孤立したアカウントは重大なセキュリティ問題ですが、*NetApp は*ローカル アカウント リポジトリからアカウントを削除した場合の影響をテストすることを*強く推奨*します。</block>
+  <block id="66ce8dda241a30d6506fbb0ce52ca6c6" category="paragraph">セキュリティには検証が必要です。ONTAPは、ソリューション全体にわたって監査イベントと詳細情報の拡充を提供します。今日の脅威環境においてNASファイルシステムの占有率が高まっているため、可視性をサポートするには監査機能が不可欠です。ONTAPの監査機能の強化により、CIFSの監査詳細情報はこれまで以上に充実しました。以下の重要な詳細情報は、作成されたイベントと共に記録されます：</block>
+  <block id="de52fabb7b2b8cf3a6c7a650dbb7a61c" category="admonition">/api/storage/volumes REST APIは、ファイルアクセス以外にも様々な用途で使用されます。System Managerやその他のGUIインターフェースでは、ボリュームの作成、表示、変更に使用されます。</block>
+  <block id="d07e47e6acab2a8f8badef6ddfd866f1" category="paragraph">Active IQを基盤とするDigital Advisorは、NetAppストレージのプロアクティブなケアと最適化を、実用的なインテリジェンスによって簡素化し、最適なデータ管理を実現します。多様なインストールベースから得られるテレメトリデータを活用し、高度なAIとML技術を駆使して、リスクを軽減し、ストレージ環境のパフォーマンスと効率を向上させる機会を発見します。</block>
 </blocks>
