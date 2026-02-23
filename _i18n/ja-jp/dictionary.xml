@@ -642,15 +642,8 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="4ddab2a4df08222f90d5d7fd8ea5a2f1" category="paragraph">ディレクトリアクティビティに関する通知を削除するための新しいフィルタが追加されました<block ref="73e7c0fb68070f8a48ba78160efcb5f5" prefix=" " category="inline-code"></block> 。</block>
   <block id="443003ddd7ccaadc6a503ca9843332be" category="section-title">非同期の耐障害性</block>
   <block id="816378e559b8013c6cc6be6e993c30ca" category="paragraph">非同期モードで動作しているFPolicyサーバでネットワーク停止が発生した場合、停止中に生成されたFPolicy通知がストレージ ノードに保存されます。FPolicyサーバがオンラインに戻ると、サーバは格納された通知に関するアラートを受け取り、ストレージ ノードから通知を読み込むことができます。停止中に通知を格納できる期間は、10分までの範囲で設定可能です。</block>
-  <block id="58140bb1e450017c40b11055718bdcb7" category="summary">TLS 1.2へのデータレプリケーション暗号化を使用して、SnapMirror、SnapVault、FlexCacheのレプリケーショントラフィックをONTAPクラスタ間で事前共有キーを使用して暗号化します。</block>
   <block id="de1e6a718629c1f68cdcb3309c7041ef" category="doc">データレプリケーションの暗号化</block>
-  <block id="066033b0f42e825801c105fe3f0602cd" category="paragraph">保存データの暗号化を補うために、SnapMirror、SnapVault、またはFlexCacheの事前共有キーを使用して、TLS 1.2を使用してクラスタ間のONTAPデータレプリケーショントラフィックを暗号化できます。</block>
   <block id="ec8d5c1e11b87a93ca9b3ee4c3746b34" category="paragraph">ディザスタリカバリ、キャッシュ、またはバックアップのためにデータをレプリケートする場合は、ONTAPクラスタ間でネットワークを介して転送するときに、そのデータを保護する必要があります。これにより、転送中の機密データに対する悪意のある中間者攻撃を防ぐことができます。</block>
-  <block id="bd476e86c22db0fc66121fd83a6f26e2" category="paragraph">ONTAP 9.6以降では、クラスタピアリング暗号化によって、SnapMirror、SnapVault、FlexCacheなどのONTAPデータレプリケーション機能でTLS 1.2 AES-256 GCM暗号化がサポートされます。暗号化は、2つのクラスタピア間で事前共有キー（PSK）を使用してセットアップされます。</block>
-  <block id="6e205a7a9bf000a55bb89fa4f2578c98" category="paragraph">NSE、NVE、NAEなどのテクノロジを使用して保存データを保護している場合は、ONTAP 9.6以降にアップグレードしてクラスタ ピアリング暗号化を使用すると、エンドツーエンドのデータ暗号化も実装できます。</block>
-  <block id="b2ca5ce9a274d229a2f8778307e3035f" category="paragraph">クラスタ ピアリング暗号化では、クラスタ ピア間のすべてのデータが暗号化されます。たとえば、SnapMirrorを使用している場合、ソース クラスタとデスティネーション クラスタのピア間のすべてのピアリング情報とすべてのSnapMirror関係が暗号化されます。クラスタ ピアリング暗号化が有効な場合、クラスタ ピア間でクリアテキストのデータを送信することはできません。</block>
-  <block id="78dab7c4072ad281f4c04fff49f6c08c" category="paragraph">ONTAP 9.6以降では、新しいクラスタピア関係で暗号化がデフォルトで有効になっています。ONTAP 9.6より前に作成されたクラスタピア関係で暗号化を有効にするには、ソースクラスタとデスティネーションクラスタを9.6にアップグレードする必要があります。また、コマンドを使用して、クラスタピアリング暗号化を使用するようにソースとデスティネーション両方のクラスタピアを変更する必要があり<block ref="18ac852fb0d15d21df0560ca7f7d0e22" prefix=" " category="inline-code"></block> ます。</block>
-  <block id="c1a06ba670d340ea9592b533d9c7cfd7" category="paragraph">次の例に示すように、ONTAP 9.6でクラスタピアリング暗号化を使用するように既存のピア関係を変換できます。</block>
   <block id="bb7ac268566c1aa1d5b60d190940dafd" category="summary">カンリシヤdiagアカウントノアクセスニカンスルコウリヨシコウ</block>
   <block id="e7478cccbfeded506478d3a454670429" category="doc">デフォルトノカンリアカウント</block>
   <block id="97078bcee255554708a2dc43daad1d89" category="paragraph">管理者ロールにはすべてのアプリケーションを使用したアクセスが許可されているため、adminアカウントは制限する必要があります。diagアカウントはシステムシェルへのアクセスを許可します。テクニカルサポートがトラブルシューティングタスクを実行する場合にのみ使用してください。</block>
@@ -1815,4 +1808,12 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="66ce8dda241a30d6506fbb0ce52ca6c6" category="paragraph">セキュリティには検証が必要です。ONTAPは、ソリューション全体にわたって監査イベントと詳細情報の拡充を提供します。今日の脅威環境においてNASファイルシステムの占有率が高まっているため、可視性をサポートするには監査機能が不可欠です。ONTAPの監査機能の強化により、CIFSの監査詳細情報はこれまで以上に充実しました。以下の重要な詳細情報は、作成されたイベントと共に記録されます：</block>
   <block id="de52fabb7b2b8cf3a6c7a650dbb7a61c" category="admonition">/api/storage/volumes REST APIは、ファイルアクセス以外にも様々な用途で使用されます。System Managerやその他のGUIインターフェースでは、ボリュームの作成、表示、変更に使用されます。</block>
   <block id="d07e47e6acab2a8f8badef6ddfd866f1" category="paragraph">Active IQを基盤とするDigital Advisorは、NetAppストレージのプロアクティブなケアと最適化を、実用的なインテリジェンスによって簡素化し、最適なデータ管理を実現します。多様なインストールベースから得られるテレメトリデータを活用し、高度なAIとML技術を駆使して、リスクを軽減し、ストレージ環境のパフォーマンスと効率を向上させる機会を発見します。</block>
+  <block id="7bf266bc16a7b33d1113ff082fdda321" category="summary">データレプリケーション暗号化を使用して、ONTAPクラスタ間で事前共有鍵を使用したSnapMirror、SnapVault、FlexCacheのレプリケーショントラフィックをTLS暗号化します。</block>
+  <block id="66bd0e707d26d735a559b1eba026d0d6" category="paragraph">保存データの暗号化を補うために、SnapMirror、SnapVault、またはFlexCacheの事前共有キーを使用したTLSによるクラスタ間のONTAPデータレプリケーショントラフィックを暗号化できます。</block>
+  <block id="cf4b7f8458d5de17e33b4dbd7937232f" category="paragraph">ONTAP 9.6以降、クラスタピアリング暗号化により、SnapMirror、SnapVault、FlexCacheなどのONTAPデータレプリケーション機能に対してTLS 1.2 AES-256 GCM暗号化がサポートされます。暗号化は、2つのクラスタピア間の事前共有キー（PSK）によって設定されます。</block>
+  <block id="920feb8290c25ed7ab9ba2e9c92dee2b" category="paragraph">ONTAP 9.15.1以降、クラスタピアリング暗号化により、SnapMirror、SnapVault、FlexCacheなどのONTAPデータレプリケーション機能に対してTLS 1.3 AES-256 GCM暗号化がサポートされます。暗号化は、2つのクラスタピア間の事前共有キー（PSK）によってセットアップされます。</block>
+  <block id="a3790ebf8e35dbccaa39f7724d8780dd" category="paragraph">NSE、NVE、NAEなどの技術を使用して保存データを保護しているお客様は、ONTAP 9.6以降にアップグレードしてクラスタピアリング暗号化を使用することで、エンドツーエンドのデータ暗号化も使用できます。</block>
+  <block id="5df74c89ba8e94dd2a8e011f208aef1f" category="paragraph">クラスター ピアリングは、クラスター ピア間のすべてのデータを暗号化します。例えば、SnapMirrorを使用する場合、すべてのピアリング情報とソースとデスティネーション クラスタ ピア間のすべてのSnapMirror関係が暗号化されます。クラスタ ピアリング暗号化が有効になっているクラスタ ピア間でクリアテキスト データを送信することはできません。</block>
+  <block id="9a2a67e1042dbd593b75f93bc2171e98" category="paragraph">ONTAP 9.6 以降では、新しいクラスタピア関係ではデフォルトで暗号化が有効になっています。ONTAP 9.6 より前に作成されたクラスタピア関係で暗号化を有効にするには、ソースクラスタとデスティネーション クラスタを 9.6 にアップグレードする必要があります。さらに、<block ref="18ac852fb0d15d21df0560ca7f7d0e22" prefix=" " category="inline-code"></block>コマンドを使用して、ソースクラスタピアとデスティネーション クラスタピアの両方がクラスタピアリング暗号化を使用するように変更する必要があります。</block>
+  <block id="43ea6f5beb13835aa597f3515ad5607b" category="paragraph">ONTAP 9.6では、次の例に示すように、既存のピア関係をクラスタピアリング暗号化を使用するように変換できます：</block>
 </blocks>
