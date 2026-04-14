@@ -38,12 +38,6 @@ link:https://docs.netapp.com/us-en/ontap/flexcache-writeback/flexcache-write-bac
 
 == FlexGroup ボリューム
 
-link:https://www.netapp.com/pdf.html?item=/media/17251-tr4571a.pdf["TR-4571a：『FlexGroup Top 10 Best Practices』"^]
-本テクニカルレポートは、TR-4571：『NetApp ONTAP FlexGroup volumes best practices and Implementation guide for quick consumption』を要約したものです。
-
-link:https://www.netapp.com/pdf.html?item=/media/7337-tr4557.pdf["TR-4557：『NetApp ONTAP FlexGroup volumes - A technical overview』"^]
-メタデータ負荷の高いワークロードにおいて、ほぼ無限の容量と予測可能な低レイテンシのパフォーマンスを融合する、ONTAPスケールアウトNASコンテナであるFlexGroup Volumeについて説明します。
-
 link:https://www.netapp.com/pdf.html?item=/media/12385-tr4571.pdf["TR-4571：『NetApp ONTAP FlexGroup volumes best practices and Implementation guide』"^]
 FlexGroupボリューム、推奨されるプラクティス、実装のヒントを紹介します。FlexGroupボリュームは、ONTAPスケールアウトNASコンテナの進化形であり、メタデータ負荷の高いワークロードにおいて、ほぼ無限の容量と予測可能な低レイテンシのパフォーマンスを兼ね備えています。
 
