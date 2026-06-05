@@ -1,0 +1,22 @@
+---
+section: afx-overview
+title: AFX
+entries:
+- title: 概要
+  url: "/afx-overview/afx-overview-learn-about.html"
+- title: 新機能
+  url: "/afx-overview/afx-overview-whats-new.html"
+- title: アーキテクチャ
+  url: "/afx-overview/afx-overview-architecture.html"
+- title: Performance
+  url: "/afx-overview/afx-overview-performance.html"
+- title: 管理
+  url: "/afx-overview/afx-overview-management.html"
+- title: 機能
+  url: "/afx-overview/afx-overview-capabilities.html"
+- title: ハードウェア
+  url: "/afx-overview/afx-overview-hardware.html"
+- title: 最大値と制限値
+  url: "/afx-overview/afx-overview-limits.html"
+- title: 関連情報
+  url: "/afx-overview/afx-overview-related-info.html"

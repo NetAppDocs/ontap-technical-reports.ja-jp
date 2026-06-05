@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: ontap-security-hardening/ipsec-in-flight-encryption.html 
-keywords: tr-4569, ontap hardening guide, NFS, iSCSI, SMB/CIFS, no Kerberos, IKE v2, SVM, PSK, certificate, no license 
-summary: IPSecは、NFS暗号化またはSMB / CIFS暗号化の代替手段であり、iSCSIトラフィックの唯一の転送中暗号化オプションです。 
+keywords: tr-4569, ontap hardening guide, NFS, iSCSI, SMB, Kerberos, IKE v2, SVM, PSK, certificate, no license 
+summary: IPsecはNFSやSMBの暗号化に代わる選択肢であり、iSCSIトラフィックにおける唯一の転送中暗号化オプションです。 
 ---
 = IPSec転送中データの暗号化
 :allow-uri-read: 

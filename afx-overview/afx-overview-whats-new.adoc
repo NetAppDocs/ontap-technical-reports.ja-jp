@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: afx-overview/afx-overview-whats-new.html 
+keywords: netapp afx, new features, release notes, version history, ontap 
+summary: このページでは、NetApp AFXの最新のアップデートについて説明します。新しいリリースごとに更新されます。 
+---
+= NetApp AFXの新機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx-overview/
+
+
+[role="lead"]
+このセクションでは、NetApp AFXの最新のアップデートについて説明します。新しいリリースごとに更新されます。最新情報については定期的にこのページをご確認ください。また、バージョンリリースノートも併せてご確認ください。
+
+
+
+== AFX向けのNetApp ONTAPの最新リリースの新機能
+
+最新リリース：
+
+ONTAP 9.19.1RC1（2026年5月時点）
+
+NetApp AFXの新機能：
+
+* グローバル重複排除
+* 動的なストレージ効率
+* 高度な先読み
+* 32ノード対応
+* 32PBのサポート
+* FlexGroupボリュームあたり512個の構成ボリューム
+
+
+
+
+== バージョン履歴
+
+|===
+| version | 日付 | ドキュメントのバージョン履歴 
+
+
+| バージョン1.0 | 2026年6月 | 初版リリース 
+|===

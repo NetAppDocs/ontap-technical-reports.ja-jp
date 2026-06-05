@@ -1,0 +1,211 @@
+---
+sidebar: sidebar 
+permalink: afx-overview/afx-overview-limits.html 
+keywords: netapp afx, maximums, minimums, limits, capacity, nodes, volumes 
+summary: このページでは、NetApp AFX クラスタの最大値と最小値を、統合型 ONTAP と比較して説明します。 
+---
+= 最大値と制限値
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx-overview/
+
+
+[role="lead"]
+次のセクションでは、NetApp AFXクラスタの最大値と最小値を統合型ONTAPと比較して説明します。
+
+最新の制限については、link:http://hwu.netapp.com/["Hardware Universe"^]を参照してください。
+
+*NetApp AFXの最大値と最小値*
+
+|===
+| 上限 | ユニファイド ONTAP | NetApp AFX 
+
+
+| ボリューム数（クラスタ）  a| 
+* 30,000（プラットフォームによって異なる）
+
+ a| 
+* 30,000
+
+
+
+
+| アグリゲートサイズ  a| 
+* 800 TB
+
+ a| 
+* 該当なし
+
+
+
+
+| ノード数  a| 
+* 24
+
+ a| 
+* 8 (9.17.1)
+* 32 （9.19.1RC1）
+
+
+
+
+| 合計容量  a| 
+* ノードとドライブに依存します。詳細については、link:http://hwu.netapp.com["hwu.netapp.com"^]を参照してください。
+
+ a| 
+* 2PB （9.17.1）
+* 3PB（9.18.1RC1）
+* 16PB（9.18.1GAリリース）
+* 20PB（9.19.1RC0）
+* 32PB（9.19.1RC1）
+
+
+
+
+| サポートされるシェルフ数  a| 
+* HAペアあたり8個
+* クラスタあたり192
+
+ a| 
+* クラスタあたり12（9.18.1GA）
+* クラスタあたり17（9.19.1RC0）
+* クラスタあたり25（9.19.1RC1）（HAペアの制限なし）
+
+
+
+
+| サポートされるドライブの総数  a| 
+* HAペアあたり240
+* 2880（24ノード）
+
+ a| 
+* クラスタあたり288（シェルフ数の制限に基づく。HAペアの制限なし）
+* クラスタあたり408（9.19.1RC0）
+* クラスタあたり600（9.19.1RC1）
+
+
+
+
+| ボリューム サイズ  a| 
+* 300TB（FlexVol）
+* 60PB （FlexGroup）
+
+ a| 
+* 300TB（FlexVol）
+* 60PB （FlexGroup）*
+
+
+
+
+| ボリュームあたりの最大ファイル数  a| 
+* 20億（FlexVol）
+* 4000億（FlexGroup）
+
+ a| 
+* 20億（FlexVol）
+* 4000億（FlexGroup）
+
+
+
+
+| ディレクトリあたりの最大ファイル数（デフォルトの320MB maxdirsizeの値）  a| 
+* 約400万（FlexVol）
+* 約200万（FlexGroup）
+
+ a| 
+* 約400万（FlexVol）
+* 約200万（FlexGroup）
+
+
+
+
+| SnapMirror同時転送  a| 
+* 250
+
+ a| 
+* 250
+
+
+
+
+| qtreeの数  a| 
+* 4096
+
+ a| 
+* 4096
+
+
+
+
+| ノードあたりの最大TCP接続数  a| 
+* 100,000
+
+ a| 
+* 100,000
+
+
+
+
+| ノードあたりの最大ロック数  a| 
+* 3 million
+
+ a| 
+* 3 million
+
+
+
+
+| 最大データインターフェース数（クラスタ）  a| 
+* 4096
+
+ a| 
+* 4096
+
+
+
+
+| 最大構成要素数 – FlexGroup  a| 
+* 200
+
+ a| 
+* 200
+* 9.19.1 RC1で512
+
+
+
+
+| クラスタ間LIFの最大数  a| 
+* 8
+
+ a| 
+* 8
+
+
+
+
+| IPスペースの最大数  a| 
+* 512
+
+ a| 
+* 512
+
+
+
+
+| オリジンあたりの最大FlexCache数  a| 
+* 100
+
+ a| 
+* 100
+
+
+
+
+| FlexCacheの最大数（ノード）  a| 
+* 400
+
+ a| 
+* 400
+
+
+|===

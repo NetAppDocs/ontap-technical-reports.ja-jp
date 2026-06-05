@@ -1,0 +1,81 @@
+---
+sidebar: sidebar 
+permalink: afx-overview/afx-overview-management.html 
+keywords: netapp afx, cli, system manager, rest api, management tools, gui 
+summary: NetApp AFXではストレージの提示方法にかなり大きなアーキテクチャ上の違いがありますが、機能セットとONTAPの管理方法は実質的に変更されていません。 
+---
+= 管理ツール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx-overview/
+
+
+[role="lead"]
+ストレージの提示方法にはかなり大きなアーキテクチャ上の違いがありますが、NetApp AFXの機能セットとONTAPの管理方法は実質的に変更されていません。これは完全に意図的な設計です。ONTAPはONTAPであり、可能な限り学習曲線はほとんど、あるいは全くないはずです。そしてこの場合、NetApp AFXは依然としてONTAPを実行しています。
+
+
+
+== 管理 – CLI
+
+NetApp AFXでは、CLIは統合ONTAP のCLIが提供するものとほぼ同じです。コマンドは大部分が依然としてクラスタレベルで実行されますが、ノードレベルで発行できるコマンドも依然として存在します。依然として、トップレベルのコマンドディレクトリとサブコマンド、およびコマンドのタブ補完機能が利用可能です。さらに、すべてのCLIショートカットが機能します（たとえば、 `-fields`を使用したコンテンツのフィルタリング）。
+
+NetApp AFX CLI における唯一の実際の違いは、追加されたものと削除されたものに関係しています（このドキュメントの "" セクションで説明されています）。機能（アグリゲートや Metrocluster など）が削除された場合、対応する CLI コマンドは使用できなくなります。
+
+さらに、NetApp AFXに新しい機能が追加された場合、新しいコマンドも利用可能になります。例えば、新しいlink:https://www.netapp.com/aide/["NetApp AI Data Engine（AIDE）"^]アドオンは、バックエンドクラスタネットワーク上のNetApp AFXクラスタと直接やり取りします。その結果、 `dcn`および `data-engine`コマンドディレクトリがNetApp AFX CLIに追加されます。
+
+以下は、NetApp AFXクラスタで管理者権限で使用できるトップレベルのコマンドディレクトリを示しています。新しく追加されたコマンドは太字で表示されています。
+
+[listing]
+----
+AFX::>
+    cluster       data-engine   dcn           event         exit
+    history       job           man           metrocluster  network
+    qos           redo          rows          run           security
+    set           snaplock      snapmirror    statistics    statistics-v1
+    storage       system        top           up            volume
+    vserver
+----
+
+
+== 管理 – GUI
+
+System Managerは、リソース管理のためのNetApp AFXクラスタと対話するためのGUIインターフェイスであり、最初にログインしたときは、統合されたONTAPシステムにログインしていないことが一見してわからないでしょう。
+
+*統合された ONTAP と NetApp AFX System Manager のランディングページの並列表示*
+
+image:side-by-side-system-manager.png["統合された ONTAP と NetApp AFX System Manager ダッシュボードの並列表示"]
+
+上記のとおり、統合 ONTAP と NetApp AFX の System Manager には明らかな違いはあまりありません。ただし、いくつかの兆候があります。
+
+*System Manager における NetApp AFX の違い*
+
+image:image40.png["イメージ"]
+
+メニューやダッシュボードをドリルダウンしても、ほとんどすべてが同じままです。ボリュームには、使用済み容量と合計容量が引き続き表示されます。ネットワークインターフェイスには、ポートとIPアドレスが引き続き表示されます。SnapMirrorの保護ポリシーは引き続き設定できます。ハードウェアビューは引き続き利用できます。しかし、NetApp AFXは、新しいケーブル配線ビューを提供することでビューを少し強化しており、ドリルダウンしてストレージ スタック全体でケーブルがどこに接続されているかを確認できます。
+
+*NetApp AFXケーブル接続図*
+
+image:image41.png["イメージ"]
+
+
+
+== REST API
+
+NetApp AFXは、ONTAP REST API呼び出しの大部分を保持するための協調的な取り組みも行っています。つまり、REST APIベースの自動化ツールスイートを作成している場合、ほとんどのケースで引き続き使用できるはずです。主な例外としては、アグリゲート、Metrocluster、SAN、および一部のパフォーマンスカウンタが挙げられます。完全なREST APIドキュメントは、NetApp AFXクラスタのSystem Managerで\https://clus_mgmt_ip/docs/apiに移動することで確認できます。
+
+
+
+== ONTAP外部管理ツール
+
+NetApp AFXは、次のようなオフボックスONTAP管理ツールに対して一部のサポートを提供します：
+
+* NetApp System Manager
+* NetApp Console
+* Grafana Harvest（25.11.0以降）
+* NetApp Trident（25.10以降）
+
+
+NetApp AFX は現在、以下の機能をサポートしていません：
+
+* NetApp ActiveIQ Unified Manager
+
