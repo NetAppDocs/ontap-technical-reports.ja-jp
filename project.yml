@@ -41,7 +41,7 @@ sidebar:
   - title: ストレージ システム
     entries:
     - title: AFX
-      section: afx-overview
+      section: afx
   - title: SnapCenter
     url: "/snapcenter.html"
   - title: 階層化

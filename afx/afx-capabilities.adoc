@@ -1,13 +1,13 @@
 ---
 sidebar: sidebar 
-permalink: afx-overview/afx-overview-capabilities.html 
+permalink: afx/afx-capabilities.html 
 keywords: netapp afx, networking, security, data protection, nondisruptive, volumes 
 summary: NetApp AFXは、統合ONTAPと同じネットワークスタック、セキュリティ機能、データ保護テクノロジ、無停止運用、およびボリュームタイプをサポートしますが、いくつかの調整が加えられています。 
 ---
 = ネットワーク、セキュリティ、および運用
 :allow-uri-read: 
 :icons: font
-:imagesdir: ../media/afx-overview/
+:imagesdir: ../media/afx/
 
 
 [role="lead"]
@@ -96,4 +96,4 @@ ONTAPは、ボリュームの移動、アップグレード、クラスタのメ
 
 NetApp AFXは、これらの各ボリュームタイプを完全にサポートするだけでなく、ユニファイドONTAPシステムとのFlexCacheボリュームの完全な相互運用性も提供します。
 
-FlexGroup ボリュームが AFX アーキテクチャからどのようなメリットを得られるかについては、link:afx-overview-architecture.html#flexgroup-volume-management-improvements["FlexGroup ボリューム管理の機能拡張"]を参照してください。
+FlexGroup ボリュームが AFX アーキテクチャからどのようなメリットを得られるかについては、link:afx-architecture.html#flexgroup-volume-management-improvements["FlexGroup ボリューム管理の機能拡張"]を参照してください。
