@@ -15,12 +15,14 @@ summary: ONTAPシステムを強力に管理するには、次のCLIおよびSys
 
 
 
+[[command-line-access]]
 == コマンドラインアクセス
 
 ソリューションの安全性を守るには、システムとの間にセキュアなアクセスを確立することが重要です。コマンドライン アクセスの最も一般的なオプションとしては、SSH、Telnet、RSHがあります。このうちで最も安全なのがSSHであり、リモート コマンドライン アクセス用の業界標準のベストプラクティスとなっています。ONTAPソリューションへのコマンドライン アクセスにはSSHを使用することを強く推奨します。
 
 
 
+[[ssh-configurations]]
 === SSHセツテイ
 
  `security ssh show`コマンドは、クラスタおよびSVMのSSH鍵交換アルゴリズム、暗号、およびMACアルゴリズムの設定を表示します。鍵交換方式は、これらのアルゴリズムと暗号を使用して、暗号化や認証用の1回限りのセッション キーの生成方法、およびサーバ認証の実行方法を指定します。
@@ -46,6 +48,7 @@ vs1             aes256-ctr,   diffie-hellman-group-     hmac-sha1-96
 ----
 
 
+[[login-banners]]
 === ロクインハナ
 
 ログイン バナーを使用すると、すべてのオペレータと管理者、さらには不正ユーザにも、システムの利用条件を提示することができます。また、誰がシステムへのアクセスを許可されているかを伝えることもできます。ログイン バナーは、システムに求められるアクセス方法や使用方法を確立するのに役立ちます。 `security login banner modify`コマンドは、ログインバナーを変更します。ログイン バナーは、SSHおよびコンソール デバイスのログイン プロセスで認証ステップの直前に表示されます。バナーテキストは、次の例に示すように、二重引用符（""）で囲む必要があります。
@@ -56,6 +59,7 @@ cluster1::> security login banner modify -vserver cluster1 -message "Authorized 
 ----
 
 
+[[login-banner-parameters]]
 === ログインバナーのパラメータ
 
 [cols="19%,81%"]
@@ -85,6 +89,7 @@ cluster1::> security login banner modify -vserver cluster1 -message "Authorized 
 |===
 
 
+[[message-of-the-day]]
 === Message Of The Day
 
 コマンドは、 `security login motd modify` Message Of The Day（MOTD；本日のメッセージ）を更新します。
@@ -130,6 +135,7 @@ ONTAPでのMessage Of The Dayの設定の詳細については、を参照して
 
 
 
+[[cli-session-timeout]]
 === CLIセツシヨンタイムアウト
 
 CLIセッションのデフォルトのタイムアウトは30分です。タイムアウトは古いセッションやセッションのピギーバックを防ぐために重要です。
@@ -138,6 +144,7 @@ CLIセッションのデフォルトのタイムアウトは30分です。タイ
 
 
 
+[[web-access-with-netapp-ontap-system-manager]]
 == NetApp ONTAP System ManagerによるWebアクセス
 
 ONTAP管理者がCLIではなくグラフィカル インターフェイスを使用してクラスタにアクセスして管理するには、NetApp ONTAP System Managerを使用します。System ManagerはWebサービスとしてONTAPに搭載されており、デフォルトで有効になっていて、ブラウザからアクセスできます。DNSまたはIPv4またはIPv6アドレスを使用している場合は、ブラウザでホスト名を指定し `+https://cluster-management-LIF+`ます。
@@ -148,6 +155,7 @@ ONTAP 9.3以降では、Security Assertion Markup Language（SAML）認証はONT
 
 
 
+[[saml-authentication-for-ontap-system-manager]]
 === ONTAP System ManagerのSAML認証
 
 SAML 2.0は広く採用されている業界標準で、SAMLに準拠したサードパーティのアイデンティティプロバイダ（IdP）が、企業が選択したIdP固有のメカニズムを使用してシングルサインオン（SSO）のソースとしてMFAを実行できるようにします。
@@ -164,10 +172,11 @@ NetAppによって検証されたIdPは、Microsoft ADFS、Cisco Duo、および
 
 ONTAP 9.14.1以降では、Cisco DuoをSSHの2番目の認証要素として使用できます。
 
-ONTAP System Manager、Active IQ Unified Manager、およびSSHのMFAの詳細については、を参照してください link:http://www.netapp.com/us/media/tr-4647.pdf["TR-4647：『Multifactor Authentication in ONTAP 9』"^]。
+ONTAP System Manager、Active IQ Unified Manager、およびSSHのMFAの詳細については、link:https://www.netapp.com/pdf.html?item=/media/17055-tr4647.pdf["TR-4647：『Multifactor Authentication in ONTAP 9』"^]を参照してください。
 
 
 
+[[ontap-system-manager-insights]]
 === ONTAP System Managerの分析情報
 
 ONTAP 9.11.1以降のONTAP System Managerには、クラスタ管理者が日常的なタスクを合理化するための分析情報が用意されています。セキュリティに関する分析情報は、このテクニカルレポートの推奨事項に基づいています。
@@ -225,6 +234,7 @@ ONTAP System Managerのインサイトの詳細については、を参照して
 
 
 
+[[system-manager-session-timeout]]
 === System Managerノセッションタイムアウト
 
 System Managerセッションの非アクティブ時のタイムアウトを変更できます。デフォルトの非アクティブ時のタイムアウトは30分です。タイムアウトは、古いセッションやセッションのピギーバックを防ぐために重要です。

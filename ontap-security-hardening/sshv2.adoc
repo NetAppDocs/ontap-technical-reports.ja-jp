@@ -24,6 +24,7 @@ NetAppの推奨事項は次のとおりです。
 ====
 
 
+[[supported-ciphers-and-key-exchanges]]
 == サポートされる暗号とキー交換
 
 [cols="42%,58%"]
@@ -59,6 +60,7 @@ NetAppの推奨事項は次のとおりです。
 |===
 
 
+[[supported-aes-and-3des-symmetric-encryptions]]
 == サポートされるAESおよび3DES対称暗号化
 
 ONTAPでは、次のタイプのAESおよび3DESの対称暗号化（暗号）もサポートしています。
