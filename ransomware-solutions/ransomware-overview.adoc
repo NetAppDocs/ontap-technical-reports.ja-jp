@@ -73,7 +73,7 @@ NetApplink:ransomware-bluexp-protection.html["NetAppランサムウェア保護"
 データへの不正アクセスを保護するためのネイティブの組み込みONTAPソリューションとして、link:https://docs.netapp.com/us-en/ontap/multi-admin-verify/index.html["マルチ管理者認証（MAV）"^]ボリュームの削除、管理ユーザの追加作成、Snapshotの削除などの処理を、2人目の指定管理者から承認を得た場合にのみ実行できる堅牢な機能セットを備えています。これにより、侵害された管理者や悪意のある管理者、経験の浅い管理者が望ましくない変更やデータ削除を行うのを防ぐことができます。スナップショットを削除する前に、指定された管理者承認者を必要な数だけ設定できます。
 
 
-NOTE: NetApp ONTAPは、Webベースの https://www.netapp.com/pdf.html?item=/media/17055-tr4647pdf.pdf["多要素認証（MFA）"^]System ManagerおよびSSH CLI認証の要件に対応しています。
+NOTE: NetApp ONTAPは、System ManagerにおけるWebベースの https://www.netapp.com/pdf.html?item=/media/17055-tr4647.pdf["多要素認証（MFA）"^]およびSSH CLI認証の要件に対応しています。
 
 NetAppのランサムウェア対策は、進化し続ける脅威の状況にも安心して対応します。その包括的なアプローチは、現在のランサムウェア攻撃から防御するだけでなく、新たな脅威にも適応し、データインフラに長期的なセキュリティを提供します。
 

@@ -21,5 +21,24 @@ ONTAPは、非常に要件の厳しいスケールアウトアプリケーショ
 これらのテクニカルレポートには、製品ドキュメントの詳細が記載されlink:https://docs.netapp.com/us-en/ontap/network-management/index.html["ONTAPネットワーク管理"^]ています。
 
 ====
+
+
+[[routing]]
+== ルーティング
+
 link:https://www.netapp.com/pdf.html?item=/media/79703-TR-4949.pdf["TR-4949：『BGP / VIP with ONTAP in the data center』"^]
 ONTAPに基本的なBGP設定を迅速に導入する方法について説明します。
+
+
+
+[[name-services]]
+== ネームサービス
+
+link:https://www.netapp.com/pdf.html?item=/media/19370-tr-4523.pdf["TR-4523：『DNS load balancing in ONTAP』"^]
+ONTAPのDNSを含むDNSロードバランシング方式で使用するためのONTAPの設定方法、さまざまな設定方法、および推奨される方法について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/16328-tr-4668.pdf["TR-4668：『Name services best practices guide』"^]
+CIFS / SMBやNFSなどのネットワーク接続型ストレージ（NAS）ソリューションをONTAPに実装する際の推奨されるプラクティス、制限事項、考慮事項について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/19423-tr-4835.pdf["TR-4835：『How to configure LDAP in ONTAP multiprotocol NAS identity management』"^]
+マルチプロトコルNAS用にONTAPでLightweight Directory Access Protocol（LDAP）ID管理を設定する方法について説明します。

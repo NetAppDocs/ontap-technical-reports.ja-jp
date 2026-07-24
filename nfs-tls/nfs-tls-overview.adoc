@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: nfs-tls/nfs-tls-overview.html 
+keywords: nfs, tls, encryption, ontap, rfc9289, in-transit, prerequisites, requirements 
+summary: ONTAP 9.19.1では、ネイティブNFS over TLSが導入され、KerberosやIPsecを使用せずにRFC 9289に従ってNFS RPCトラフィックの転送中の暗号化が可能になります。 
+---
+= NFS over TLSの概要
+:toc: macro
+:hardbreaks:
+:toclevels: 1
+:allow-uri-read: 
+:toc: 
+:toclevels: 1
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:toc-position: content
+
+
+[role="lead"]
+ONTAP 9.19.1では、NFSトラフィックを暗号化するための待望の「簡単ボタン」であるNFS over TLSが導入されました。
+
+この機能以前は、飛行中のNFSペイロードの暗号化はIPsecまたはKerberosに限定されていました。どちらも効果的ではあるものの、設定が煩雑で、パフォーマンスの低下も著しいという欠点がありました。どちらの方法も「後付け」のソリューションであり、NFS専用のRFCで具体的に定義されたソリューションではありませんでした。link:https://www.rfc-editor.org/rfc/rfc9289.html["RFC 9289"]、「Toward Remote Procedure Call Encryption by Default」と題されたこの文書がそれを変えました。NFSv3およびNFSv4.xでは、TLS 1.3を使用してNFS RPCトラフィックを転送中に暗号化できるようになりました。Kerberosは不要です。IPsecは不要です。
+
+
+
+[[prerequisites]]
+== 前提条件
+
+ONTAP NFS over TLS を使用するには、以下の要件を満たす必要があります。
+
+* …ONTAP 9.19.1が実行されている必要があります
++
+** ONTAPクラウドパーソナリティは現時点ではサポートされていません
+
+
+* …NFSライセンスを取得しています
+* …NFSクライアントがlink:https://imt.netapp.com["NetApp Interoperability Matrix"]に見つかりました
+
+
+
+
+[[what-it-doesnt-do]]
+== できないこと
+
+NFS over TLSはトランスポート層を保護するものであり、NFSによるユーザ認証の方法を変更するものではありません。
+
+*証明書ベースのユーザ認証*TLS 上の NFS は、*新しいユーザ認証機構を提供しません*。ユーザ認証には、引き続き `auth_sys`または `krb5`が必要です。引き続き `krb5i`および `krb5p`を使用できますが、TLS によってそれらの整合性とプライバシー保護が冗長になり、パフォーマンスの低下は避けられません。

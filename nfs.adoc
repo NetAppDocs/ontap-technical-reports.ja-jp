@@ -1,0 +1,36 @@
+---
+permalink: nfs.html 
+sidebar: sidebar 
+keywords: Technical Reports, TR, NetApp TR, ONTAP TR, ONTAP, ONTAP 9, NAS, best practices, best-practices 
+summary: これらのテクニカルレポートでは、NFS ONTAP の概要と推奨事項について説明します。 
+---
+= ONTAP NFS テクニカルレポート
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+NetApp NFSソリューションはデータ管理を簡素化し、コストを最適化しながら成長ペースに対応できるよう支援します。
+
+
+
+[[nfs]]
+== NFS
+
+link:https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067：『NFS in ONTAP best practice and implementation guide』"^]
+ONTAPでのNFSの基本概念、サポート情報、設定のヒント、および推奨される方法について説明します。
+
+link:https://www.netapp.com/pdf.html?item=/media/84595-tr-4962.pdf["TR-4962：『NFSv4.2 extended attributes』"^]
+ONTAP 9.12.1以降でのNFSv4.2拡張属性の有効化と使用について説明します。
+
+
+
+[[multiprotocol]]
+== マルチプロトコル
+
+link:https://www.netapp.com/pdf.html?item=/media/27436-tr-4887.pdf["TR-4887：『Multiprotocol NAS in ONTAP Overview and Best Practices』"^]
+ONTAPでのマルチプロトコルNASアクセスの仕組みと、マルチプロトコル環境の推奨事項について説明します。

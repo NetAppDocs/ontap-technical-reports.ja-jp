@@ -1,0 +1,68 @@
+---
+sidebar: sidebar 
+permalink: nfs-tls/nfs-tls-architecture.html 
+keywords: nfs, tls, architecture, data flow, ha takeover, svm-dr, metrocluster 
+summary: TLS 上の NFS は、ONTAP NFSサーバのLIFごとのトランスポートセキュリティ機能であり、SVMごとに設定され、クラスタ全体にレプリケートされます。 
+---
+= アーキテクチャ
+:toc: macro
+:hardbreaks:
+:toclevels: 1
+:allow-uri-read: 
+:toc: 
+:toclevels: 1
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:toc-position: content
+
+
+[role="lead"]
+NFS over TLS は、ONTAP NFSサーバのLIFごとのトランスポートセキュリティ機能です。クライアントとONTAP NFSサーバ間のNFSトラフィックにTLS保護を適用します。設定は `vserver nfs tls interface`コマンドファミリーと対応する `/api/protocols/nfs/tls/interfaces`RESTリソースを通じて管理されます。
+
+設定はSVMスコープで、LIFごとに適用され、クラスタ全体にレプリケートされます。現在LIFをホストしているすべてのノードに、同じTLS設定が適用されます。クラスタ全体のオン/オフスイッチはありません。有効化と無効化は、LIFごとの操作です。
+
+
+
+[[external-dependencies]]
+== 外部依存関係
+
+9.19.1では、NFS TLSハンドシェイクパスから外部認証局（CA）またはOCSPレスポンダーへの発信呼び出しは行われません。証明書チェーンとサブジェクト代替名（SAN）の検証は、SVMにインストールされている証明書マテリアルに対してローカルで実行されます。
+
+
+
+[[data-flow]]
+== データフロー
+
+NFSv3とNFSv4はどちらも、TCPポート2049への最初のNULL呼び出し/応答ペアの後に、NFSペイロード全体を暗号化します。NULL呼び出しには、RFC 9289で定義された新しい `AUTH_TLS`クレデンシャルフレーバーが含まれており、クライアントがTLSを使用する意図を示します。サーバーは、TLSアップグレードを受け入れるか拒否するかを示すNULL応答を返します。クライアントが承認を受け取ると、同じTCP接続上でTLS 1.3ハンドシェイクに進みます。ハンドシェイクが正常に完了すると、以降のすべてのNFS RPCはTLSレコードにカプセル化され、転送中に暗号化されます。
+
+NFSv3とNFSv4.xには1つの違いがあります。NFSv3は補助プロトコルに依存しています。-`rpcbind`（ポートマッパー）、 `mountd`、NLM（Network Lock Manager）、およびNSM（Network Status Monitor）――これらはTLSで保護された接続を介して伝送されず、平文で送信されます。ストレージトラフィックの完全な暗号化を義務付けるコンプライアンス要件を持つ組織は、NFSv3とNFSv4.xのどちらを選択するかを決定する際に、この点を考慮する必要があります。NFSv4.xはこれらのサイドチャネルプロトコルを排除します。NFSv4.xのすべてのトラフィックはポート2049に集約され、TLSハンドシェイク後に暗号化されます。
+
+image:nfs-tls-v3-handshake.png["caption=\"NFS over TLS ハンドシェイク シーケンス図\", alt=\"クライアントとONTAP NFSサーバ間のNFS over TLSハンドシェイク フローを示すシーケンス図。\""]
+
+NFSv4.xは補助プロトコルを使用しないため、すべてのNFSv4.x RPCはTLSハンドシェイク後に暗号化されます。
+
+image:nfs-tls-v4-handshake.png["caption=\"NFSv4.1 over TLS ハンドシェイク シーケンス図\", alt=\"クライアントと ONTAP NFSサーバ間の NFSv4.1 over TLS ハンドシェイク フローを示すシーケンス図。\""]
+
+ONTAPは、現在LIFをホストしているノード上のNFSサーバでTLSを終端します。トランスポート層より上では、NFSサーバはRPCをTLSを使用しないNFS接続と同様に処理します。
+
+
+
+[[ha-takeover-behavior]]
+== HAテイクオーバーの動作
+
+既存のNFS over TLSセッションは、HAテイクオーバーや予期しないノードパニックが発生しても維持されません。TLSはTCPを基盤としたセッションレベルのトランスポートプロトコルです。ノードとのTCP接続が切断されると、TLSセッションも同時に切断されます。
+
+引き継ぎ後、クライアントは再接続し、TLS 1.3 ハンドシェイクを新たに完了します。パートナーノードは、構成レコードがクラスタ全体に複製されているため、証明書バインディング、ホスト認証設定、SAN検証設定など、同じ複製された TLS 構成を使用します。
+
+TLSセッションチケットと事前共有鍵（PSK）はノードローカルであり、パートナーには転送されません。引き継ぎ時には、TLSハンドシェイク全体を伴う再接続の嵐が発生することが予想されます。
+
+
+
+[[metrocluster-and-svm-dr-behavior]]
+== MetroClusterおよびSVM-DRの動作
+
+TLS インターフェイス証明書と構成は、標準の SVM-DR および MetroCluster SVM レベルのレプリケーション パスを介して SVM とレプリケートされます。ID 保持スイッチオーバー後、デスティネーション SVM は LIF ごとの同じ TLS 構成を保持します。
+
+エクスポートポリシールールの `-allow-nfs-tls-only`フィールドは、標準のエクスポートポリシーレプリケーションパスを通じて、エクスポートポリシールールの残りの部分とともにレプリケートされます。SVM-DRでは、ポリシーがSVMでレプリケートされる際に、ルールもポリシーとともに引き継がれます。

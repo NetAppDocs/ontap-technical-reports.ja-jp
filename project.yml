@@ -20,10 +20,13 @@ sidebar:
     url: "/data-protection-disaster-recovery.html"
   - title: FlexCacheボリュームとFlexGroupボリューム
     url: "/nas-containers.html"
-  - title: NAS
-    url: "/nas.html"
   - title: ネットワーキング
     url: "/networking.html"
+  - title: NFS
+    entries:
+    - title: 概要
+      url: "/nfs.html"
+    - section: nfs-tls
   - title: SAN
     url: "/san.html"
   - title: セキュリティ
@@ -38,6 +41,10 @@ sidebar:
     - title: 概要
       url: "/security-hardening-guides.html"
     - section: ontap-security-hardening
+  - title: S3を使用したチャンク アップロード署名要求がサポートされるようになりました。
+    url: "/s3.html"
+  - title: SMB
+    url: "/smb.html"
   - title: ストレージ システム
     entries:
     - title: AFX

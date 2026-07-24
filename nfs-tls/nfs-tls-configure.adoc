@@ -1,0 +1,534 @@
+---
+sidebar: sidebar 
+permalink: nfs-tls/nfs-tls-configure.html 
+keywords: nfs, tls, configure, certificate, ca, lif, linux, mount, mtls 
+summary: ONTAP SVM で NFS over TLS を有効にし、証明書をインストールし、Linux クライアントからマウントして、必要に応じて相互 TLS を設定するための手順。 
+---
+= NFS over TLSの設定
+:toc: macro
+:hardbreaks:
+:toclevels: 1
+:allow-uri-read: 
+:toc: 
+:toclevels: 1
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:toc-position: content
+
+
+[role="lead"]
+NFS over TLS は、 `vserver nfs tls interface`コマンドファミリー、 `/api/protocols/nfs/tls/interfaces` REST エンドポイント、またはSystem ManagerのNFS設定を使用して、LIF ごとに構成されます。
+
+エクスポート ルールに、一致するクライアントに対してTLSのみのアクセスを強制できる補助フィールドが追加されました。コマンドリファレンスについては、link:https://docs.netapp.com["docs.netapp.com"]を参照してください。組み込みのSwaggerドキュメントを使用してREST APIをインタラクティブに操作できます。ブラウザで次のアドレスにアクセスしてください： `https://<cluster-mgmt-ip>/api/docs`
+
+
+
+[[ontap-prerequisites]]
+== ONTAPの前提条件
+
+以下の手順は、次の前提条件が満たされていることを前提としています。
+
+* Data ONTAP 9.19.1以降
+* NFSプロトコルが有効になっているSVM
+* 少なくとも1つのデータLIFが基本的なNFSアクセス用に構成されている
+
+
+
+
+[[step-1-create-a-root-ca-on-ontap]]
+== ステップ1：ONTAP でルートCAを作成する
+
+
+NOTE: *外部認証局オプション*組織が外部の認証局を使用している場合は、この手順をスキップしてください。ステップ2とステップ5のCSRを外部CAに送信し、結果として得られた署名済み証明書をONTAPにインストールしてください。残りの手順は同じです。
+
+ONTAPは、ラボ環境や社内環境への展開において、内部認証局（CA）として機能することができます。この手順では、SVM上に自己署名ルートCAを作成します。このルートCAは、サーバー証明書（およびオプションで相互TLS用のクライアント証明書）に署名するために使用されます。
+
+[listing]
+----
+ontap9::> security certificate create -vserver <svm> -common-name <ca-name> -type root-ca -size 2048 -hash-function SHA256 -expire-days 3652 -country US -state <state> -locality <city> -organization <org> -unit <unit>
+----
+コマンドが完了したら、CAシリアル番号を取得して記録してください。これはステップ2で必要であり、相互TLSを使用する場合はステップ5でも必要です。
+
+[listing]
+----
+ontap9::> security certificate show -vserver <svm> -common-name <ca-name> -type root-ca -fields serial
+----
+シリアル番号を記録します。これは後の手順で `<ca-serial>`になります。
+
+
+
+[[step-2-generate-the-server-certificate-for-the-data-lif]]
+== ステップ2：データLIF用のサーバ証明書を生成する
+
+ONTAPは、TLSハンドシェイク中に、この証明書をNFSクライアントに提示します。証明書の共通名（CN）とサブジェクト代替名（SAN）は、LIFのFQDNとIPアドレスと一致している必要があります。これは、クライアント上のtlshdが、サーバのIDを両方に対して検証するためです。
+
+
+IMPORTANT: *IP SAN要件。*TLS上のNFSでNFSv4.1セッショントランキングを構成する予定がある場合、またはマウントコマンドがホスト名の代わりに生のIPアドレスを使用する場合、証明書にはクライアントが接続するすべてのLIF IPアドレスのIP SANエントリが含まれている必要があります。これがないと、IPアドレスで指定されたパスの場合、TLSハンドシェイクが「Certificate owner unexpected」というエラーで失敗します。
+
+ONTAP CSR ジェネレーター（security certificate generate-csr）は、 `-ipaddr`を介して IP SAN を直接サポートします。これは、カンマ区切りの IP アドレスのリストを受け付けます。
+
+*2a.CSRと秘密鍵を生成します*
+
+NFS over TLS トラフィックを伝送するすべての LIF IP をカンマ区切りでリストした `-ipaddr`を含めます。マウントコマンドで使用するホスト名に対応した `-dns-name`を含めます。
+
+[listing]
+----
+ontap9::> security certificate generate-csr -common-name <lif-fqdn> -security-strength 128 -hash-function SHA256 -extended-key-usage serverAuth -dns-name <lif-fqdn> -ipaddr <lif-ip>[,<lif-ip-2>,...] -country US -state <state> -locality <city> -organization <org> -unit <unit>
+----
+例えば、単一のLIFの場合：
+
+[listing]
+----
+ontap9::> security certificate generate-csr -common-name nfs.example.com -security-strength 128 -hash-function SHA256 -extended-key-usage serverAuth -dns-name nfs.example.com -ipaddr 192.0.2.130 -country US -state CA -locality SanJose -organization "MyOrg" -unit "Storage"
+----
+2つのLIF IPにまたがるセッション トランキングの場合は、両方をカンマ区切りのリストで指定してください：
+
+[listing]
+----
+ontap9::> security certificate generate-csr -common-name nfs.example.com -security-strength 128 -hash-function SHA256 -extended-key-usage serverAuth -dns-name nfs.example.com -ipaddr 192.0.2.130,192.0.2.131 -country US -state CA -locality SanJose -organization "MyOrg" -unit "Storage"
+----
+このコマンドは、証明書署名要求（CSR）のPEMブロックと秘密鍵のPEMブロックを出力します。両方をコピーして保存してください。秘密鍵は一度しか表示されません。
+
+署名前にCSRに期待されるSANが含まれていることを確認するには、OpenSSLがインストールされている任意のクライアントで以下を実行します：
+
+[listing]
+----
+echo <paste CSR PEM> | openssl req -noout -text | grep -A3 "Subject Alternative"
+----
+期待される出力：
+
+[listing]
+----
+X509v3 Subject Alternative Name: critical
+    DNS:nfs.example.com, IP Address:192.0.2.130
+----
+*2b.ONTAP CAでCSRに署名します。*
+
+[listing]
+----
+ontap9::> security certificate sign -vserver <svm> -ca <ca-name> -ca-serial <ca-serial> -expire-days 365 -hash-function SHA256
+----
+指示が表示されたら、CSR PEMブロックを貼り付けてください。出力から署名済み証明書のPEMをコピーしてください。
+
+*2c.署名付きサーバー証明書をインストールします*
+
+[listing]
+----
+ontap9::> security certificate install -vserver <svm> -type server -cert-name <cert-name>
+----
+プロンプトが表示されたら：
+
+* 署名済みの証明書（PEM形式）を貼り付けてください。
+* 秘密鍵のPEMを貼り付けてください。
+* 中間証明書またはルート証明書を求められたら、CA証明書のPEMを貼り付けてEnterキーを押し、証明書の追加を停止するには「n」と答えてください。
+
+
+*2d.インストールされている証明書を確認します。*
+
+[listing]
+----
+ontap9::> security certificate show -vserver <svm> -type server -common-name <cert-name>
+----
+有効期限と、該当項目が存在することを確認してください。
+
+
+
+[[step-3-enable-nfs-over-tls-on-the-data-lif]]
+== ステップ3：データLIF上でTLS経由のNFSを有効にする
+
+サーバ証明書をインストールしたら、対象のLIF上でTLS経由のNFSを有効にします。
+
+[listing]
+----
+ontap9::> vserver nfs tls interface enable -vserver <svm> -lif <lif> -certificate-name <cert-name>
+----
+LIFがTLSに対応していることを確認してください。
+
+[listing]
+----
+ontap9::> vserver nfs tls interface show -vserver <svm>
+----
+期待される出力：
+
+[listing]
+----
+Vserver:              <svm>
+Logical Interface:    <lif>
+IP Address:           <lif-ip>
+TLS Status:           enabled
+TLS Certificate Name: <cert-name>
+Enforce Host Authentication: false
+----
+`TLS Status: enabled` は、ONTAPがこのLIFのポート2049でTLSをネゴシエートすることを確認します。 `xprtsec=tls`または `xprtsec=mtls`を使用するクライアントは、TLSで保護された接続を受け取ります。ステップ7で強制が追加されない限り、TLSを要求しないクライアントは引き続き平文で接続します。
+
+
+
+[[step-4-install-the-ca-certificate-on-the-linux-client]]
+== ステップ4：LinuxクライアントにCA証明書をインストールする
+
+LinuxクライアントはONTAPのサーバー証明書に署名したCAを信頼する必要があります。これがないと、 `tlshd`サーバーの証明書が信頼されていないため、TLSハンドシェイクを拒否します。
+
+*ONTAP CAを使用した場合（手順1）*
+
+CA証明書をONTAPからエクスポートします：
+
+[listing]
+----
+ontap9::> security certificate show -vserver <svm> -common-name <ca-name> -type root-ca -fields cert
+----
+出力から証明書の PEM をコピーしてファイルに保存します（例： `nfs-ca.crt`）。このファイルを Linux クライアントに転送します。
+
+*外部認証局を使用した場合*
+
+外部 CA インフラストラクチャから CA 証明書 PEM を取得し、ファイルに保存します （例： `nfs-ca.crt`）。このファイルを Linux クライアントに転送します。
+
+*CA証明書をシステム信頼ストアにインストールする*
+
+.RHEL / Rocky / AlmaLinux / Fedora：
+[listing]
+----
+sudo cp nfs-ca.crt /etc/pki/ca-trust/source/anchors/nfs-tls-ca.crt
+sudo update-ca-trust
+----
+.Debian / Ubuntu：
+[listing]
+----
+sudo cp nfs-ca.crt /usr/local/share/ca-certificates/nfs-tls-ca.crt
+sudo update-ca-certificates
+----
+*tlshd がこの CA を信頼ストアとして使用するように設定します*
+
+編集 `/etc/tlshd.conf`：
+
+[listing]
+----
+[debug]
+loglevel=1
+tls=1
+nl=0
+
+[authenticate]
+
+[authenticate.client]
+x509.truststore=/etc/pki/ca-trust/source/anchors/nfs-tls-ca.crt
+----
+CA証明書を配置した場所に合わせて、 `x509.truststore`パスを調整してください。
+
+設定を適用するには、tlshdを再起動してください：
+
+[listing]
+----
+sudo systemctl restart tlshd
+----
+tlshdが正常に起動したことを確認します：
+
+[listing]
+----
+journalctl -u tlshd -n 20 --no-pager
+----
+出力にエラー行があってはなりません。
+
+
+
+[[step-5-resolve-the-lif-fqdn-on-the-client]]
+== ステップ5：クライアント上でLIF FQDNを解決する
+
+`tlshd`は、マウントコマンドで使用されているホスト名に対してサーバー証明書を検証します。マウントする前に、クライアント上で `<lif-fqdn>`が `<lif-ip>`に解決されることを確認してください。
+
+[listing]
+----
+getent hosts <lif-fqdn>
+----
+ホスト名がDNS経由で解決されない場合は、静的エントリを追加します。
+
+[listing]
+----
+echo <lif-ip> <lif-fqdn> | sudo tee -a /etc/hosts
+----
+
+
+[[step-6-mount-with-nfs-over-tls]]
+== ステップ6：TLS経由のNFSでマウントする
+
+カーネルTLSモジュールがまだロードされていない場合は、ロードします。
+
+[listing]
+----
+sudo modprobe tls
+----
+マウントポイントを作成してマウントします。
+
+[listing]
+----
+sudo mkdir -p <mountpoint>
+sudo mount -t nfs \
+  -o vers=4.1,xprtsec=tls \
+  <lif-fqdn>:<export-path> <mountpoint>
+----
+
+
+[[step-7-verify-the-tls-connection]]
+== ステップ7：TLS接続を確認する
+
+クライアント側
+
+マウントがアクティブで、次のように表示されていることを確認します `xprtsec=tls`：
+
+[listing]
+----
+mount | grep nfs
+----
+期待される出力（マウントを含む行）：
+
+[listing]
+----
+<lif-fqdn>:<export-path> on <mountpoint> type nfs4 (rw,...,xprtsec=tls,...)
+----
+TLSハンドシェイクが正常に完了したことを確認します `tlshd`：
+
+[listing]
+----
+journalctl -u tlshd -n 10 --no-pager
+----
+以下の内容を含む行を探してください：
+
+[listing]
+----
+Handshake with '<lif-fqdn>' (...) was successful
+----
+*ONTAP側*
+
+接続が `TLS/nfs`としてリストされていることを確認してください（接続が確立されたばかりの場合は、まず少量のI/Oを生成してください）：
+
+[listing]
+----
+ontap9::> network connections active show -vserver <svm>
+----
+予想されるエントリー：
+
+[listing]
+----
+<lif>:2049  <client-fqdn>:<port>  TLS/nfs
+----
+TLSハンドシェイクエラーが発生していないことを確認してください。
+
+[listing]
+----
+ontap9::> event log show -severity error -message-name Nblade.TLSHandshakeFailed
+----
+マウント試行以降に新たなエントリがないということは、ハンドシェイクが成功したことを意味します。
+
+
+
+[[optional-require-tls-for-specific-clients-export-policy-enforcement]]
+== オプション：特定のクライアントに対してTLSを必須にする（エクスポート ポリシーの適用）
+
+デフォルトでは、TLS を介した NFS はオプトイン方式です。TLS を要求しないクライアントでも、TLS が有効になっている LIF 上で平文で接続できます。特定のエクスポート ルールに TLS を強制するには、 `-allow-nfs-tls-only true`を設定します。
+
+[listing]
+----
+ontap9::> vserver export-policy rule modify -vserver <svm> -policyname <policy-name> -ruleindex <rule-index> -allow-nfs-tls-only true
+----
+この設定を行うと、そのルールに一致するNFSクライアントのうち、TLSを使用**しない**クライアントは、エクスポート ルールの評価時点で拒否されます。既存のTLS接続には影響はありません。
+
+確認：
+
+[listing]
+----
+ontap9::> vserver export-policy rule show -vserver <svm> -policyname <policy-name> -fields allow-nfs-tls-only
+----
+
+
+[[optional-mutual-tls-client-authentication]]
+== オプション：相互TLS （クライアント認証）
+
+標準のNFS over TLSは、サーバーをクライアントに対して認証します（サーバーのみのTLS）。相互TLS(`xprtsec=mtls`さらに、クライアントにはONTAPが検証する証明書の提示が求められます。これにより、両側で暗号化によるホスト認証が提供されます。
+
+
+IMPORTANT: *クライアント OS の要件*相互 TLS には `ktls-utils` 0.12 以降が必要です。RHEL 9.7 に同梱されているバージョン（(`ktls-utils 0.11`）は機能しません。設定に関係なく、クライアント証明書を送信しません。RHEL 10.1（(`ktls-utils 1.2.1`）は検証済みです。続行する前に `ktls-utils`のバージョンを確認してください。
+
+
+IMPORTANT: *マウントオプション* `xprtsec=mtls`を使用し、 `xprtsec=tls`は使用*しないでください*。 `xprtsec=tls`を使用すると、カーネルは認証モード `HANDSHAKE_AUTH_UNAUTH`を `tlshd`に送信します。これにより匿名ハンドシェイクパスが使用され、クライアント証明書が設定されていても提示されません。
+
+
+
+[[step-1-create-a-ca-for-client-certificates-ontap]]
+=== ステップ 1：クライアント証明書用の CA を作成する （ONTAP）
+
+これはステップ1と同じCAでも、別のCAでも構いません。本番環境では、サーバーとクライアントの証明書チェーンが分離されるように、別のCAを使用することをお勧めします。
+
+[listing]
+----
+ontap9::> security certificate create -vserver <svm> -common-name "NFS-mTLS-CA" -type root-ca -expire-days 3652 -hash-function SHA256
+----
+シリアル番号を `<mtls-ca-serial>`として記録します。
+
+
+
+[[step-2-install-the-ca-as-a-client-ca-trust-anchor-ontap]]
+=== ステップ 2：CA をクライアント CA トラスト アンカーとしてインストールする （ONTAP）
+
+CA証明書をエクスポートします：
+
+[listing]
+----
+ontap9::> security certificate show -vserver <svm> -common-name "NFS-mTLS-CA" -type root-ca -fields cert
+----
+タイプ `client-ca`としてインストールします：
+
+[listing]
+----
+ontap9::> security certificate install -vserver <svm> -type client-ca
+----
+プロンプトが表示されたら、CA証明書のPEMを貼り付けてください。確認：
+
+[listing]
+----
+ontap9::> security certificate show -vserver <svm> -type client-ca
+----
+
+
+[[step-3-enable-enforce-host-auth-on-the-lif-ontap]]
+=== ステップ 3：LIF で enforce-host-auth を有効にする（ONTAP）
+
+[listing]
+----
+ontap9::> vserver nfs tls interface modify -vserver <svm> -lif <lif> -enforce-host-auth true
+----
+確認：
+
+[listing]
+----
+ontap9::> vserver nfs tls interface show -vserver <svm> -instance
+----
+確認： `Enforce Host Authentication: true`。
+
+
+
+[[step-4-generate-the-client-key-and-csr-linux-client]]
+=== ステップ4：クライアントキーとCSRを生成する（Linuxクライアント）
+
+[listing]
+----
+sudo mkdir -p /etc/nfs
+sudo openssl genrsa -out /etc/nfs/client.key 2048
+sudo chmod 600 /etc/nfs/client.key
+
+sudo openssl req -new \
+  -key /etc/nfs/client.key \
+  -subj "/CN=<client-fqdn>/C=US" \
+  -addext "subjectAltName=DNS:<client-fqdn>,IP:<client-ip>" \
+  -out /tmp/client.csr
+
+cat /tmp/client.csr
+----
+
+
+[[step-5-sign-the-client-csr-with-the-ontap-ca]]
+=== 手順 5：クライアント CSR に ONTAP CA で署名する
+
+ONTAPクラスタで：
+
+[listing]
+----
+ontap9::> security certificate sign -vserver <svm> -ca "NFS-mTLS-CA" -ca-serial <mtls-ca-serial> -expire-days 365 -hash-function SHA256
+----
+プロンプトが表示されたら、 `/tmp/client.csr`の内容を貼り付けます。出力から署名済み証明書のPEMをコピーします。
+
+
+
+[[step-6-build-the-client-certificate-chain-file-linux-client]]
+=== ステップ6：クライアント証明書チェーンファイルを作成する（Linuxクライアント）
+
+署名済みの証明書を `/tmp/client-signed.crt`に保存します。CA証明書PEM (`nfs-mtls-ca.crt`）も取得してください。それらを連結してチェーンファイルを作成します。
+
+[listing]
+----
+sudo bash -c "cat /tmp/client-signed.crt /path/to/nfs-mtls-ca.crt \
+  > /etc/nfs/client-chain.crt"
+sudo chmod 600 /etc/nfs/client-chain.crt
+----
+
+IMPORTANT: **なぜチェーンファイルを使用するのか？** `tlshd`1.2.1 は `gnutls_pcert_list_import_x509_raw`を使用し、GnuTLS が `find_x509_client_cert`コールバック中に発行者を正しく解決するために、証明書チェーン全体（リーフに続いて CA）が必要です。リーフのみのファイルを使用すると、GnuTLS のアサーションエラーが発生します。
+
+
+
+[[step-7-update-etctlshd-conf-with-the-client-certificate-linux-client]]
+=== ステップ7：/etc/tlshd.confをクライアント証明書で更新する（Linuxクライアントの場合）
+
+[listing]
+----
+[debug]
+loglevel=1
+tls=1
+nl=0
+
+[authenticate]
+
+[authenticate.client]
+x509.truststore=/etc/pki/ca-trust/source/anchors/nfs-tls-ca.crt
+x509.certificate=/etc/nfs/client-chain.crt
+x509.private_key=/etc/nfs/client.key
+----
+tlshdを再起動します。
+
+[listing]
+----
+sudo systemctl restart tlshd
+----
+
+
+[[step-8-mount-with-xprtsecmtls]]
+=== ステップ8：xprtsec=mtlsを指定してマウントする
+
+[listing]
+----
+sudo mount -t nfs \
+  -o vers=4.1,xprtsec=mtls \
+  <lif-fqdn>:<export-path> <mountpoint>
+----
+
+
+[[step-9-verify-mutual-tls]]
+=== ステップ9：相互TLSを確認する
+
+*クライアント：*
+
+[listing]
+----
+mount | grep nfs
+# Confirm: xprtsec=mtls in mount options
+
+journalctl -u tlshd -n 5 --no-pager
+# Confirm: "Handshake with '<lif-fqdn>' (...) was successful"
+----
+*ONTAP：*
+
+[listing]
+----
+ontap9::> network connections active show -vserver <svm>
+# Confirm: <lif>:2049  <client-fqdn>:<port>  TLS/nfs
+
+ontap9::> event log show -severity error -message-name Nblade.TLSHandshakeFailed
+# No new entries = success
+----
+
+
+[[defaults-that-matter]]
+== 重要なデフォルト設定
+
+* `-enforce-host-auth = false`--NFS over TLS は、デフォルトではホストベースの認証を強制しません。これはより緩やかな設定です。これを `true`に設定すると、証明書のIDがLIFのホストIDと一致しないTLS接続が拒否されます。
+* `-skip-san-validation = false`--SANチェックはデフォルトで実行されます。これを `true`に設定すると、証明書とLIFのIDバインディングが緩和されます。このパラメータは書き込み専用です：後続の `show`または `GET`では値が反映されないため、管理者は有効化時または変更時にSAN検証がスキップされたかどうかを後から判断できません。
+* `-allow-nfs-tls-only = false`--エクスポートポリシールールは、デフォルトではTLSを要求しません。LIF上でTLS経由のNFSを有効にしても、それ自体では平文NFSを拒否することにはなりません。TLSのみを厳格に使用したい場合は、ルールごとにオプトインし、まずそれらのクライアントにデータを提供するすべてのデータLIFでTLSが有効になっていることを確認してください。そうしないと、アクセスが拒否されます。
+
+
+ `vserver export-policy rule create`および `vserver export-policy rule modify`コマンドに新しいフィールド `-allow-nfs-tls-only`が追加されました。これは、一致するクライアントをNFS over TLS接続のみに制限するものです。
+
+
+
+[[rest-endpoints]]
+== RESTエンドポイント
+
+組み込みの Swagger ドキュメントを使用して REST API をインタラクティブに参照できます。ブラウザで `https://<cluster-mgmt-ip>/api/docs`にアクセスしてください。TLS 上の NFS エンドポイントは、LIF 構成の `/api/protocols/nfs/tls/interfaces`パスと、エクスポートポリシールールフィールドの `/api/protocols/nfs/export-policies/{policy.id}/rules`にあります。

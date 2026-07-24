@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: nfs-tls/nfs-tls-monitor.html 
+keywords: nfs, tls, monitor, counters, ems, events, statistics, observability 
+summary: TLS 上の NFS は、nfs_tls オブジェクトの Counter Manager カウンターと、接続の健全性と強制動作を追跡するための 4 つの EMS イベントを公開します。 
+---
+= TLS 経由の NFS を監視する
+:toc: macro
+:hardbreaks:
+:toclevels: 1
+:allow-uri-read: 
+:toc: 
+:toclevels: 1
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:toc-position: content
+
+
+[role="lead"]
+TLS 上の NFS は、 `nfs_tls`オブジェクトのカウンターマネージャカウンターと、接続状態および強制動作の追跡に使用できる 4 つの EMS イベントを公開します。
+
+
+
+[[counter-manager-counters]]
+== Counter Manager カウンター
+
+NFS over TLS カウンターマネージャのすべてのカウンターは、admin-scope オブジェクト上にあります `nfs_tls`。次のコマンドで確認できます `statistics show -object nfs_tls`。 `-counter <name>`を使用して単一のカウンターにフィルタリングするか、 `-instance`を使用して特定のSVMまたはノード行に範囲を絞り込みます。
+
+*識別子/ラベルカウンター（文字列）：*
+
+* `nfs_tls:instance_name`--行のインスタンス名（構成要素SVM名）。
+* `nfs_tls:instance_uuid`--行のインスタンスUUID（構成要素SVM識別子）。
+* `nfs_tls:vserver_id`--集計された行のSVM識別子ラベル。
+* `nfs_tls:vserver_name`--集計された行のSVM名ラベル。
+* `nfs_tls:node_name`--集計行のノード名ラベル。
+
+
+*接続量カウンター（レート）：*
+
+* `nfs_tls:tls_total_connection_requests`--処理されたNFS over TLS接続要求の総数（成功＋失敗）。
+* `nfs_tls:tls_connection_success`-- NFS over TLS接続が成功しました。
+* `nfs_tls:tls_disabled_connection_failures`--SVMでTLS経由のNFSが無効になっているため、接続が拒否されました。
+* `nfs_tls:tls_connection_handshake_failures`--TLSハンドシェイク中に失敗した接続。
+* `nfs_tls:tls_configuration_not_found`--SVM/LIFペアにTLS設定が存在しないため、接続試行が拒否されました。
+* `nfs_tls:tls_connection_mismatch`--メモリ内の接続識別子がハンドシェイク完了時に観測された接続と一致しなかったために失敗した接続。
+
+
+*レイテンシカウンター（平均）：*
+
+* `nfs_tls:tls_handshake_average_latency`--TLSハンドシェイクの平均遅延時間（マイクロ秒）。基本カウンター： `tls_connection_success`。
+
+
+
+
+[[event-management-system-ems-messages]]
+== Event Management System（EMS）メッセージ
+
+顧客から見える 4 つの EMS イベントが、NFS over TLS のデータ パス上の NFSサーバによって送信されます。次のコマンドで確認できます： `event log show`
+
+`Nblade.TLSConfigError`:: 重大度 `ERR`、10分間のレート制限。クライアントがTLS設定のないSVM/LIFに対してTLS経由のNFS接続を試みた際にトリガーされます。ログに記録されるフィールド：クライアントIPアドレス、SVM名、LIF IPアドレス。解決するには、 `vserver nfs tls interface enable`で設定を有効にしてください。
+`Nblade.TLSHandshakeFailed`:: 重大度 `ERR`、10分間のレート制限。クライアントとサーバー間のTLSハンドシェイクが失敗した場合にトリガーされます。ログに記録されるフィールド：SVM名、LIF IPアドレス、クライアント（リモート）IPアドレス、サーバー証明書UUID。解決するには、LIF上のTLS設定を確認し、ネットワークの状態をチェックしてください。問題が解決しない場合は、NetAppサポートにお問い合わせください。
+`Nblade.NfsTlsDisabled`:: 重大度 `ALERT`、レート制限は24時間です。クライアントが、この機能が無効になっているSVM上でTLS経由のNFS接続を試みた際にトリガーされます。記録されるフィールド：SVM名。
+`Nblade.nfsTLSAccessErr`:: 重大度 `ERR`。エクスポートポリシールールに一致するクライアントが `-allow-nfs-tls-only true` TLSなしでNFSパスをマウントまたはアクセスしようとしたときにトリガーされます。このイベントを使用して、TLS非対応クライアントが意図どおりにブロックされていることを確認してください。
+

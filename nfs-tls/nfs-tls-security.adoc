@@ -1,0 +1,116 @@
+---
+sidebar: sidebar 
+permalink: nfs-tls/nfs-tls-security.html 
+keywords: nfs, tls, security, rbac, encryption, auditing, certificates, mtls 
+summary: TLS 上の NFS は標準の ONTAP RBAC を使用し、LIF ごとに X.509 サーバー証明書を必要とし、TLS 1.3 のみをサポートします。 
+---
+= セキュリティ
+:toc: macro
+:hardbreaks:
+:toclevels: 1
+:allow-uri-read: 
+:toc: 
+:toclevels: 1
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:toc-position: content
+
+
+[role="lead"]
+このページでは、ONTAP 9.19.1 における TLS 経由の NFS に関する RBAC 要件、証明書の検証、暗号化パラメータ、監査、および既知のセキュリティ制限について説明します。
+
+
+
+[[role-and-rbac-requirements]]
+== 役割とRBACの要件
+
+ `vserver nfs tls interface`コマンドファミリー（-`enable`、 `disable`、 `modify`、および `show`）はSVMスコープです。クラスター `admin`ロール、または所有するSVMの `vsadmin`によって実行できます。
+
+ `vserver export-policy rule`上の `-allow-nfs-tls-only`フィールドは、既存のexport-ruleオブジェクトの書き込みフィールドです。標準のexport-policyルールRBACを使用します。
+
+ `/api/protocols/nfs/tls/interfaces`配下のRESTエンドポイントは、上記のCLIコマンドと1対1で対応しています。標準のNAS管理者RBACを使用します。個別のRESTロールは定義されていません。
+
+
+
+[[authentication-and-authorization]]
+== 認証と許可
+
+LIF 上で TLS 経由の NFS を有効にするには、 `security certificate install`を使用して SVM にサーバ X.509 証明書をインストールする必要があります。証明書は、 `-certificate-name`を使用して有効化時に LIF ごとにバインドされます。
+
+ONTAPは、提供されたサーバー証明書に対して2つのチェックを実施します。
+
+. 証明書の共通名（CN）は、LIFの完全修飾ドメイン名（FQDN）と一致している必要があります。
+. LIFのIPアドレスは、証明書のサブジェクト代替名（SAN）リストに記載されている必要があります。
+
+
+オプション `-skip-san-validation`ブール値（デフォルト `false`）は、有効化時または変更時にSANチェックを抑制します。
+
+チェックが失敗するたびに、それぞれ異なるエラーが返されます。
+
+相互TLS（mTLS）ホスト認証はオプトイン方式です。 `-enforce-host-auth true`を `vserver nfs tls interface enable`または `modify`に設定して有効にしてください。デフォルトは `false`で、サーバー側のみの認証を意味します。クライアント証明書は、SVMにインストールされているCAトラストチェーンに対して検証されます。このCAトラストチェーンのプロビジョニングはお客様の責任となります。
+
+
+
+[[user-authentication]]
+=== ユーザ認証
+
+ユーザ認証はTLSによって変更されません。TLSは、通信回線上の機密性とホスト認証を追加します。 `AUTH_SYS`UNIX UID/GIDまたは `RPCSEC_GSS`/KerberosをRPCのユーザ認証に引き続き使用する必要があります。RFC 9289はこれについて明確に述べています：TLSはトランスポートを保護し、既存のNFS認証フレーバーはこれまでと同様にユーザ認証を処理します。
+
+
+
+[[encryption]]
+== 暗号化
+
+
+
+[[in-transit]]
+=== 転送中
+
+LIF上でTLS経由のNFSが有効になっている場合、使用されるバージョンはTLS 1.3のみです。以下の暗号スイートがサポートされています：
+
+* `TLS_AES_128_GCM_SHA256`
+* `TLS_AES_256_GCM_SHA384`
+* `TLS_CHACHA20_POLY1305_SHA256`
+
+
+キー交換では、 `secp384r1`曲線上で ECDHE を使用します。暗号化は、TLS対応LIF上で伝送されるNFSv3およびNFSv4.xトラフィックに適用されます。
+
+
+
+[[auditing]]
+== 監査
+
+NFS over TLS のすべての構成変更は、標準の ONTAP 監査ログ（(`security audit log show`）に記録されます。以下の操作がログに記録されます：
+
+* `vserver nfs tls interface enable`
+* `vserver nfs tls interface modify`
+* `vserver nfs tls interface disable`
+* `vserver export-policy rule create -allow-nfs-tls-only`
+* `vserver export-policy rule modify -allow-nfs-tls-only`
+
+
+読み取り専用 `show`および `GET`操作は標準の ONTAP 監査ポリシーに従い、監査がログを記録するように設定されていない限り、通常は記録されません。
+
+NFS over TLS データ パスで、顧客から見える3つのEMSイベントが発信されます。イベントの詳細、トリガー条件、およびレート制限については、link:nfs-tls-monitor.html["EMSメッセージ"]を参照してください。
+
+
+
+[[tenancy-boundary]]
+== テナント境界線
+
+NFS over TLSの設定はSVMごとに行われます。SVM管理者は、自身のSVMに属するLIF上のTLS設定のみを表示および管理できます。クラスタ管理者はすべてのSVMを表示できます。
+
+サーバー証明書の参照先はSVMローカルです。この設定はクラスタ全体に複製されるため、特定のLIFを処理するすべてのノードが同じTLS設定を適用します。
+
+
+
+[[known-security-relevant-limitations]]
+== 既知のセキュリティ関連の制限事項
+
+**自己署名証明書に関する注意点**CLI `enable`および `modify`コマンドは、自己署名証明書を使用すると中間者攻撃にさらされる可能性があると警告します。 `security certificate install`を使用してインストールされた CA 署名証明書を使用してください。
+
+**相互TLSはオプトイン方式です。** デフォルト `-enforce-host-auth false`では、TLS上のNFSはネットワーク上の機密性と完全性を保護し、サーバーをクライアントに対して認証しますが、クライアントホストを暗号化によって認証するわけではありません。必要な場合は、mTLSを明示的に有効にしてください。
+
+**TLSのみの適用は、エクスポートポリシールールごとに行われ、グローバルには適用されません。**関連するエクスポートポリシールールに `-allow-nfs-tls-only true`を設定するまで、同じLIFは、そのルールによって許可されているクライアントからの非TLS NFS接続を引き続き受け入れることができます。
