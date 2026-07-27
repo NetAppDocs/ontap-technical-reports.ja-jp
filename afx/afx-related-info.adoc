@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: afx/afx-related-info.html 
 keywords: netapp afx, resources, documentation, links, data sheet 
-summary: NetApp AFXの詳細については、以下のリソースを参照してください。 
+summary: 以下のリソースを参照して、NetApp AFX の詳細をご確認ください。 
 ---
 = 詳細情報の入手方法
 :allow-uri-read: 
@@ -13,9 +13,9 @@ summary: NetApp AFXの詳細については、以下のリソースを参照し�
 [role="lead"]
 このドキュメントに記載されている情報の詳細については、次のドキュメントやWebサイトを参照してください：
 
-* Hardware Universelink:https://hwu.netapp.com/["https://hwu.netapp.com/"^]
-* NetApp AFX製品ページhttps://www.netapp.com/afx/[]
-* NetApp AFX：拡張性とセキュリティに優れたAIデータインフラストラクチャlink:https://www.netapp.com/blog/afx-scalable-secure-ai-data-infrastructure/["https://www.netapp.com/blog/afx-scalable-secure-ai-data-infrastructure/"^]
-* NFSv3とNFSv4.xのどちらを選ぶか迷っていますか？選択肢はますます明確になってきている…link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Deciding-between-NFSv3-or-NFSv4-x-The-choice-is-getting-clearer["https://community.netapp.com/t5/Tech-ONTAP-Blogs/Deciding-between-NFSv3-or-NFSv4-x-The-choice-is-getting-clearer"^]
-* NetApp AFX データシートlink:https://www.netapp.com/media/142853-ds-3466-netapp-afx-datasheet.pdf["https://www.netapp.com/media/142853-ds-3466-netapp-afx-datasheet.pdf"^]
+* link:https://hwu.netapp.com/["Hardware Universe"]
+* link:https://www.netapp.com/afx/["AFX製品ページ"]
+* link:https://www.netapp.com/blog/afx-scalable-secure-ai-data-infrastructure/["AIを活用した企業の構築：インフラが重要な理由"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Deciding-between-NFSv3-or-NFSv4-x-The-choice-is-getting-clearer/ba-p/465963["ブログ：NFSv3とNFSv4.Xのどちらを選ぶべきか"]
+* link:https://www.netapp.com/media/142853-ds-3466-netapp-afx-datasheet.pdf["AFXデータシート"]
 
