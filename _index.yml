@@ -1,9 +1,9 @@
 ---
 indexpage:
-  title: NetAppテクニカルレポート
-  summary: NetAppテクニカルレポートは、さまざまなエコシステムやさまざまなプロトコルでの導入の計画と最適化に関する追加情報を提供します。一部のONTAPテクニカルレポートでは、ONTAP機能に関するアーキテクチャ上の背景と推奨される方法を提供しています。
+  title: ONTAP技術レポート
+  summary: ONTAPの技術レポートは、異なるエコシステム内または異なるプロトコルでの導入計画と最適化のための追加的な情報を提供します。ONTAPの技術レポートの中には、ONTAPの機能や性能に関するアーキテクチャ上の背景情報や推奨事項が記載されているものがあります。
   keywords: ONTAP 9, ONTAP, Technical Reports, TR
-  lead: NetAppテクニカルレポートは、さまざまなエコシステムやさまざまなプロトコルでの導入の計画と最適化に関する追加情報を提供します。一部のONTAPテクニカルレポートでは、ONTAP機能に関するアーキテクチャ上の背景と推奨される方法を提供しています。
+  lead: ONTAPの技術レポートは、異なるエコシステム内または異なるプロトコルでの導入計画と最適化のための追加的な情報を提供します。ONTAPの技術レポートの中には、ONTAPの機能や性能に関するアーキテクチャ上の背景情報や推奨事項が記載されているものがあります。
   tiles:
   - title: アプリケーションとデータベース
     links:
@@ -56,7 +56,7 @@ indexpage:
     - title: ONTAPでのNFS Kerberos
       url: nas.html
     - title: NFS over TLS
-      url: nfs-tls/
+      url: "/nfs-tls/nfs-tls-overview.html"
     - title: その他のNASテクニカル・レポート
       url: nas.html
   - title: SAN

@@ -2345,8 +2345,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="739f428040feee735e00029f2f74aaad" category="summary">このページでは、NetApp AFXの最新のアップデートについて説明します。新しいリリースごとに更新されます。</block>
   <block id="89bef61b77bccd688eb4c742aab2b38b" category="doc">NetApp AFXの新機能</block>
   <block id="f5cb5bdaaa412361fa89cf3912168e46" category="summary">IPsecはNFSやSMBの暗号化に代わる選択肢であり、iSCSIトラフィックにおける唯一の転送中暗号化オプションです。</block>
-  <block id="0edc4f2a9dbc6aeccfda9e35d7fc1e2c" category="sidebar">NetAppテクニカルレポートは、さまざまなエコシステムやさまざまなプロトコルでの導入の計画と最適化に関する追加情報を提供します。一部のONTAPテクニカルレポートでは、ONTAP機能に関するアーキテクチャ上の背景と推奨される方法を提供しています。</block>
-  <block id="769f9a17e2917e1c464ebd1dfbcbc78f" category="sidebar">NetAppテクニカルレポート</block>
   <block id="5c6ab1284b6b7a5a7102854a969c99be" category="sidebar">ストレージ システム</block>
   <block id="e9d7397e9772df2e11071d57657f4b22" category="sidebar">AFX</block>
   <block id="33871b6190a8d5adbe8b15282054766c" category="sidebar">新機能</block>
@@ -2528,7 +2526,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="799311ec2a93db750cc80868f6de9f45" category="list-text">重大度<block ref="320f86f60f25459ba5550e000b2c3929" prefix=" " category="inline-code"></block>、レート制限は24時間です。クライアントが、この機能が無効になっているSVM上でTLS経由のNFS接続を試みた際にトリガーされます。記録されるフィールド：SVM名。</block>
   <block id="3073a9f5875a227e23219f0525b7efbd" category="list-text"><block ref="77e0cb8b7c203cd744328c65b0690682" prefix="" category="inline-code"></block></block>
   <block id="4dd7e90fe2de7e36ca6e0f6c4551de0c" category="list-text">重大度<block ref="cd22bad976363fdd1bfbf6759fede482" prefix=" " category="inline-code"></block>。エクスポートポリシールールに一致するクライアントが<block ref="0db3324f6e6bdfb7434bca0fd896c8b2" prefix=" " category="inline-code"></block> TLSなしでNFSパスをマウントまたはアクセスしようとしたときにトリガーされます。このイベントを使用して、TLS非対応クライアントが意図どおりにブロックされていることを確認してください。</block>
-  <block id="d4d963696760850746648f3a41f8ecd1" category="summary">ONTAP 9.19.1では、ネイティブNFS over TLSが導入され、KerberosやIPsecを使用せずにRFC 9289に従ってNFS RPCトラフィックの転送中の暗号化が可能になります。</block>
   <block id="08ed4a47b941685c9edbc9dcd5d9ee57" category="doc">NFS over TLSの概要</block>
   <block id="2ae4132b55036d673c6efc936c13f75e" category="paragraph">ONTAP 9.19.1では、NFSトラフィックを暗号化するための待望の「簡単ボタン」であるNFS over TLSが導入されました。</block>
   <block id="ffea051388edee8ef372949be32bff50" category="inline-link-macro">RFC 9289</block>
@@ -2559,7 +2556,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="af308a9544f9cd6667d954e201388346" category="paragraph">*多数の異なるクライアントID（相互TLS）*相互TLS（mTLS）の導入では、検証される固有のクライアント証明書の数に応じて、ハンドシェイク用のCPUリソースが拡張されます。</block>
   <block id="21864784471d974f421182a25769daa9" category="paragraph">*mTLSとサーバーオンリーTLSの比較*ホスト認証（mTLS）を有効にすると、サーバー側でクライアント証明書の検証が追加されるため、各ハンドシェイクのコストはサーバーのみのTLSよりも若干高くなります。定常状態におけるRPCあたりのコストは変わりません。</block>
   <block id="097bc9f656efd3efd7bb245df52f4e67" category="paragraph">*TLS設定の変更*TLSインターフェース構成の頻繁な変更（証明書のローテーション、有効化/無効化のサイクルなど）は、ノードごとのTLS構成キャッシュを無効にし、ルックアップを管理ホストに戻すことを強制するため、一時的にハンドシェイクのレイテンシが増加します。</block>
-  <block id="60d3ef38aef28b0416bcd458ffc3d840" category="summary">TLS 上の NFS は、標準の ONTAP エクスポートポリシー制御と連携し、SVM-DR および MetroCluster を通じてレプリケートされます。このページでは、接続制限、適用動作、および運用上の推奨事項についても説明します。</block>
   <block id="8d217ebd6342c5cff32664c568fede0c" category="doc">相互運用性と制限</block>
   <block id="ff876c23f5a4e3c38b9a50b2f7b4a1fa" category="paragraph">TLS 上の NFS は、標準の ONTAP エクスポートポリシー制御と連携し、SVM-DR および MetroCluster を介してレプリケートされます。また、導入前に把握しておくべき、プラットフォーム上のいくつかの厳格な制限事項と運用上の推奨事項があります。</block>
   <block id="67a915151759ecc737f698391f7cfd08" category="section-title">相互運用性</block>
@@ -2675,4 +2671,8 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="083f5724b7ba8a1aee93e65207c1ca46" category="list-text"><block ref="083f5724b7ba8a1aee93e65207c1ca46" category="inline-link-macro-rx"></block></block>
   <block id="0b177bc573a406d57588f5636aee8329" category="inline-link-macro">AFXデータシート</block>
   <block id="ccc213f9aa4c560ef128ce5b7fec0244" category="list-text"><block ref="ccc213f9aa4c560ef128ce5b7fec0244" category="inline-link-macro-rx"></block></block>
+  <block id="28c20cc636e9273bfdbbb9e04c22b3eb" category="summary">ONTAP 9.19.1では、ネイティブNFS over TLSが導入され、KerberosやIPsecを使用せずにRFC 9289に準拠したNFSの転送中の暗号化が可能になります。</block>
+  <block id="49f0664f282179029e2131d30362f45d" category="summary">TLS 上の NFS は標準の ONTAP エクスポートポリシーコントロールと連携し、SVM-DR および MetroCluster を介してレプリケートされます。このページでは、接続制限、適用動作、および運用上の推奨事項についても説明しています。</block>
+  <block id="7ec1eb1e8c27af2d560415def72f2dcf" category="sidebar">ONTAPの技術レポートは、異なるエコシステム内または異なるプロトコルでの導入計画と最適化のための追加的な情報を提供します。ONTAPの技術レポートの中には、ONTAPの機能や性能に関するアーキテクチャ上の背景情報や推奨事項が記載されているものがあります。</block>
+  <block id="9678a7dcb872318bf33163b8a1ba5331" category="sidebar">ONTAP技術レポート</block>
 </blocks>

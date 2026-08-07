@@ -2,7 +2,7 @@
 sidebar: sidebar 
 permalink: nfs-tls/nfs-tls-overview.html 
 keywords: nfs, tls, encryption, ontap, rfc9289, in-transit, prerequisites, requirements 
-summary: ONTAP 9.19.1では、ネイティブNFS over TLSが導入され、KerberosやIPsecを使用せずにRFC 9289に従ってNFS RPCトラフィックの転送中の暗号化が可能になります。 
+summary: ONTAP 9.19.1では、ネイティブNFS over TLSが導入され、KerberosやIPsecを使用せずにRFC 9289に準拠したNFSの転送中の暗号化が可能になります。 
 ---
 = NFS over TLSの概要
 :toc: macro
