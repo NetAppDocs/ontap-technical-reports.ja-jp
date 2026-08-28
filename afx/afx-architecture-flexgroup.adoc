@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: afx/afx-architecture-flexgroup.html 
+keywords: netapp afx, flexgroup, advanced capacity balancing, volume management, storage availability zone 
+summary: NetApp AFX 容量アーキテクチャが FlexGroup のボリューム管理を簡素化する方法をご紹介します。 
+---
+= FlexGroup 管理の改善
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx/
+
+
+[role="lead"]
+NetApp AFX の単一のストレージ可用性ゾーンにより、FlexGroup ボリュームに必要なインフラストラクチャ管理が削減されます。
+
+一般的に、NetApp AFX管理は、クラスターを管理するために使用されるメカニズムを変更するものではありません。管理者は引き続き、CLI、GUI、およびREST APIを利用してクラスターにログインし、構成を行うことができます。しかし、NetApp AFXは、ストレージ管理業務の実施方法の一部を改善する機会を提供しました。
+
+
+
+[[flexgroup-volume-management-improvements]]
+== FlexGroup ボリューム管理の機能拡張
+
+FlexGroupボリュームは、クラスター内の複数のノードとアグリゲートにまたがって作成された複数の基盤となるFlexVol構成ボリュームで構成され、NASクライアントに対して単一の大きな名前空間として提示されます。FlexGroupボリュームは、ハイパフォーマンスワークロードに対して、パフォーマンス、スケール、ロード バランシング、およびファイル数のメリットを提供します。ただし、ノードとアグリゲート間で連携するため、アグリゲートが提供する独立したファイルシステムにもそれぞれ独立した容量使用量と制限があるため、容量がいっぱいになり始めると、物理的な制約に直面することがあります。たとえば、FlexGroupボリューム構成要素を持つアグリゲートがクラスター内の他のアグリゲートよりも先にいっぱいになり始めると、FlexGroup全体が容量またはパフォーマンスの問題に直面する可能性があります。
+
+その結果、ストレージ管理者は、基盤となるFlexGroupインフラストラクチャについて過度に心配することになり、環境の他の側面の維持への関心が低下する可能性があります。
+
+*FlexGroupボリュームレイアウト - 統合ONTAPアグリゲート*
+
+image:image22.png["イメージ"]
+
+NetApp AFXは単一のStorage Availability Zoneで容量を提示します。これは、FlexGroupボリュームの動作方法をより忠実に反映しています。サイズが異なる可能性のある複数の異なるアグリゲートにまたがる複数の構成ボリュームではなく、すべてのボリュームが同じ容量プールに存在するため、FlexGroupボリュームを使用する際の全体的な管理オーバーヘッドが大幅に簡素化されます。
+
+さらに、AFXはデフォルトでFlexGroupボリュームのAdvanced Capacity Balancingを有効にし、ボリューム内の大きなファイルをより適切に分散させることができます。これにより、FlexGroupボリュームの構成要素は管理概念としての側面が薄れ、バックグラウンドで静かに機能するようになります。
+
+*FlexGroup ボリュームレイアウト - NetApp AFX*
+
+image:image23.png["イメージ"]
+
+[cols="1,1"]
+|===
+
+
+| link:afx-architecture-feature-support.html["前：ONTAP機能サポートの変更"] | link:afx-architecture-volume-moves.html["次へ：ボリュームの移動"] 
+|===

@@ -11,7 +11,7 @@ summary: このページでは、NetApp AFXの最新のアップデートにつ�
 
 
 [role="lead"]
-このセクションでは、NetApp AFXの最新のアップデートについて説明します。新しいリリースごとに更新されます。最新情報については定期的にこのページをご確認ください。また、バージョンリリースノートも併せてご確認ください。
+このセクションでは、NetApp AFX の最新アップデートについて説明します。新しいリリースごとに更新されます。最新情報については定期的にこちらをご確認ください。また、link:https://docs.netapp.com/us-en/ontap-afx/release-notes/whats-new-9191.html["ONTAP 9.19.1 AFX リリースノート"^]もご参照ください。
 
 
 
@@ -20,16 +20,16 @@ summary: このページでは、NetApp AFXの最新のアップデートにつ�
 
 最新リリース：
 
-ONTAP 9.19.1RC1（2026年5月時点）
+ONTAP 9.19.1 GA（2026年8月現在）
 
 NetApp AFXの新機能：
 
-* グローバル重複排除
-* 動的なストレージ効率
-* 高度な先読み
-* 32ノード対応
-* 32PBのサポート
-* FlexGroupボリュームあたり512個の構成ボリューム
+* link:afx-architecture-storage-efficiency.html#deduplication-domains["グローバル重複排除"]（link:https://docs.netapp.com/us-en/ontap-afx/administer/additional-ontap-svm.html#global-deduplication["AFX SVM管理"^]も参照）
+* link:https://docs.netapp.com/us-en/ontap-afx/release-notes/whats-new-9191.html["動的なストレージ効率"^]
+* link:afx-performance.html#aggressive-read-ahead["高度な先読み"]（Cross File Sequential Read。link:https://docs.netapp.com/us-en/ontap-afx/administer/additional-ontap-svm.html#cross-file-sequential-read["AFX SVM管理"^]も参照）
+* link:afx-architecture-cluster-scale.html#cluster-scale-and-expansion["32ノード対応"]（link:afx-limits.html["最大値と制限値"]も参照）
+* link:afx-limits.html["32PBのサポート"]
+* link:afx-limits.html["FlexGroupボリュームあたり512個の構成ボリューム"]
 
 
 
@@ -41,5 +41,14 @@ NetApp AFXの新機能：
 | version | 日付 | ドキュメントのバージョン履歴 
 
 
+| バージョン1.1 | 2026年8月 | この技術レポートをONTAP 9.19.1GA向けに更新しました。新しいAFX機能、32ノードおよび32PBスケール、AFX 1KおよびAFX 2Kのパフォーマンスとハードウェア、クラスタスイッチとシェルフのサイジング、更新されたプラットフォーム制限、パフォーマンスベンチマークのヒントページ、および製品ドキュメントへの追加リンクについて説明します。 
+
+
 | バージョン1.0 | 2026年6月 | 初版リリース 
+|===
+[cols="1,1"]
+|===
+
+
+| link:afx-learn-about.html["前へ"] | link:afx-architecture.html["次へ：アーキテクチャ"] 
 |===

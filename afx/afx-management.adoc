@@ -1,8 +1,8 @@
 ---
 sidebar: sidebar 
 permalink: afx/afx-management.html 
-keywords: netapp afx, cli, system manager, rest api, management tools, gui 
-summary: NetApp AFXではストレージの提示方法にかなり大きなアーキテクチャ上の違いがありますが、機能セットとONTAPの管理方法は実質的に変更されていません。 
+keywords: netapp afx, capacity management, storage availability zone, cli, system manager, rest api, management tools, gui 
+summary: NetApp AFX Storage Availability Zoneによって、使い慣れたONTAP管理ツールを引き続き使用しながら、容量管理をどのように簡素化できるかについて説明します。 
 ---
 = 管理ツール
 :allow-uri-read: 
@@ -61,6 +61,33 @@ image:image41.png["イメージ"]
 
 
 
+[[capacity-management]]
+== 容量管理
+
+NetApp AFX Storage Availability Zoneは、管理エンドポイントをノードおよびアグリゲートベースのアプローチから、クラスタ全体で利用可能な単一の容量プールに削減します。ボリュームが拡張および縮小すると、ONTAPは自動的にStorage Availability Zoneとの間で容量を借用および返却します。
+
+このため、ストレージ管理者は、最大24個のノードと場合によっては数百個のアグリゲートにわたる利用可能な空き容量の場所を特定し、管理する必要がなくなります。その代わりに、容量の管理と確認ができる場所は1箇所だけです。
+
+例えば、統合された ONTAP の CLI では、クラスターの物理容量の合計情報を確認したい場合は、「`aggregate show-space`」を使用します。これにより、すべてのアグリゲートエントリが出力されます。NetApp AFX では、「`cluster space show`」というコマンドがあり、これを実行すると単一のストレージ可用性ゾーンのみが表示されます。
+
+*統合 ONTAP と NetApp AFX における容量 CLI コマンドの並列比較*
+
+image:image19.png["イメージ"]
+
+Unified ONTAP System Manager の GUI では、容量を示すために階層が使用されます。実際、GUI は合計値を算出してクラスター全体の容量を包括的に表示しようと試みていますが、それでもアグリゲート単位での全体的な使用状況が表示されます。
+
+*System Managerの容量ビュー - 統合ONTAP*
+
+image:image20.png["イメージ"]
+
+NetApp AFX System Managerでは、クラスタスペースの表示はほぼ同じですが、アグリゲートがないため、追加の計算は不要です。表示されている容量が、実際に得られる容量です。
+
+*System Manager の容量ビュー – NetApp AFX*
+
+image:image21.png["イメージ"]
+
+
+
 [[rest-apis]]
 == REST API
 
@@ -83,3 +110,10 @@ NetApp AFX は現在、以下の機能をサポートしていません：
 
 * NetApp ActiveIQ Unified Manager
 
+
+[cols="1,1"]
+|===
+
+
+| link:afx-performance-benchmarks.html["前へ"] | link:afx-capabilities.html["次：機能"] 
+|===

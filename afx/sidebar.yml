@@ -7,9 +7,35 @@ entries:
 - title: 新機能
   url: "/afx/afx-whats-new.html"
 - title: アーキテクチャ
-  url: "/afx/afx-architecture.html"
+  entries:
+  - title: 概要
+    url: "/afx/afx-architecture.html"
+  - title: ノードとディスクの関係
+    url: "/afx/afx-architecture-node-disk.html"
+  - title: 単一容量プール
+    url: "/afx/afx-architecture-capacity-pool.html"
+  - title: 複製された NVRAM および HA フェイルオーバー動作
+    url: "/afx/afx-architecture-nvram-ha.html"
+  - title: 独立した線形スケール
+    url: "/afx/afx-architecture-independent-scale.html"
+  - title: RAIDの変更
+    url: "/afx/afx-architecture-raid.html"
+  - title: Storage Efficiency
+    url: "/afx/afx-architecture-storage-efficiency.html"
+  - title: ONTAP機能サポートの変更
+    url: "/afx/afx-architecture-feature-support.html"
+  - title: FlexGroup 管理の改善
+    url: "/afx/afx-architecture-flexgroup.html"
+  - title: ボリューム移動
+    url: "/afx/afx-architecture-volume-moves.html"
+  - title: クラスター規模
+    url: "/afx/afx-architecture-cluster-scale.html"
+  - title: ルートボリュームの変更
+    url: "/afx/afx-architecture-root-volume.html"
 - title: Performance
   url: "/afx/afx-performance.html"
+- title: パフォーマンスベンチマークのヒント
+  url: "/afx/afx-performance-benchmarks.html"
 - title: 管理
   url: "/afx/afx-management.html"
 - title: 機能

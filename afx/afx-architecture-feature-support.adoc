@@ -1,0 +1,39 @@
+---
+sidebar: sidebar 
+permalink: afx/afx-architecture-feature-support.html 
+keywords: netapp afx, ontap feature support, unsupported features, metrocluster, fabricpool, block protocols 
+summary: NetApp AFX で変更、削除、またはサポート対象外となった ONTAP 機能を確認します。 
+---
+= ONTAP機能サポートの変更
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx/
+
+
+[role="lead"]
+NetApp AFX のハイパフォーマンス NAS とオブジェクト設計により、一部の ONTAP 機能とインターフェースの利用可能性が変わります。
+
+
+
+[[ontap-features-that-have-been-removed-or-are-unsupported-with-afx]]
+[[ontap-features-that-have-been-removedare-unsupported-with-afx]]
+== AFXで削除された、またはサポートされていないONTAP機能
+
+NetApp AFXは、ハイパフォーマンスNASおよびオブジェクトワークロード、特に（ただしこれに限定されない）AIトレーニングおよび推論領域のワークロード向けに設計されています。NetApp AFXの設計により、ONTAPの一部の機能を無効にする決定が行われました。
+
+* ハイパフォーマンス NAS とオブジェクトに焦点を当てているため、ブロック ワークロードは NetApp AFX ソリューションから削除されました。FCP、iSCSI、NVMe のデータ プロトコルはサポートされておらず、ブロック プロトコルを追加する予定もありません。
+* Disaggregated とは de-aggregated と同義であり、アグリゲート（少なくとも物理ストレージ管理の概念として）が削除されたことを意味します。物理アグリゲートを削除すると、ONTAP での容量管理が簡素化されるだけでなく、単一の容量プールを可能にするメカニズムも提供されます。
+* アグリゲートが削除されるということは、アグリゲート固有の機能も削除されることを意味します。たとえば、MetroClusterは、サイトフェイルオーバー機能のために、アグリゲートレベルのミラーリングを活用しています。そのため、MetroClusterもNetApp AFXから削除されます。サイトフェイルオーバー機能は、代わりにONTAP 9.19.1GAで提供される新しいSnapMirror Active-Sync for NAS機能によって提供されます。
+* FabricPoolと呼ばれるコールドデータ階層化機能も、アグリゲート固有であるため、現在NetApp AFXでは利用できません。
+* 新しい容量アーキテクチャにより、NetApp AFXではコピーベースのボリューム移動も不要になりました。詳細については、link:afx-architecture-volume-moves.html#zero-copy-volume-moves["ゼロコピーボリューム移動"]を参照してください。
+* 機能の削除は、一部のCLI/GUI/REST APIの変更も意味するため、サポートされなくなった機能のコマンドやAPI呼び出しもすべて削除されます。
+* ZAPI は現在 NetApp AFX では利用できません。
+* 仮想化向けのNFSコピー オフロード（粒度データ分布のみのFlexGroupボリューム）
+
+
+[cols="1,1"]
+|===
+
+
+| link:afx-architecture-storage-efficiency.html["前へ：ストレージ効率"] | link:afx-architecture-flexgroup.html["次：FlexGroup 管理の改善"] 
+|===

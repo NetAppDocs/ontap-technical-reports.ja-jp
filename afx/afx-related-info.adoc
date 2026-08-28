@@ -14,8 +14,17 @@ summary: 以下のリソースを参照して、NetApp AFX の詳細をご確認
 このドキュメントに記載されている情報の詳細については、次のドキュメントやWebサイトを参照してください：
 
 * link:https://hwu.netapp.com/["Hardware Universe"]
+* link:https://docs.netapp.com/us-en/ontap-afx/index.html["AFXのドキュメント"]
+* link:https://docs.netapp.com/us-en/ontap-afx/release-notes/whats-new-9191.html["ONTAP 9.19.1 の AFX ストレージシステム向け新機能"]
 * link:https://www.netapp.com/afx/["AFX製品ページ"]
 * link:https://www.netapp.com/blog/afx-scalable-secure-ai-data-infrastructure/["AIを活用した企業の構築：インフラが重要な理由"]
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Deciding-between-NFSv3-or-NFSv4-x-The-choice-is-getting-clearer/ba-p/465963["ブログ：NFSv3とNFSv4.Xのどちらを選ぶべきか"]
 * link:https://www.netapp.com/media/142853-ds-3466-netapp-afx-datasheet.pdf["AFXデータシート"]
 
+
+[cols="1,1"]
+|===
+
+
+| link:afx-limits.html["前へ"] |  
+|===

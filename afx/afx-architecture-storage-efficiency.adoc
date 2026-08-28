@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: afx/afx-architecture-storage-efficiency.html 
+keywords: netapp afx, storage efficiency, deduplication, global deduplication, storage availability zone 
+summary: NetApp AFX重複排除ドメインがどのように変更されたか、およびONTAP 9.19.1がグローバル重複排除をどのように提供するかについて説明します。 
+---
+= Storage Efficiency
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx/
+
+
+[role="lead"]
+NetApp AFXは重複排除境界を変更し、ONTAP 9.19.1以降では、ストレージ可用性ゾーン全体にわたるグローバルな重複排除ドメインをサポートします。
+
+
+
+[[deduplication-domains]]
+== 重複排除ドメイン
+
+重複排除機能により、ストレージシステムはファイルシステム内の重複ブロックを検出し、単一のブロックへのポインタを作成することで、使用容量の総量を削減できます。統合ONTAPでは、重複排除は削減できるブロックに関して特定の境界に従います。これらの境界は、使用されている重複排除のタイプによって異なります。一般的に：
+
+* ボリュームベースの重複排除 -> ボリューム境界
+* ボリューム間重複排除 -> アグリゲート境界
+
+
+*統一 ONTAP 重複排除ドメイン*
+
+image:image17.png["イメージ"]
+
+NetApp AFXでは物理アグリゲートが削除され、容量管理が新しいStorage Availability Zoneに移行されるため、重複排除ドメインの境界も変更されます。AFXでは、重複排除ドメインはボリュームレベル（統合ONTAPと同様）および9.19.1より前のノード（アグリゲートではなく）にあります。
+
+ONTAP 9.19.1以降、AFXはStorage Availability Zoneレベルでグローバル重複排除ドメインをサポートしているため、クラスタストレージプール内のすべての重複ブロックは同じように扱われます。
+
+*NetApp AFX – グローバル重複排除ドメイン（ONTAP 9.19.1）*
+
+image:image18.png["イメージ"]
+
+以下の表は、さまざまなシナリオにおける重複データの容量挙動を比較したものです。ファイルのコピーが統合された ONTAP のノードとアグリゲート（したがって重複排除ドメイン）にまたがる場合、スペースの節約効果は低下します。9.19.1 より前の AFX では、コピーがノードをまたぐ場合にも同様の現象が発生します。9.19.1 以降、グローバル重複排除はストレージ可用性ゾーン全体で同じ節約効果をもたらします。
+
+*同一の10GBファイルに対する重複排除動作 – 統合ONTAP とNetApp AFX*
+
+[cols="3,1,1,1"]
+|===
+| シナリオ | ユニファイド ONTAP | AFX 9.18.1 | AFX 9.19.1 
+
+
+| 同じ10GBファイルの4つのコピー、同じボリューム（ボリューム重複排除） | 10 GB | 10 GB | 10 GB 
+
+
+| 同じ 10GB ファイルの 4 つのコピー、異なるボリューム、同じアグリゲート（ユニファイド ONTAP）または同じノード（AFX）；ボリューム間重複排除が有効 | 10 GB | 10 GB | 10 GB 
+
+
+| 同じ 10GB ファイルの 4 つのコピー、4 つの異なるボリューム、4 つの異なるアグリゲート（統合 ONTAP）または 4 つの異なるノード（AFX）。ボリューム間重複排除が有効 | 40 GB | 40 GB | 10 GB 
+|===
+[cols="1,1"]
+|===
+
+
+| link:afx-architecture-raid.html["前へ：RAIDの変更"] | link:afx-architecture-feature-support.html["次：ONTAP機能サポートの変更"] 
+|===

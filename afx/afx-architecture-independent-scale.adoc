@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: afx/afx-architecture-independent-scale.html 
+keywords: netapp afx, independent scale, linear scale, compute, capacity, performance 
+summary: NetApp AFX がコンピューティングとキャパシティを独立してスケールしながら、線形なノードパフォーマンスを実現する方法をご覧ください。 
+---
+= 独立した線形スケール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx/
+
+
+[role="lead"]
+分解された NetApp AFX アーキテクチャにより、容量とコンピューティングリソースを独立してスケールさせ、ノードのパフォーマンスをリニアにスケールさせることができます。
+
+
+
+[[independent-scale-of-capacity-and-compute-nodes]]
+== 容量ノードとコンピュート ノードの独立したスケーリング
+
+ハードウェア リソースがNetApp AFXアーキテクチャで分離されているため、ノードに関連付けられたディスクを並行して追加する必要がなくなりました。クラスタでRAM、CPU、ネットワークスループットなどのパフォーマンス関連リソースが不足している場合は、ストレージノードのみをクラスタに追加すればよく、既存のStorage Availability Zoneを活用できます。逆に、容量が必要な場合は、シェルフを追加するだけで済みます。この柔軟性により、必要なリソースのみを購入できるため、過剰なプロビジョニングを回避できます。
+
+*NetApp AFX – 独立スケール*
+
+image:image12.png["イメージ"]
+
+
+
+[[linear-scaling-of-node-performance]]
+== ノード性能の線形スケーリング
+
+AFX クラスタにノードが追加されると、より多くの CPU 、 RAM 、ネットワーク リソースがワークロードに導入されます。これらのリソースが環境に組み込まれると、パフォーマンスの向上は線形になります。次の図は、ノードの追加に伴ってパフォーマンスがどのように向上するかを示しています。
+
+*NetApp AFX ノードの追加による線形パフォーマンスの向上*
+
+image:image13.png["イメージ"]
+
+[cols="1,1"]
+|===
+
+
+| link:afx-architecture-nvram-ha.html["前：複製済み NVRAM および HA フェイルオーバー動作"] | link:afx-architecture-raid.html["次：RAIDの変更"] 
+|===

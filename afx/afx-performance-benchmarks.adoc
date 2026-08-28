@@ -1,0 +1,361 @@
+---
+sidebar: sidebar 
+permalink: afx/afx-performance-benchmarks.html 
+keywords: netapp afx, performance, benchmarks, elbencho, nfs, mount options, best practices 
+summary: エクスポート ポリシー、ボリューム、マウント、クライアント、ネットワークに関する考慮事項を含む、NetApp AFXパフォーマンス ベンチマーク結果を再現するためのガイダンスです。 
+---
+= パフォーマンスベンチマークのヒント
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx/
+
+
+[role="lead"]
+このページでは、link:afx-performance.html#benchmark-results["ベンチマーク結果"]に記載されているNetApp AFXのパフォーマンスベンチマーク結果を再現するための構成ガイダンスを提供します。これらは、完全なテスト手順ではなく、一般的な考慮事項と構成ガイドラインです。
+
+NFSプロトコルの背景と推奨プラクティスについては、link:https://www.netapp.com/pdf.html?item=/media/10720-tr-4067.pdf["TR-4067：『NFS in ONTAP best practice and implementation guide』"^]およびlink:afx-performance.html#nfsv4x-performance-enhancements["NFSv4.xのパフォーマンス向上"]を参照してください。
+
+ボリューム作成、LIF管理、クライアントチューニング用のNASベンチマークスクリプトは、link:https://github.com/whyistheinternetbroken/Benchmarking/tree/main/ONTAP["ベンチマーク/ONTAP"^]リポジトリで入手できます。
+
+
+
+[[performance-testing-considerations]]
+== パフォーマンス テストに関する考慮事項
+
+性能テストは一般的に、特定のワークロードシナリオにおいてシステムが達成できる限界値を明らかにすることを目的としています。ほとんどの場合、ONTAPのデフォルト設定を調整しなくても、ほとんどのワークロードで良好なパフォーマンスが得られますが、場合によっては、システムを最適化するために一部の設定を調整することをお勧めします。
+
+
+
+[[nfs-export-policy-configuration]]
+== NFSエクスポートポリシー設定
+
+ONTAPのエクスポートポリシーは、NFSエクスポートへのアクセスを制御する方法です。すべてのボリュームにはエクスポートポリシーを設定する必要があり、ポリシー内でルールを構成する必要があります。ポリシーにルールが設定されていない場合は、「アクセス不可」とみなされます。詳細については、link:https://docs.netapp.com/us-en/ontap-technical-reports/ontap-security-hardening/securing-nfs.html["NFSのセキュリティ保護"^]およびlink:https://docs.netapp.com/us-en/ontap/nfs-config/export-policies-concept.html["ONTAPエクスポートポリシーのドキュメント"^]を参照してください。
+
+パフォーマンスベンチマークにおいては、テストに使用するクライアントの権限についてはあまり気にせず、権限に関連するエラーを回避することに重点を置くことが多いでしょう。そのため、エクスポートポリシーのルールは、データボリュームへのアクセスを全面的に許可するように設定し、データセットへのアクセスに使用されるクライアントのみに限定することをお勧めします。さらに、vsrootポリシーは、パストラバーサルのためにポリシー内での読み取りアクセスを*許可*する必要があります。
+
+*vsrootポリシー（「default」ポリシーを使用）*
+
+[listing]
+----
+export-policy rule create -policyname default -clientmatch 0/0 -rorule any -rwrule never
+----
+*データ量ポリシー*
+
+[listing]
+----
+export-policy create -policyname [name] -vserver [SVM]
+export-policy rule create -policyname [name] -clientmatch [client1],[client2],..[clientN] -rorule any -rwrule any -superuser any -anon 0 -chown-mode unrestricted -ntfs-unix-security-ops ignore
+----
+
+
+[[nfs-server-configuration]]
+== NFSサーバ構成
+
+次のNFSサーバオプションは、AFX内部パフォーマンスベンチマーク実行に使用されました。他のNFSサーバオプションを有効にすることもできます（例：NFSv4 ACLサポート）が、それらはこれらのベンチマークのヒントの範囲外です。NFSv4.1、pNFS、およびAFXのセッショントランキングパフォーマンスコンテキストについては、link:afx-performance.html#nfsv4x-performance-enhancements["NFSv4.xのパフォーマンス向上"]を参照してください。
+
+|===
+| オプション | 値 
+
+
+| v4.1を使用したチャンク アップロード署名要求がサポートされるようになりました。 | 有効 
+
+
+| v4-id-domain | [ドメイン名]* 
+
+
+| v4.1-pnfs | 有効 
+
+
+| v4.1-トランキング | 有効 
+
+
+| tcp-max-transfer-size | 262144 
+
+
+| v3-64bit-identifiers | 有効 
+
+
+| v4-64bit-identifiers | 有効 
+
+
+| v3を使用したチャンク アップロード署名要求がサポートされるようになりました。 | 有効 
+
+
+| v4.1-read-delegation | 無効 
+
+
+| v4.1-write-delegation | 無効 
+
+
+| RDMA | 有効化（オプション） 
+
+
+| v4.0を使用したチャンク アップロード署名要求がサポートされるようになりました。 | 無効 
+
+
+| v3-hide-snapshot | 有効 
+
+
+| mount-rootonly | 無効 
+
+
+| nfs-rootonly | 無効 
+|===
+*NFSv4 IDドメインは、NFSクライアントで設定されている値と一致していれば、任意の値を指定できます。
+
+クライアント上の NFSv4 ID ドメインを確認するには：
+
+[listing]
+----
+# nfsidmap -d
+user-domain.company.com
+# cat /etc/idmapd.conf | grep Domain
+Domain = user-domain.company.com
+----
+
+NOTE: これらのコマンドが機能しない場合は、NFSv4.x を利用するために必要な適切な NFS パッケージがインストールされていない可能性があります。例えば、Debian/Ubuntu ベースのシステムでは nfs-common が使われます。
+
+以下の CLI コマンドは、内部パフォーマンスベンチマーク実行に使用される NFS サーバ構成を適用します。SSH 経由でクラスターに接続し、この設定を適用するスクリプトは、link:https://github.com/whyistheinternetbroken/Benchmarking/blob/main/ONTAP/NAS/configure-nfs-server.sh["ONTAP/NAS/configure-nfs-server.sh"^] で入手できます。
+
+
+NOTE: RDMAは、ほとんどのワークロードにおいてレイテンシを低減し、スループットを約10～30%向上させます。NFS over RDMAについては、link:https://docs.netapp.com/us-en/ontap/nfs-rdma/index.html["ONTAP NFS over RDMA のドキュメント"^]を参照してください。
+
+[listing]
+----
+set advanced; nfs modify -vserver [SVM] -v3 enabled -v4.1 enabled -v4.0 disabled -v4-id-domain [yourdomain.com] -v4.1-pnfs enabled -v4.1-trunking enabled -v4-64bit-identifiers enabled -v3-64bit-identifiers enabled -chown-mode unrestricted -tcp-max-xfer-size 262144 -mount-rootonly disabled -nfs-rootonly disabled -v3-hide-snapshot enabled -rdma [enabled optional]
+----
+
+
+[[volume-configuration]]
+== ボリューム構成
+
+次のセクションでは、ボリュームの作成と構成に関する考慮事項について説明し、初期作成時に使用すべきオプションを示します。AFX での FlexGroup ボリュームの動作については、link:afx-architecture-flexgroup.html#flexgroup-volume-management-improvements["FlexGroup ボリューム管理の機能拡張"]、link:afx-capabilities.html#volume-types["ボリューム タイプ"]、および link:https://www.netapp.com/pdf.html?item=/media/12385-tr4571.pdf["TR-4571：『NetApp ONTAP FlexGroup volumes best practices and Implementation guide』"^] を参照してください。
+
+|===
+| 設定 | 値 
+
+
+| ボリューム タイプ | FlexGroup 
+
+
+| 作成方法 | CLI 
+|===
+[listing]
+----
+set diag; vol create -vserver [SVM] -volume [name] -size [size] -junction-path [/path] -unix-permissions 777 -files-set-maximum true -maxdir-size 4G -is-large-size-enabled true -snapshot-policy none -autosize-mode grow_shrink -policy [data policy] -snapdir-access false
+----
+デフォルト設定が変更されました：
+
+* Snapshotポリシー無効
+* Maxfilesが増加しました
+* Maxdirsize が増加しました
+* ラージサイズ対応
+* 自動サイズ調整が有効
+* UNIXパーミッション 777
+* ファイルシステム分析が無効になっています
+* Snapdir アクセス false
+
+
+
+
+[[special-considerations-flexgroup-volumes]]
+=== 特別な考慮事項 -- FlexGroup ボリューム
+
+ワークロードによって単一のフォルダ内に多数の大きなファイル（>1GB）が作成される場合は、ボリュームのワークフローをデータに変更します。
+
+[listing]
+----
+AFX::> set advanced; vol modify -vserver [SVM] -volume [FlexGroup name] -workflow data
+----
+ワークロードがFlexGroupボリューム上にホストされているVMwareデータストアの場合は、 `-gdd`オプション（詳細なデータ分散）を無効にしてください。GDDは、AFX上での仮想化に対するNFSコピー オフロードではサポートされていません。link:afx-architecture-feature-support.html#ontap-features-that-have-been-removedare-unsupported-with-afx["AFXで削除された、またはサポートされていないONTAP機能"]を参照してください。
+
+[listing]
+----
+AFX::> set diag; vol modify -vserver [SVM] -volume [FlexGroup name] -granular-data disabled
+----
+
+
+[[why-snapshots-are-disabled]]
+=== スナップショットが無効になっている理由
+
+一般的に、ONTAPのスナップショットはシステム全体のパフォーマンスに悪影響を与えるものではありません。AFXでのスナップショットとレプリケーションの仕組みについては、link:afx-capabilities.html#snapshots-and-data-protection["スナップショットとデータ保護"]を参照してください。しかし、ベンチマークテストにおいては、以下の2つの理由からスナップショットを無効にします。
+
+* 環境に対するきめ細かな制御 ― スナップショットを作成するシナリオをより適切に制御し、その影響を測定しやすくするために、必要なときにスナップショットを作成できます。
+* データ変動 -- 多くのベンチマークテストでは大量のデータが生成され、その後そのデータが削除されるため、ボリューム上の既存のスナップショットのサイズが急速に増加します。スペース割り当ての問題を回避するため、スナップショット機能を無効にしています。
+
+
+
+NOTE: スナップショット間での不要なファイルシステムのクロールを防ぐため、Snapdirへのアクセスも無効になっています。
+
+
+
+[[mount-options]]
+== マウント オプション
+
+一般的に、マウントオプションは使用状況に応じて様々です。このセクションでは、社内でのパフォーマンステストで使用した、一般的な使用例におけるマウントオプションの一覧を示します。NFSサーバが<<NFSサーバ構成>>に示すとおりに正しく設定されている場合は、NFSのバージョンやwsize/rsizeオプションを指定する必要はありません。
+
+基本オプション（すべてのクライアント/シナリオに適用）：
+
+[listing]
+----
+-o tcp,hard,intr
+----
+*セッション トランキング（OS固有）*
+
+セッション トランキングは、link:afx-performance.html#benchmark-results["ベンチマーク結果"]構成(`trunkdiscovery`）にも記載されています。NFSv4.x マルチパス IO コンテキストについては、link:afx-performance.html#nfsv4x-performance-enhancements["NFSv4.xのパフォーマンス向上"]を参照してください。
+
+[listing]
+----
+RHEL: trunkdiscovery
+Ubuntu (depends on version): trunkdiscovery (newer releases)
+                             max_connect=4 (older releases)
+----
+*RDMA固有のオプション*
+
+RDMA 上の NFS については、link:https://docs.netapp.com/us-en/ontap/nfs-rdma/index.html["ONTAP NFS over RDMA のドキュメント"^]を参照してください。
+
+[listing]
+----
+rdma,write=eager
+----
+
+
+[[other-mount-options]]
+=== その他のマウント オプション
+
+ベンチマークテスト中は、特定のワークロードに対して特別なマウントオプションを使用することでメリットが得られる場合があります。以下の表は、それらのオプションの一部と、パフォーマンスの向上が見込まれるユースケースを示しています。
+
+*NFSマウントの代替オプションとその使用例*
+
+|===
+| NFSマウント オプション | 説明 | ユースケース 
+
+
+| `nocto` | 「close-to-open」キャッシュ整合性を無効にします。クライアントは、ファイルを開いたときにキャッシュされたファイル属性を再検証せず、古いデータであってもキャッシュされたデータに依存します。 | 読み取り中心で、単一クライアントのワークロードであり、ファイルが変更されることはほとんどない（例：静的Webコンテンツ、ソフトウェアライブラリ、読み取り専用メディアアーカイブ）。複数クライアントによる書き込みには適していません。 
+
+
+| `cto` | クローズトゥオープンのキャッシュ一貫性を有効にします（デフォルト）。ファイルが開かれると、クライアントはサーバに問い合わせて、キャッシュされたコピーがまだ有効であることを確認します。あるクライアントで閉じられたファイルは、別のクライアントで開かれた際に最新の状態であると認識されることを保証します。 | データの一貫性が重要な、複数のクライアントが共有アクセスを行うワークロード（例：共有ホームディレクトリ、共同開発環境）。 
+
+
+| `actimeo` | すべての属性キャッシュタイムアウト（acregmin、acregmax、acdirmin、acdirmax）を単一の秒単位の値に設定します。クライアントがキャッシュされたファイル/ディレクトリのメタデータを信頼する期間を制御し、その後サーバで再検証を行います。 | 均一なキャッシュポリシーを適用したい場合のチューニングを簡素化します。高い値は読み取り負荷の高い静的なワークロードに適しており、低い値（例：actimeo=0）はほぼリアルタイムの一貫性を必要とする急速に変化するデータに適しています。 
+
+
+| `acregmin` | クライアントが再検証を行う前に、通常のファイルの属性をキャッシュする最小時間（秒）を設定します。デフォルトは通常3秒です。 | 頻繁に更新される小さなファイルを扱うワークロードで、鮮度とパフォーマンスのバランスを微調整したい場合（例：ログの取り込み、設定ファイルのポーリング）。 
+
+
+| `acregmax` | クライアントが通常ファイルの属性をキャッシュする最大時間（秒）を設定します。デフォルトは通常60秒です。 | 主に静的なファイル ワークロードで、最大値を拡張することでメタデータのやり取りを削減できる場合（例：大規模な読み取り専用データセット、パッケージ リポジトリ）。 
+
+
+| `acdirmin` | クライアントがディレクトリの属性を再検証する前にキャッシュする最小時間（秒）を設定します。デフォルトは通常30秒です。 | ディレクトリの最新性が重要な、ディレクトリの一覧表示や作成が頻繁に行われるワークロード（例：ビルドシステム、Maildir形式のメールスプール）。 
+
+
+| `acdirmax` | クライアントがディレクトリの属性をキャッシュする最大時間（秒）を設定します。デフォルトは通常60秒です。 | 変更されることがほとんどない安定したディレクトリ構造の場合、この値を上げるとGETATTR呼び出しが減少します（例：大規模な静的ディレクトリツリー、アーカイブストレージ）。 
+
+
+| `clientaddr` | コールバック通信用にNFSサーバにアドバタイズするクライアント IP アドレスを指定します（NFSv4/v4.1以降）。サーバはこのアドレスを使用して、委任の取り消しやその他のコールバックを送信します。 | マルチホーム クライアントや複雑なネットワーク環境（複数の NIC を持つクライアント、VPN/オーバーレイ ネットワーク、NAT など）では、自動検出されたアドレスが正しくない場合があります。 
+
+
+| `nconnect` | 指定された数まで、NFSサーバへの複数のTCP接続（最大指定数）を単一のマウントに対して作成し、個別の接続を介した並列I/Oを可能にします。 | 単一の TCP ストリームによってボトルネックとなる高スループット、I/O 集中ワークロード（例：大容量ファイル転送、HPC/科学計算、ビデオ編集、データベースバックアップ、ビッグ データ分析）。特に高帯域幅ネットワーク（10 GbE+）において効果的です。 
+
+
+| `krb5,krb5i,krb5p` | マウント時に使用するKerberosセキュリティの種類を指定します。正しく動作させるには、Kerberosの設定が必要です。詳細はlink:https://www.netapp.com/media/19384-tr-4616.pdf["TR-4616: ONTAP における NFS Kerberos と Active Directory"^]を参照してください。 | NFSマウントのセキュリティ保護は、パフォーマンスに悪影響を及ぼします。 
+|===
+
+
+[[client-configuration]]
+== クライアント構成
+
+内部ベンチマークに使用されるクライアント構成（NICおよびOSチューニングスクリプトを含む）については、link:https://github.com/whyistheinternetbroken/Benchmarking/tree/main/Clients["ベンチマーク／クライアント"^]リポジトリに記載されています。以下に、追加の設定に関する考慮事項をいくつか示します。このリストは網羅的なものではなく、今後、追加のユースケースやシナリオに対応するために随時修正される予定です。
+
+
+
+[[nfs-readahead]]
+=== NFSの先読み
+
+クライアント NFS の先読み（下記参照）は、Linux のマウントポイント設定です。これは、AFX 上の ONTAP ボリュームレベルlink:afx-performance.html#aggressive-read-ahead["積極的な先読み"]（クロスファイルシーケンシャルリード）とは別のものです。
+
+送信元：link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-linux-nfs-read-ahead["Azure NetApp Files 向け Linux NFS 先読みのベスト プラクティス"^]
+
+NFSの先読み機能は、アプリケーションによるI/O要求に先立って、ファイルからブロックを予測的に要求します。これは、クライアントのシーケンシャル読み取りスループットを向上させるように設計されています。最近まで、最新のLinuxディストリビューションはすべて、先読み値をマウントされたファイルシステムのrsizeの15倍に相当する値に設定していました。
+
+RHEL 8.3およびUbuntu 18.04では、クライアントのシーケンシャル読み取りパフォーマンスに悪影響を与える可能性のある変更が導入されました。以前のリリースとは異なり、これらのディストリビューションでは、使用するrsizeマウントオプションに関係なく、先読みのデフォルト値が128 KiBに設定されます。より大きな先読み値を持つリリースから、デフォルト値が128 KiBのリリースにアップグレードすると、シーケンシャル読み取りパフォーマンスが低下しました。ただし、先読み値は動的にも永続的にも上方修正できます。例えば、SAS GRIDを使用したテストでは、15,360 KiBの読み取り値が、3,840 KiB、960 KiB、128 KiBと比較して最適であることがわかりました。15,360 KiBを超える範囲については、プラスまたはマイナスの影響を判断するのに十分なテストが実施されていません。
+
+NFSの先読み機能は、NFSファイルシステムのマウントポイントで定義されます。現在の値を表示するには、 `/proc/self/mountinfo`のマウント パスをgrepし、デバイス番号を使用して `/sys/class/bdi/<device>/read_ahead_kb`を表示します：
+
+[listing]
+----
+# grep /mountpath/ /proc/self/mountinfo | awk '{ print $3 }'
+# cat /sys/class/bdi/<device>/read_ahead_kb
+----
+先読みを表示または動的に設定するための便利なスクリプトが link:https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-linux-nfs-read-ahead["Azure NetApp Files 向け Linux NFS 先読みのベスト プラクティス"^] に提供されています。
+
+
+
+[[network-configuration]]
+== ネットワーク設定
+
+次のセクションでは、クライアントネットワークとストレージネットワークに関する一般的なネットワークガイダンスについて説明します。これらは、当社が実施した社内ベンチマークテストに基づいています。AFXネットワークの違いについては、link:afx-capabilities.html#networking["ネットワーキング"]およびlink:afx-hardware.html#switches["ハードウェア：スイッチ"]を参照してください。
+
+
+
+[[storage-network-considerations]]
+=== ストレージネットワークに関する考慮事項
+
+* 各ノード、各SVMにつき、少なくとも1つのデータIPアドレスが必要です（ノードあたりのデータIPアドレスが多いほど望ましい）
+* ノードあたり、SVMあたり最大16個のIPアドレス
+* すべてのデータインターフェースはすべてのクライアントにルーティング可能
+* LACPを使用したノードごとのボンディング/チーミングされたポート
+* MTUサイズ9000（エンドツーエンド）
+* 優先フロー制御（PFC優先度3）RDMAを使用する場合に有効
+* DNSラウンドロビン/ロード バランシングは、すべてのデータインターフェイスIPアドレスを含めるように設定されています
+
+
+
+
+[[client-network-considerations]]
+=== クライアント ネットワークに関する考慮事項
+
+* RoCE（LACP）用にボンディングされたデュアルNIC
+* RX/TXリングバッファを8192に設定
+* PFCとDSCPはNICごとに設定されます（RDMAを使用する場合）
+* cma_roce_tosを使用して設定されたRoCEトラフィッククラス（RDMAを使用する場合）
+* sunrpc.rdma_slot_table_entries を 200 に設定しました
+
+
+
+
+[[additional-ontap-feature-considerations]]
+== 追加のONTAP機能に関する考慮事項
+
+以下では、<<NFSエクスポートポリシー設定>>、<<ボリューム構成>>、<<マウント オプション>>、<<クライアント構成>>、または<<ネットワーク設定>>では説明されていない特定のONTAP機能構成の変更について説明します。
+
+
+
+[[disable-storage-efficiencies]]
+=== ストレージ効率化を無効にする
+
+一般的に、ストレージ効率は本番環境のワークロードにおけるセールスポイントの一つであり、様々なワークロードにおいて大幅な容量削減を実現できます。しかし、パフォーマンスベンチマークにおいては、その価値は低くなります（シミュレーションされたワークロードの多くは圧縮不可能であるか、ゼロバイトのワークロードであり、常に重複排除が行われるため）。そのため、ベンチマークテストを実行する際は、すべてのストレージ効率化機能を無効にすることをお勧めします。
+
+AFX のストレージ効率化の仕組み（グローバル重複排除を含む）については、link:afx-architecture-storage-efficiency.html#deduplication-domains["重複排除ドメイン"]、link:https://docs.netapp.com/us-en/ontap-technical-reports/storage-efficiency.html["ONTAPのStorage Efficiencyに関するテクニカルレポート"^]、および link:https://docs.netapp.com/us-en/ontap-afx/release-notes/whats-new-9191.html["ONTAP 9.19.1の動的ストレージ効率"^] を参照してください。
+
+[listing]
+----
+vol efficiency off -volume [name] -vserver [SVM]
+
+aggr efficiency modify -aggregate data* -cross-volume-background-dedupe false -cross-volume-inline-dedupe false
+
+aggr efficiency wise-tsse modify -aggregate data* -enable-workload-informed-tsse false
+----
+
+
+[[aggressive-readahead]]
+=== 積極的な先読み
+
+積極的な先読みは、特定のワークロード（例えば、連番ファイルなど）の読み取りパフォーマンスを向上させるのに役立ちます。機能構成、注意事項、統計については link:afx-performance.html#aggressive-read-ahead["積極的な先読み"] で説明します。関連項目：link:https://docs.netapp.com/us-en/ontap-afx/administer/additional-ontap-svm.html#cross-file-sequential-read["AFX SVM管理におけるクロスファイルシーケンシャルリード"^]
+
+[cols="1,1"]
+|===
+
+
+| link:afx-performance.html["前へ"] | link:afx-management.html["次：管理"] 
+|===

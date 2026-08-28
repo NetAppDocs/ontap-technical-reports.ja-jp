@@ -1,0 +1,44 @@
+---
+sidebar: sidebar 
+permalink: afx/afx-architecture-node-disk.html 
+keywords: netapp afx, node-to-disk relationships, disk ownership, storage availability zone 
+summary: NetApp AFX がすべてのストレージ ノードにすべてのディスクへの可視性を提供し、ディスクの所有権を削除する方法について説明します。 
+---
+= ノードとディスクの関係
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/afx/
+
+
+[role="lead"]
+NetApp AFXは、すべてのノードとシェルフを同じバックエンドネットワークで接続することにより、ストレージ ノードとディスクの関係を変革します。
+
+統一された ONTAP アーキテクチャでは、読み取りと書き込みは特定のディスクのサブセットに振り分けられます。つまり、24 ノードのクラスタに 24 個のディスク シェルフ（ノードごとに 1 つのシェルフ）があったとしても、各ノードが直接アクセスできるのは一度に 1 つのディスク シェルフのみであり、クラスタで利用可能な容量とパフォーマンスが制限されることになります。
+
+image:image5.png["イメージ"]
+
+さらに、NVRAMはHAペア間で直接接続されているため、ノードは物理的に隣接している必要があり、フェイルオーバーのターゲットとしてより密接に結合されています。例えば、あるノードがパートナーノードにフェイルオーバーした場合、物理的にアクセスできるディスクは、HAペアドメイン内のディスクのみとなります。
+
+*HAフェイルオーバー中の統一ONTAPクラスタ*
+
+image:image6.png["イメージ"]
+
+NetApp AFXでは、ディスクがコンピュートノードに提示される方法にいくつかの大きな変化があります。
+
+
+
+[[all-disks-are-visible-to-all-storage-nodes-no-disk-ownership]]
+== すべてのディスクはすべてのストレージノードから参照可能--ディスクの所有権なし
+
+NetApp AFXでは、ノードとシェルフがすべて同じバックエンドスイッチに接続されているため、ONTAPはディスクの全体的な可視性ドメインをスタック全体に拡張できます。その結果、どのノードも特定のディスクを所有しません。むしろ、すべてのディスクはStorage Availability Zoneと呼ばれる単一の容量プールに参加し、容量管理の簡素化とパフォーマンスの向上（利用可能なディスクが多いほど、利用可能なパフォーマンスも向上する）を実現します。
+
+*NetApp AFXストレージアベイラビリティゾーン*
+
+image:image7.png["イメージ"]
+
+[cols="1,1"]
+|===
+
+
+| link:afx-architecture.html["前へ：アーキテクチャ"] | link:afx-architecture-capacity-pool.html["次：単一容量プール"] 
+|===

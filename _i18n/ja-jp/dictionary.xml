@@ -1885,9 +1885,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="ec8691da9bf60fda22f12e08033d054b" category="cell">ドライブ容量</block>
   <block id="ac42a71dfe464f09e55a57f84ceb163f" category="cell">おおよその生容量（Unified）</block>
   <block id="46cc5fb7e0299e674d5da41e0dad3a1f" category="cell">概算生容量（AFX）</block>
-  <block id="c7d332a0c322abaf8181c5babf32fd81" category="cell">7.6 TB</block>
-  <block id="e50bccab556ac30cde3b134fb81a2530" category="cell">~547.2TB</block>
-  <block id="08dedfbf48e1600e5cfd9c8c2745fec6" category="cell">約608TB（+60.8TB）</block>
   <block id="1f04a7c587f50d269f44d43229c966ac" category="cell">15.3 TB</block>
   <block id="9a2d1eca7e54938f79761d06b7caaf18" category="cell">~1101.6TB</block>
   <block id="5e741ceec539284f7a96b67008f0e517" category="cell">約1224TB（+122.4TB）</block>
@@ -1906,23 +1903,13 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="6f9f45d520cffb99bb950d8fda5dbdba" category="list-text">ボリュームベースの重複排除 -&gt; ボリューム境界</block>
   <block id="438a3758b0006aebd9a250021848cc7c" category="list-text">ボリューム間重複排除 -&gt; アグリゲート境界</block>
   <block id="21b0b029300c61135ad9721104b8348a" category="paragraph"><block ref="21b0b029300c61135ad9721104b8348a" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f89efbc018eb553bd85f13f9d3ff23d7" category="paragraph">以下の表は、統合された ONTAP のさまざまなシナリオにおける重複データの容量挙動を示しています。ファイルコピーがノードやアグリゲート（つまり重複排除ドメイン）にまたがる場合、節約できる容量は減少します。</block>
   <block id="54861efdd06fc309e1c9a420feff98eb" category="cell">シナリオ</block>
-  <block id="77d8eb15db31182d5d16adaae1167a58" category="cell">使用済みスペース</block>
   <block id="f891059e8c06b24c2303442e1ea0b502" category="cell">同じ10GBファイルの4つのコピー、同じボリューム（ボリューム重複排除）</block>
   <block id="4ac1352d5b927390a1b2f14dac0647d9" category="cell">10 GB</block>
-  <block id="c11f0e78ef3de243c83f7ec7deb5ec59" category="cell">同じ10GBファイルの4つのコピー、異なるボリューム、同じアグリゲート（ボリューム間重複排除が有効）</block>
-  <block id="e5368f4f57a5e8656e84b995331e8fc1" category="cell">同じ10GBファイルのコピーが4つ、4つの異なるボリューム、4つの異なるアグリゲート（ボリューム間重複排除が有効）</block>
   <block id="006d8b5945ff5ea00e335cd43159f15a" category="cell">40 GB</block>
   <block id="554c7e5aa7d4f0b74f57389da62e73c1" category="paragraph">NetApp AFXでは物理アグリゲートが削除され、容量管理が新しいStorage Availability Zoneに移行されるため、重複排除ドメインの境界も変更されます。AFXでは、重複排除ドメインはボリュームレベル（統合ONTAPと同様）および9.19.1より前のノード（アグリゲートではなく）にあります。</block>
   <block id="079395b0c979d0b54fc2b1c99f54e40e" category="paragraph">ONTAP 9.19.1以降、AFXはStorage Availability Zoneレベルでグローバル重複排除ドメインをサポートしているため、クラスタストレージプール内のすべての重複ブロックは同じように扱われます。</block>
   <block id="f83df156391f38ff73d1a49f6a8425e6" category="paragraph"><block ref="f83df156391f38ff73d1a49f6a8425e6" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="e156c20f9a8ac4def7069dda32e8320e" category="paragraph">以下の表は、NetApp AFXのさまざまなシナリオにおける重複データの容量動作を示しています。</block>
-  <block id="a9cd3bbc2e51a6e1347445b84d798f2a" category="cell">10GB （9.18.1） 10GB （9.19.1）</block>
-  <block id="df90a1a2cc2054e32c9c28d5c25e62cf" category="cell">同じ10GBファイルの4つのコピー、異なるボリューム、同じノード（ボリューム間重複排除が有効）</block>
-  <block id="0b3bf068e64e34843d3d704e013cb2b2" category="cell">同じ10GBファイルのコピーが4つ、4つの異なるボリューム、4つの異なるノード（ボリューム間重複排除が有効）</block>
-  <block id="8869b48ff17dcbd09bde895bd5027ed2" category="cell">40GB（9.18.1）10GB（9.19.1）</block>
-  <block id="6e5fc7251e1276f061a3ac94294d4ce6" category="section-title">削除された機能／サポート対象外となった機能</block>
   <block id="c1da2d4d510103b46e423190aacd1d6b" category="paragraph">NetApp AFXは、ハイパフォーマンスNASおよびオブジェクトワークロード、特に（ただしこれに限定されない）AIトレーニングおよび推論領域のワークロード向けに設計されています。NetApp AFXの設計により、ONTAPの一部の機能を無効にする決定が行われました。</block>
   <block id="763ebb6b2480e502c5034139361bcc1d" category="list-text">ハイパフォーマンス NAS とオブジェクトに焦点を当てているため、ブロック ワークロードは NetApp AFX ソリューションから削除されました。FCP、iSCSI、NVMe のデータ プロトコルはサポートされておらず、ブロック プロトコルを追加する予定もありません。</block>
   <block id="ee62ec9079a51f3f2d61fb5c219e4c5b" category="list-text">Disaggregated とは de-aggregated と同義であり、アグリゲート（少なくとも物理ストレージ管理の概念として）が削除されたことを意味します。物理アグリゲートを削除すると、ONTAP での容量管理が簡素化されるだけでなく、単一の容量プールを可能にするメカニズムも提供されます。</block>
@@ -1931,9 +1918,7 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="144508c60f3cca56510b134fc12e757f" category="list-text">機能の削除は、一部のCLI/GUI/REST APIの変更も意味するため、サポートされなくなった機能のコマンドやAPI呼び出しもすべて削除されます。</block>
   <block id="900a913e531c8157d7a2f4a97608dc94" category="list-text">ZAPI は現在 NetApp AFX では利用できません。</block>
   <block id="e89ad37d68f36cce38303bc48e8c2fe6" category="list-text">仮想化向けのNFSコピー オフロード（粒度データ分布のみのFlexGroupボリューム）</block>
-  <block id="f8c9693eb34a8916c9e613f8afca2ef1" category="section-title">ONTAPの管理の変更</block>
   <block id="cea3622035a3726dec586cdf9fabcb7a" category="paragraph">一般的に、NetApp AFX管理は、クラスターを管理するために使用されるメカニズムを変更するものではありません。管理者は引き続き、CLI、GUI、およびREST APIを利用してクラスターにログインし、構成を行うことができます。しかし、NetApp AFXは、ストレージ管理業務の実施方法の一部を改善する機会を提供しました。</block>
-  <block id="e025f27af7a0ab530c0c79e51c8ddc21" category="section-title">よりシンプルな容量管理</block>
   <block id="85e6f6e2e02603e4a6c37196e99d68e7" category="paragraph">NetApp AFX Storage Availability Zoneは、管理エンドポイントをノードおよびアグリゲートベースのアプローチから、クラスタ全体で利用可能な単一の容量プールに削減します。ボリュームが拡張および縮小すると、ONTAPは自動的にStorage Availability Zoneとの間で容量を借用および返却します。</block>
   <block id="ddeb7090eb04d100bcabff49f47b2bef" category="paragraph">このため、ストレージ管理者は、最大24個のノードと場合によっては数百個のアグリゲートにわたる利用可能な空き容量の場所を特定し、管理する必要がなくなります。その代わりに、容量の管理と確認ができる場所は1箇所だけです。</block>
   <block id="68ab8227a681f41895474e422eb3d350" category="paragraph"><block ref="68ab8227a681f41895474e422eb3d350" category="inline-image-macro-rx" type="image"></block></block>
@@ -1948,8 +1933,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="1f22cd8cc995516df6a340339e98aa43" category="paragraph">NetApp AFXは単一のStorage Availability Zoneで容量を提示します。これは、FlexGroupボリュームの動作方法をより忠実に反映しています。サイズが異なる可能性のある複数の異なるアグリゲートにまたがる複数の構成ボリュームではなく、すべてのボリュームが同じ容量プールに存在するため、FlexGroupボリュームを使用する際の全体的な管理オーバーヘッドが大幅に簡素化されます。</block>
   <block id="49328713bd4daf43cf93136d33988aec" category="paragraph">さらに、AFXはデフォルトでFlexGroupボリュームのAdvanced Capacity Balancingを有効にし、ボリューム内の大きなファイルをより適切に分散させることができます。これにより、FlexGroupボリュームの構成要素は管理概念としての側面が薄れ、バックグラウンドで静かに機能するようになります。</block>
   <block id="b04c6be3a0c2715cf298c6858aafdec2" category="paragraph"><block ref="b04c6be3a0c2715cf298c6858aafdec2" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="591b7e4a83822f3477d36ac1390ed210" category="section-title">ストレージ管理タスクの自動化</block>
-  <block id="e5acbb4916e4ad745f7ab261de87bba8" category="paragraph">NetApp AFX のストレージ可用性ゾーンでは、すべての容量がすべてのノード間で共有されます。ノードは引き続きボリュームを所有しますが、ONTAP は各ノードの容量使用量を、その時点での各ノードのニーズに基づいて容量を借用および解放することで自動的に管理します。つまり、ストレージ管理者は、使用可能なスペースのバランスを最適に取る方法について心配する必要がなくなります。</block>
   <block id="b9bfd8cd96f3dc16633eb7ac3cf9d518" category="paragraph">さらに、RAID グループ管理は ONTAP によって自動化されており、新しく追加されたディスクは、管理者の介入なしに既存または新規の RAID グループに追加されます。ONTAP は、データをコピーすることなく、ノード間でのボリュームの移動も管理します。</block>
   <block id="913ef981ae568ab215ce9a179461e1e1" category="section-title">ゼロコピーボリューム移動</block>
   <block id="bc9a4f65b3b66945205ca7605583f7c8" category="paragraph">統合ONTAPは、クラスタ全体のパフォーマンスと容量使用状況を管理する方法として、ボリュームをノード間またはアグリゲート間で無停止で移動する方法を提供します。</block>
@@ -2021,19 +2004,14 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="f3e451363190c1f43ef5d709f51ce4e7" category="cell">70GB/s TLC 35GB/s QLC</block>
   <block id="56b8b83f998dd9761119047c9d76dbfe" category="section-title">パフォーマンス密度</block>
   <block id="c1a2f8f6f3bfbadf11742b61cc98b0c4" category="paragraph">分散型 ONTAP アーキテクチャでストレージ ノードとシェルフを分離することで、より多くのノードがより少ないシェルフにトラフィックをプッシュできるようになり、必要な容量のみで最大のパフォーマンスを得るために必要なデータセンター全体のフットプリントを削減できます。</block>
-  <block id="4ae4c8e1d2b552815258c78743bb204e" category="paragraph">たとえば、統合ONTAPクラスタでは、各ノードに独自のディスクセットがあるため、パフォーマンスはそのノードが所有するディスクのみに向けられます。また、1つのディスクセットには1つのノードしかアクセスできないため、使用可能なディスクを必ずしも飽和状態にして最大のパフォーマンスを達成できるとは限りません。</block>
   <block id="33f4eb7eed8d8b2113c48953bac67bf8" category="paragraph"><block ref="33f4eb7eed8d8b2113c48953bac67bf8" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="d5cb33c5c027f61f5d28891275974f9d" category="paragraph">NetApp AFXはすべてのディスクを単一のストレージ可用性ゾーンに統合するため、すべてのノードがすべてのディスクを活用できます。ディスクとノードが分離されているため、同じパフォーマンスを得るために必要なシェルフの数が少なくて済みます。これによりパフォーマンスが凝縮され、シェルフの最大パフォーマンスポテンシャルが最大限に引き出されます。</block>
   <block id="99eb2edd23e124ad314a265478aad0a7" category="paragraph"><block ref="99eb2edd23e124ad314a265478aad0a7" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c5403d6a6718b58910134e247573ddcd" category="section-title">ノードとシェルフの比率</block>
   <block id="5a9b6da3c89cc10b2605462a01ff5d1e" category="paragraph">統合ONTAPノードには、ノードごとに少なくとも1セットのディスクが必要であり、1つのノードに複数のシェルフを接続することができる。その結果、単一ノードにおいてパフォーマンスのボトルネックが発生し、自身のディスクを飽和状態にできない可能性がある。</block>
   <block id="962bc0f988d9a6b087f2e852d024b921" category="paragraph">NetApp AFXは、すべてのディスクシェルフをすべてのノードに提示します。各シェルフには、16 x 100GB RoCE対応インターフェイスを備えたモジュールが搭載されており、シェルフあたりに許容される総パフォーマンス量を増加させます。このため、同じディスクセットに対して読み書きを行う複数のノードで単一のシェルフを飽和させることができます。</block>
-  <block id="76ec7f81b3187ef46319086883f7fbd6" category="paragraph">ONTAP 9.19.1の時点で、ノード：シェルフの飽和比は約4：1です。</block>
   <block id="81517b0fa3a8d75c3583bca55033c957" category="section-title">ベンチマーク結果</block>
   <block id="5fb3d68ef18b7e2fc36d57ce8a8e106a" category="paragraph">次のセクションでは、以下の構成パラメータを持つNetApp AFXクラスタを使用したベンチマーク結果について説明します。</block>
   <block id="3e6a751b39e6b30cc5ad600e2e6371be" category="list-text">4ノード、4データインターフェイス</block>
-  <block id="b827d6860b20dc1f1de306f24773c085" category="list-text">シェルフ2台（7.6TBドライブ）</block>
-  <block id="ea7f38fbe84ac28be0f7c90cca730a69" category="list-text">ONTAP 9.19.1</block>
   <block id="85d0f94acd6137c52384e071c0beb76b" category="list-text">NFSv4.2（pNFS、セッション トランキング）</block>
   <block id="e9db3004828d9514fafc57881dfbdbd2" category="list-text">FlexGroupボリューム</block>
   <block id="4c4ae09914e5fd587c43d091395a2882" category="inline-link-macro">ElBencho</block>
@@ -2112,8 +2090,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="fa7e3ce056e445f916459f4372867737" category="list-text">管理ネットワークはデータネットワークから分離できます。</block>
   <block id="0444184d88145af9b161901b5b6ba1e9" category="list-text">クライアントのデータネットワークは、新たに400GBのネットワークサポートが追加された以外は変更されません。</block>
   <block id="9b9a79176e66304af399df0747b11958" category="paragraph">ネットワークの主な違いは以下のとおりです：</block>
-  <block id="d6e99a721e3959d61475fb8a779af6da" category="list-text">バックエンドクラスタのネットワークポートは、クラスタスイッチへの100GB接続のみをサポートするようになりました。</block>
-  <block id="7e4a61956036e6a0f962729225a087fd" category="list-text">クラスタスイッチは400GBに対応しているため、バックエンドノード接続には4 x 100GBブレークアウトケーブルを使用して、スイッチで使用するポート数を削減します。</block>
   <block id="3642ca6533d5185a15902437ef4ed2cb" category="list-text">NVRAMは、スイッチ上の新しいHA VLAN構成を介して、バックエンドクラスタネットワーク全体のHAペア間でミラーリングされるようになりました。</block>
   <block id="5af24813aa4e491fa55cdff2a9e543b1" category="list-text">新しいDCNネットワークは、AI Data Engineに対してデフォルトで追加されます。これらのIPアドレスは自動的に生成され、必要に応じて変更できます。</block>
   <block id="2d6547f7462502cd7177c73060bb9b5b" category="paragraph">NetApp AFXはONTAPで動作します。つまり、ONTAPと同じセキュリティを使用しているということです。すべての暗号モジュールは同一であるため、認証プロセスが完了すれば、セキュリティ認証も同一になります。NetApp AFXは、統合ONTAPと同じセキュリティ暗号のサポートを活用しています。</block>
@@ -2149,7 +2125,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="b2a10addfa20e797512c93a082680656" category="section-title">対応ハードウェア</block>
   <block id="30cf7a36a073e8f6f943d72fb5d6ba32" category="paragraph">NetApp AFX でサポートされているハードウェアに関する最新情報については、<block ref="fbd1b799f21dab00963646892e0a8bc0" category="inline-link-macro-rx"></block>を確認してください。</block>
   <block id="187c6ad3a74cc93ac6c2229d398e383e" category="section-title">ノード</block>
-  <block id="3cf2439f2c058990ff372e335184dd99" category="paragraph">NetApp AFXノードは、統一されたONTAPクラスタ用に提供されるAFF A1Kモデルのノードをベースにしています。これらのノードにはストレージ用のオンボードディスクは搭載されておらず、パフォーマンス要件に基づいてノードを容易に追加および削除できるようにモジュール式に設計されています。各ノードは2Uのラック空間を占有し、AFXクラスタに追加されるにつれてパフォーマンスが直線的に向上します。</block>
   <block id="d5e794e7dbae5aaa599a71bcdb41beef" category="paragraph"><block ref="d5e794e7dbae5aaa599a71bcdb41beef" category="inline-image-macro-rx" type="image"></block></block>
   <block id="40a737e5041c4ace9449f041a4a18b80" category="section-title">ハードウェアスロット</block>
   <block id="92d6e217184c21d30e8aeb113e46244e" category="paragraph">NetApp AFX 1K ノードでは、以下のスロット割り当てが使用されます。</block>
@@ -2170,14 +2145,12 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="dccb27e8b03cb56df2a6877ed19a9fd8" category="list-text">詳細については、<block ref="90cb3a4603072e0b41362ef1057cf320" category="inline-link-macro-rx"></block>をご覧ください。</block>
   <block id="73ed82219e935d8e1007e1c3f266cba7" category="paragraph"><block ref="73ed82219e935d8e1007e1c3f266cba7" category="inline-image-macro-rx" type="image"></block></block>
   <block id="ebc44233941122337b29386177d91130" category="section-title">クラスタスイッチの接続</block>
-  <block id="47db3bf9cf495bcc67c8e360c1e98aa9" category="paragraph">NetApp AFXは、その主要なアーキテクチャ概念の多くにおいて、バックエンドのクラスタスイッチを多用している。例えば、クラスタインターフェイス、ストレージアダプタ、ストレージシェルフ、NVRAMカードはすべてクラスタスイッチに接続されます。現在、これらのインターフェースはすべて100GBの通信のみをサポートしていますが、スイッチは400GBをサポートしています。その結果、100GBインターフェースは、4本の100GBブレークアウトケーブルを介して、スイッチ上の400GBインターフェースに接続される。この方法により、スイッチで使用されるポート数を削減できます。例えば、16個の100GBストレージシェルフモジュールポートはスイッチの4つのポートのみを使用し、ノードの合計8つのポートはスイッチの2つのポートを使用します。</block>
   <block id="57b5f0954762dfdb314fe646634d976a" category="paragraph"><block ref="57b5f0954762dfdb314fe646634d976a" category="inline-image-macro-rx" type="image"></block></block>
   <block id="8c5ddc935447794865d4cbffec8a3d20" category="section-title">ディスクのタイプとサイズ</block>
   <block id="97f14179dd02ff11f07602385544cf86" category="paragraph">NetApp AFX は現在、以下のサイズの NVMe 接続 SSD のみをサポートしています：</block>
   <block id="ce5fba88cb69cd2186756f8faf58b8d9" category="list-text">30.1 TB</block>
   <block id="e86d671ba5d15a1c611be884ea7cf55a" category="list-text">60.6 TB</block>
   <block id="1d19d1aa0e80c186229626ee1f0041e4" category="section-title">TLCとQLC</block>
-  <block id="7a2e1ddf0e6216bfff611dd9ae70ce57" category="paragraph">NetApp AFXはTLCとQLCの両方のフラッシュタイプを利用できます。7.6TBと15.3TBのドライブはTLCモデルで、30.1TBを超えるドライブはQLCモデルとなります。メディアの種類に関係なく、NVIDIA SuperPod認証性能基準を満たすことができます。</block>
   <block id="3490c43d24f428db31d4011fa273ef4a" category="paragraph">NetApp AFXで使用されるすべてのドライブはパフォーマンス重視のドライブであり、QLCとTLCはどちらも読み取りトラフィックに関してはほぼ同じパフォーマンスを発揮します。QLCはTLCに比べて書き込み性能がやや劣り、書き込み負荷の高いワークロードでは若干ウェアレベリングが顕著になる可能性があります。</block>
   <block id="e9c6d4b89f2fd8f80f0238667ae15952" category="paragraph">使用するドライブタイプを選択する際には、ストレージがホストするワークロードと、パフォーマンス/容量密度のトレードオフを考慮してください。</block>
   <block id="760b833cb870c3441ec6b8c08f6ec02b" category="paragraph">次のセクションでは、NetApp AFXクラスタの最大値と最小値を統合型ONTAPと比較して説明します。</block>
@@ -2189,11 +2162,9 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="8487699fb65ed58bf886a609cc850b23" category="list-text">30,000</block>
   <block id="f64bc191156dac76ffce8622c16cb21d" category="cell">アグリゲートサイズ</block>
   <block id="b1e8908d89a1ad733767a64e964d99a1" category="list-text">800 TB</block>
-  <block id="382b0f5185773fa0f67a8ed8056c7759" category="list-text">該当なし</block>
   <block id="f143d990b31f7ac5e79358104cb48aff" category="cell">ノード数</block>
   <block id="1ff1de774005f8da13f42943881c655f" category="list-text">24</block>
   <block id="aa1d200574a94cfcb3d0759a739c4dd9" category="list-text">8 (9.17.1)</block>
-  <block id="2d971449b9b517e5d9b06c0774a86eb5" category="list-text">32 （9.19.1RC1）</block>
   <block id="a720679b3b1209f744e43750ba9fde85" category="cell">合計容量</block>
   <block id="5404442a7ea7dc52ed099fdd23e4199c" category="inline-link-macro">hwu.netapp.com</block>
   <block id="682e0c17b99d72fabde958b4e8c0d999" category="list-text">ノードとドライブに依存します。詳細については、<block ref="523b424ce9b7195ce25d27d4cc912219" category="inline-link-macro-rx"></block>を参照してください。</block>
@@ -2201,23 +2172,19 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="704a0d93f7b6ca8da6cbce9ed5971f0e" category="list-text">3PB（9.18.1RC1）</block>
   <block id="bd73788e2d7ae873811b5f0a7396e233" category="list-text">16PB（9.18.1GAリリース）</block>
   <block id="f97ef3dbbb7841f0aa42a42747c2a0ee" category="list-text">20PB（9.19.1RC0）</block>
-  <block id="653c5fed5c5f4dcbffe13c96221408cd" category="list-text">32PB（9.19.1RC1）</block>
   <block id="b7766a901d78384091033386c4093325" category="cell">サポートされるシェルフ数</block>
   <block id="91706301a0c706cc2b6ed119849431ab" category="list-text">HAペアあたり8個</block>
   <block id="2b74c007e56a8be14949b63b9c86ef6d" category="list-text">クラスタあたり192</block>
   <block id="140cff9a338f00caa42bc917c0418ca5" category="list-text">クラスタあたり12（9.18.1GA）</block>
   <block id="8f913e0a31e7129dc8f1303d1c3bbb6e" category="list-text">クラスタあたり17（9.19.1RC0）</block>
-  <block id="ce3356bb97f3c0c67abc10dbbe67295d" category="list-text">クラスタあたり25（9.19.1RC1）（HAペアの制限なし）</block>
   <block id="cba50d32905010ba6b646887e5e895fb" category="cell">サポートされるドライブの総数</block>
   <block id="0776e87be9974c41478d5bd51d257edd" category="list-text">HAペアあたり240</block>
   <block id="1e55cbc137a2331e70c391fc4fd9c60e" category="list-text">2880（24ノード）</block>
   <block id="10f58cba14d2923711530ca627a44630" category="list-text">クラスタあたり288（シェルフ数の制限に基づく。HAペアの制限なし）</block>
   <block id="4ae417e18c2dbaa126c383d02921071f" category="list-text">クラスタあたり408（9.19.1RC0）</block>
-  <block id="68c6eeaf09540ebb55999b818976f02b" category="list-text">クラスタあたり600（9.19.1RC1）</block>
   <block id="6bb41960470a19d97556b9240ac0b3ff" category="cell">ボリューム サイズ</block>
   <block id="8998a6f31a494ea1f237e3fa701e0ed9" category="list-text">300TB（FlexVol）</block>
   <block id="b10a65115e7a646fec0fd28107237725" category="list-text">60PB （FlexGroup）</block>
-  <block id="0bab89c96b68baae41f5285b98af3ac5" category="list-text">60PB （FlexGroup）*</block>
   <block id="c211a42bcb266c4a94bd61b00651fb1c" category="cell">ボリュームあたりの最大ファイル数</block>
   <block id="b693a2bd240e09ce2afb4bc4488dc1a4" category="list-text">20億（FlexVol）</block>
   <block id="9337be44c241fe6070fdf7a59195811d" category="list-text">4000億（FlexGroup）</block>
@@ -2233,9 +2200,7 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="b7639b383cb3a4cab77aa12f58aa915b" category="cell">ノードあたりの最大ロック数</block>
   <block id="1ec14607f84befa006cafa9013c8912f" category="list-text">3 million</block>
   <block id="6849c78228c7cd366db4c21c9938140f" category="cell">最大データインターフェース数（クラスタ）</block>
-  <block id="c903af30d83599be98f0662224f2c47d" category="cell">最大構成要素数 – FlexGroup</block>
   <block id="3644a684f98ea8fe223c713b77189a77" category="list-text">200</block>
-  <block id="b6eddf963db615d515417f95e5dc2fa9" category="list-text">9.19.1 RC1で512</block>
   <block id="a3dffa639f016fdda26bbc66ef4e8297" category="cell">クラスタ間LIFの最大数</block>
   <block id="bc7755ec4d34c6846a5772829cb17914" category="cell">IPスペースの最大数</block>
   <block id="10a7cdd970fe135cf4f7bb55c0e3b59f" category="list-text">512</block>
@@ -2244,9 +2209,7 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="f687535718e53d023297c10d45c01270" category="cell">FlexCacheの最大数（ノード）</block>
   <block id="18d8042386b79e2c279fd162df0205c8" category="list-text">400</block>
   <block id="53de1c7cdb80f3c7e5a41e6540841720" category="section-title">AFX向けのNetApp ONTAPの最新リリースの新機能</block>
-  <block id="0acc25e6e7239d394aedd7b0e37728b5" category="paragraph">このセクションでは、NetApp AFXの最新のアップデートについて説明します。新しいリリースごとに更新されます。最新情報については定期的にこのページをご確認ください。また、バージョンリリースノートも併せてご確認ください。</block>
   <block id="bff2eea4246a1f0ecb68fc0c8a335f25" category="paragraph">最新リリース：</block>
-  <block id="7dd300df1c1cbba0e8f3f2216e700979" category="paragraph">ONTAP 9.19.1RC1（2026年5月時点）</block>
   <block id="27c085bde15f2bb253b0aee8a5f084c2" category="paragraph">NetApp AFXの新機能：</block>
   <block id="d2faa14ab70288d07188a62b2f1242e8" category="list-text">グローバル重複排除</block>
   <block id="1f72924400244c635421d0b144e597e4" category="list-text">動的なストレージ効率</block>
@@ -2278,10 +2241,7 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="5f009470c525619904fd84251f905a7e" category="paragraph">*おおよその生容量比較、84 台のドライブ – Unified ONTAP および NetApp AFX*</block>
   <block id="d8ed1a209c750a3dc71890cc94412b31" category="paragraph">*NetApp AFX でのディスク再構築*</block>
   <block id="dc1b0acbe90560cc5a5e94e6e90708ba" category="paragraph">*統一 ONTAP 重複排除ドメイン*</block>
-  <block id="b12d1303cded0366ad3fa9aa6d34be4a" category="paragraph">*同一の10GBファイルに対するさまざまなシナリオでの重複排除動作 – 統合ONTAP*</block>
   <block id="7b5e9f2c0d06f5a691b8531801c6399b" category="paragraph">*NetApp AFX – グローバル重複排除ドメイン（ONTAP 9.19.1）*</block>
-  <block id="a040d8510d49a488312dd741d89e9ca6" category="paragraph">*同一の10GBファイルに対するさまざまなシナリオでの重複排除動作 – NetApp AFX*</block>
-  <block id="186cb1a33e8e53960ebea64a2e6d0b69" category="list-text">新しい容量アーキテクチャにより、NetApp AFXではコピーベースのボリューム移動も不要になりました。詳細については、<block ref="b59888323cfca50660660414893d5a3c" category="inline-xref-macro-rx"></block>を参照してください。</block>
   <block id="f80e34d35179b16c68ce3cb79ad36d9e" category="paragraph">例えば、統合された ONTAP の CLI では、クラスターの物理容量の合計情報を確認したい場合は、「`aggregate show-space`」を使用します。これにより、すべてのアグリゲートエントリが出力されます。NetApp AFX では、「`cluster space show`」というコマンドがあり、これを実行すると単一のストレージ可用性ゾーンのみが表示されます。</block>
   <block id="42afd96b757f8f9bd0f24bdf70f4bf70" category="paragraph">*統合 ONTAP と NetApp AFX における容量 CLI コマンドの並列比較*</block>
   <block id="bdc937cba7fe46550f14e60dabe07eec" category="paragraph">*System Managerの容量ビュー - 統合ONTAP*</block>
@@ -2316,7 +2276,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="ad5caac66af524a44d92b4cc1c8ad87f" category="summary">このページでは、NetApp AFX クラスタの最大値と最小値を、統合型 ONTAP と比較して説明します。</block>
   <block id="ea629c640de47abfbd9731f1383d108a" category="doc">最大値と制限値</block>
   <block id="0fc87a3629114127c8f973f35e3c57ba" category="paragraph">*NetApp AFXの最大値と最小値*</block>
-  <block id="5b8dee0cb73a41462c6285f68c17d093" category="summary">NetApp AFXではストレージの提示方法にかなり大きなアーキテクチャ上の違いがありますが、機能セットとONTAPの管理方法は実質的に変更されていません。</block>
   <block id="cb981099a03b9edaa33f39b7fc686d56" category="doc">管理ツール</block>
   <block id="02a6e2c6554c926b5858f18226afa7f4" category="paragraph">NetApp AFX CLI における唯一の実際の違いは、追加されたものと削除されたものに関係しています（このドキュメントの "" セクションで説明されています）。機能（アグリゲートや Metrocluster など）が削除された場合、対応する CLI コマンドは使用できなくなります。</block>
   <block id="971d55389f6a3f4ab4d365e1d96ca63d" category="paragraph">*統合された ONTAP と NetApp AFX System Manager のランディングページの並列表示*</block>
@@ -2326,8 +2285,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="f5e64500886f685b50bab074f7baaf8b" category="paragraph">*NetApp AFXケーブル接続図*</block>
   <block id="0ba14e1ce49ecde8fd2a51e3f76b6ee2" category="paragraph">NetApp AFXは、ONTAP REST API呼び出しの大部分を保持するための協調的な取り組みも行っています。つまり、REST APIベースの自動化ツールスイートを作成している場合、ほとんどのケースで引き続き使用できるはずです。主な例外としては、アグリゲート、Metrocluster、SAN、および一部のパフォーマンスカウンタが挙げられます。完全なREST APIドキュメントは、NetApp AFXクラスタのSystem Managerで\https://clus_mgmt_ip/docs/apiに移動することで確認できます。</block>
   <block id="10f8b4caccad4d5001f788be83e36b4a" category="summary">NetApp AFXは、パフォーマンスと拡張性を念頭に置いて設計されており、特に高い読み書きスループットを必要とするワークロード向けに最適化されています。</block>
-  <block id="26fb7c096cf7c88b9c31d41be766163e" category="paragraph">各NetApp AFXストレージ ノードは、読み取りと書き込みに対して特定のスループット量を提供します。ノードがクラスタに追加されると、パフォーマンスが線形的に向上します。これについては、本書の「ノード パフォーマンスの線形スケーリング」のセクションで説明しています。</block>
-  <block id="f72f669b81d6cf52d23dfe312609010f" category="paragraph">現在、ノードの種類は<block ref="9cf787ca68118452f94875110bf7c0d8" category="inline-link-macro-rx"></block>で、読み取りと書き込みのスループットは、おおよそ以下の値となります。新しいハードウェアがNetApp AFXで利用可能になると、これらの制限は変更される可能性があります。注：以下の「ベンチマーク結果」セクションに示すように、複数のクライアントが複数のファイルを読み書きすることで、最大のパフォーマンスが得られました。</block>
   <block id="1966077bb0e25c1b863a791297107edf" category="paragraph">*ノードごとのパフォーマンス推定値*</block>
   <block id="b1091795c1256c094d3449a2a2bc6deb" category="paragraph">*シェルフごとのパフォーマンス予測*</block>
   <block id="450baef0095326f9d30e6c8ca1f65004" category="paragraph">この「パフォーマンス密度」という概念により、ストレージ管理者はストレージ環境を過剰にプロビジョニングすることなく、既存のハードウェアを最大限に活用できるようになります。</block>
@@ -2341,7 +2298,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="1eef8946d0cbeaecb21b2a938827040e" category="paragraph">若干のパフォーマンス改善が見られた分野の一つは、シーケンシャルIO（つまり、予測可能で連続して発行されるIO）でした。fioを使用した標準的なパフォーマンステストでは、ONTAP 9.18.1を実行しているAFXは、シーケンシャル読み取りパフォーマンスを約30%、シーケンシャル書き込みパフォーマンスを10%向上させました。</block>
   <block id="458a3f89edcc08eb6255ebe8b1d42393" category="paragraph">*NetApp AFX – NFSv4.1 シーケンシャル IO パフォーマンス ONTAP 9.18.1*</block>
   <block id="bddd597f0eec2113f06b93b0277da19f" category="paragraph">さらに印象的なのは、NFSv4.xのパフォーマンス上の最大の課題の一つであるメタデータの改善点です。これらはランダムな入出力であり、通常は4Kバイト程度のサイズで、ファイル所有者や属性の管理、ファイルの作成や一覧表示などに使用されます。NFSv4.xはステートフルな性質を持つため、これらの操作はCPUとレイテンシのコストが高くなりがちで、結果として全体的なパフォーマンスが低下します。</block>
-  <block id="8d3bd41fd952027a466e35605cbd651b" category="paragraph">*NetApp AFX – ONTAP 9.18.1におけるNFSv4.1メタデータIOパフォーマンス*</block>
   <block id="739f428040feee735e00029f2f74aaad" category="summary">このページでは、NetApp AFXの最新のアップデートについて説明します。新しいリリースごとに更新されます。</block>
   <block id="89bef61b77bccd688eb4c742aab2b38b" category="doc">NetApp AFXの新機能</block>
   <block id="f5cb5bdaaa412361fa89cf3912168e46" category="summary">IPsecはNFSやSMBの暗号化に代わる選択肢であり、iSCSIトラフィックにおける唯一の転送中暗号化オプションです。</block>
@@ -2351,7 +2307,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="2d242bb36ec91b32005f9296ff03a912" category="sidebar">アーキテクチャ</block>
   <block id="fe4dbcab9b910577e5035e97ac068dae" category="sidebar">管理</block>
   <block id="3c02a379965ab0dfcd77b1c484450433" category="sidebar">ハードウェア</block>
-  <block id="8f1489908bad45f32b26cd4889b15ee5" category="paragraph">FlexGroup ボリュームが AFX アーキテクチャからどのようなメリットを得られるかについては、<block ref="1cec0d1b278569accc3f4a62eef15ba5" category="inline-link-macro-rx"></block>を参照してください。</block>
   <block id="3b694df11e6b19386eb830eb2e4f1789" category="paragraph">パフォーマンス数値については、<block ref="77269db3bbc523c64a6951fea568b858" category="inline-link-macro-rx"></block>を参照してください。</block>
   <block id="766623d3580d9065fc0a0d4ec5735932" category="paragraph">各シェルフには、16個の100GBイーサネットポートを備えた高性能シェルフモジュールが搭載されており、RoCEv2通信を利用して、クラスタ内のコンピューティングノードとの間で高帯域幅のストレージ通信を実現します。他の物理的な資源と同様に、これらのシェルフにも達成可能な最大値があります。特にNetApp AFXは、同じディスクセットを指す複数のノードを提示することができます。以下の表は、TLCおよびQLCドライブの場合の、単一シェルフにおける推定最大読み取りおよび書き込み性能を示しています。TLCとQLCの違いに関する詳細については、<block ref="6bb0fbcc06f13ae4b085b96edf84ff05" category="inline-link-macro-rx"></block>を参照してください。</block>
   <block id="1acada88d3bde4f0f20b477fc6b57ea4" category="paragraph"><block ref="ce43ad346de589cf0a1fba5f344a1b6d" category="inline-link-macro-rx"></block> MetroClusterは、FASおよびAFFシステム上で動作するONTAP向けの継続的に利用可能なストレージソリューションです。MetroCluster IPは、イーサネットベースのバックエンド ストレージ ファブリックを使用する最新の進化形です。MetroCluster IPは、最も重要なビジネスアプリケーションのニーズを満たすために、高度な冗長構成を提供します。MetroCluster IPはONTAPに含まれており、ONTAPストレージを使用するクライアントおよびサーバーにNASおよびSAN接続を提供します。</block>
@@ -2675,4 +2630,373 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="49f0664f282179029e2131d30362f45d" category="summary">TLS 上の NFS は標準の ONTAP エクスポートポリシーコントロールと連携し、SVM-DR および MetroCluster を介してレプリケートされます。このページでは、接続制限、適用動作、および運用上の推奨事項についても説明しています。</block>
   <block id="7ec1eb1e8c27af2d560415def72f2dcf" category="sidebar">ONTAPの技術レポートは、異なるエコシステム内または異なるプロトコルでの導入計画と最適化のための追加的な情報を提供します。ONTAPの技術レポートの中には、ONTAPの機能や性能に関するアーキテクチャ上の背景情報や推奨事項が記載されているものがあります。</block>
   <block id="9678a7dcb872318bf33163b8a1ba5331" category="sidebar">ONTAP技術レポート</block>
+  <block id="54ec3a53c78919e9407a57725c4375f5" category="summary">NetApp AFX ストレージ可用性ゾーンが物理アグリゲートをクラスタ全体の単一容量プールに置き換える方法について説明します。</block>
+  <block id="5b62d0d4bed05d1bafa800b03e4547d3" category="doc">単一容量プール</block>
+  <block id="a4f3bbb6371419955168ca5b4cd75e14" category="paragraph">NetApp AFXは、ノードごとの物理アグリゲートを、クラスタ全体で利用可能な単一のストレージ可用性ゾーンに置き換えます。</block>
+  <block id="86e42f283c0e7ce37049767109379be0" category="inline-link-macro">前へ：ノードとディスクの関係</block>
+  <block id="d817615aa101085b02d44d8e0e823dab" category="cell"><block ref="d817615aa101085b02d44d8e0e823dab" category="inline-link-macro-rx"></block></block>
+  <block id="034209d6ad41d67b2159d052ccbde0ac" category="inline-link-macro">次：複製された NVRAM および HA フェイルオーバーの動作</block>
+  <block id="76a2767d019330ede157390b01693459" category="cell"><block ref="76a2767d019330ede157390b01693459" category="inline-link-macro-rx"></block></block>
+  <block id="35a27f61604d63f66f775a8d3a5cf7bb" category="summary">NetApp AFX がノードの追加と削除を自動化し、クラスターを最大 32 ノード、32PB まで拡張する方法について説明します。</block>
+  <block id="ae899ba07529811c7eb33a8faf905a65" category="doc">クラスター規模</block>
+  <block id="cb8b98fa7e8e25975fc798c7628775e0" category="paragraph">NetApp AFXアーキテクチャは、ノードの追加と削除を簡素化し、容量やパフォーマンスを損なうことなく、より大規模なクラスタ構成を可能にします。</block>
+  <block id="b7a95c6586d57b909e3a9973bf21cccf" category="inline-link-macro">制限</block>
+  <block id="38f629ab9fe0b506cd64c3679d525d5f" category="paragraph">最大クラスターサイズ情報については、<block ref="c597c96a42848ebf6c6969387954bb8c" category="inline-link-macro-rx"></block>ページを参照してください。</block>
+  <block id="ef9bd54df79e70b96e893ceea0e91312" category="inline-link-macro">前へ：ボリュームの移動</block>
+  <block id="275364c276ec6dee70887af6a23e8646" category="cell"><block ref="275364c276ec6dee70887af6a23e8646" category="inline-link-macro-rx"></block></block>
+  <block id="83e46be7bd44842ce98500496847f4e9" category="inline-link-macro">次へ：ルートボリュームの変更</block>
+  <block id="f45ea40223ebf36e876aea4789d0f6e6" category="cell"><block ref="f45ea40223ebf36e876aea4789d0f6e6" category="inline-link-macro-rx"></block></block>
+  <block id="bdf25c1c2e469d9758120a0feaa5077f" category="summary">NetApp AFX で変更、削除、またはサポート対象外となった ONTAP 機能を確認します。</block>
+  <block id="d44875ca8fb1c667438d95cce89a36ee" category="doc">ONTAP機能サポートの変更</block>
+  <block id="b1f694e14956be77cf0eb60222e47b2e" category="paragraph">NetApp AFX のハイパフォーマンス NAS とオブジェクト設計により、一部の ONTAP 機能とインターフェースの利用可能性が変わります。</block>
+  <block id="d9c1eb9a581bfd14111cf720df3b0bd1" category="section-title">AFXで削除された、またはサポートされていないONTAP機能</block>
+  <block id="99a80b04ef8bf63bea43cd149e59adbf" category="list-text">新しい容量アーキテクチャにより、NetApp AFXではコピーベースのボリューム移動も不要になりました。詳細については、<block ref="67d639395579b09d4abdd20aa5044b2b" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="d443d100383bd891012ba5ae6150e013" category="inline-link-macro">前へ：ストレージ効率</block>
+  <block id="73b0e97ca39870a70df4b1b35fb121d8" category="cell"><block ref="73b0e97ca39870a70df4b1b35fb121d8" category="inline-link-macro-rx"></block></block>
+  <block id="ca3dd1aae2ac5cb886e1abbbb46ac5af" category="inline-link-macro">次：FlexGroup 管理の改善</block>
+  <block id="da72eaace59bda00e6361751697f2b33" category="cell"><block ref="da72eaace59bda00e6361751697f2b33" category="inline-link-macro-rx"></block></block>
+  <block id="119a20db3f697b02ddf97b1bfd537d67" category="summary">NetApp AFX 容量アーキテクチャが FlexGroup のボリューム管理を簡素化する方法をご紹介します。</block>
+  <block id="3d830d7683c4e74c2b7ecd36620bcf4b" category="doc">FlexGroup 管理の改善</block>
+  <block id="5e524a6da6f5836187e2e4234fb6dfdc" category="paragraph">NetApp AFX の単一のストレージ可用性ゾーンにより、FlexGroup ボリュームに必要なインフラストラクチャ管理が削減されます。</block>
+  <block id="4d578ffaea0ce093a4e0d2cec263621b" category="inline-link-macro">前：ONTAP機能サポートの変更</block>
+  <block id="d8b374be0f7350f520f08d920c2f1093" category="cell"><block ref="d8b374be0f7350f520f08d920c2f1093" category="inline-link-macro-rx"></block></block>
+  <block id="9a753cf01d3b3f2bb2f15562165d32e7" category="inline-link-macro">次へ：ボリュームの移動</block>
+  <block id="7abf5c59ca6e65fb40670023985184ea" category="cell"><block ref="7abf5c59ca6e65fb40670023985184ea" category="inline-link-macro-rx"></block></block>
+  <block id="4dc535c56d16702ba00c65f6478d0650" category="summary">NetApp AFX がコンピューティングとキャパシティを独立してスケールしながら、線形なノードパフォーマンスを実現する方法をご覧ください。</block>
+  <block id="053494bc00de2cfc0a58dac6f7ecd62a" category="doc">独立した線形スケール</block>
+  <block id="c0103995b715b075de77d3d88f0a7823" category="paragraph">分解された NetApp AFX アーキテクチャにより、容量とコンピューティングリソースを独立してスケールさせ、ノードのパフォーマンスをリニアにスケールさせることができます。</block>
+  <block id="754a4d69adc2453532670dbd9ea7919b" category="inline-link-macro">前：複製済み NVRAM および HA フェイルオーバー動作</block>
+  <block id="1233129ad521178a7ad957f65c6d3385" category="cell"><block ref="1233129ad521178a7ad957f65c6d3385" category="inline-link-macro-rx"></block></block>
+  <block id="eaf442a512c0b53f5715f821d53759c7" category="inline-link-macro">次：RAIDの変更</block>
+  <block id="9a1dcb233d45db9b07d3f4710eab115e" category="cell"><block ref="9a1dcb233d45db9b07d3f4710eab115e" category="inline-link-macro-rx"></block></block>
+  <block id="91d6f5fb3e5146f5b7221ed5d7986852" category="summary">NetApp AFX がすべてのストレージ ノードにすべてのディスクへの可視性を提供し、ディスクの所有権を削除する方法について説明します。</block>
+  <block id="587320e7812070c931a48fb6902c7228" category="paragraph">NetApp AFXは、すべてのノードとシェルフを同じバックエンドネットワークで接続することにより、ストレージ ノードとディスクの関係を変革します。</block>
+  <block id="318618fcbea375e247481fae79c73332" category="inline-link-macro">前へ：アーキテクチャ</block>
+  <block id="cd4ad3137c754ae686247606a9bc885b" category="cell"><block ref="cd4ad3137c754ae686247606a9bc885b" category="inline-link-macro-rx"></block></block>
+  <block id="7d72a470f2b577a7f2db02929884441d" category="inline-link-macro">次：単一容量プール</block>
+  <block id="eac6ef923fde32ac1d0eb49a4c9f05c9" category="cell"><block ref="eac6ef923fde32ac1d0eb49a4c9f05c9" category="inline-link-macro-rx"></block></block>
+  <block id="2a6602ab0eee68a3164c8c540af46c04" category="summary">NetApp AFX がバックエンドネットワーク経由で NVRAM をレプリケートし、HA フェイルオーバー中にボリュームの再バランスを行う方法について説明します。</block>
+  <block id="b3c2e58648b286918bfb5b684cca6455" category="doc">複製された NVRAM および HA フェイルオーバー動作</block>
+  <block id="bfdeb0e5f702a4920fd204738452bc06" category="paragraph">NetApp AFX は、NVRAM レプリケーションをバックエンド クラスター ネットワークに移動し、ノード障害発生後にゼロコピー ボリューム モビリティを使用してワークロードを再分散します。</block>
+  <block id="6e56008c0110dbadbb126ca11335947e" category="inline-link-macro">前：単一容量プール</block>
+  <block id="96962307687d46b7df1a01d684c98a2e" category="cell"><block ref="96962307687d46b7df1a01d684c98a2e" category="inline-link-macro-rx"></block></block>
+  <block id="52bc7f01b9b93a6808e4b063730047ff" category="inline-link-macro">次：独立した線形スケール</block>
+  <block id="8eb3844c69ac6c6f04a39bc94048aee5" category="cell"><block ref="8eb3844c69ac6c6f04a39bc94048aee5" category="inline-link-macro-rx"></block></block>
+  <block id="c03c9e469b184306b8aff7a4af160441" category="summary">NetApp AFX の大規模な RAID グループが、使用可能な容量を向上させ、ディスクの再構築を高速化する仕組みについて説明します。</block>
+  <block id="5bf47d0e9a8df629d21fe0ec95cc52ff" category="doc">RAIDの変更</block>
+  <block id="e2438134c785460001ab9afde2fa97fd" category="paragraph">NetApp AFXは、パリティドライブの比率が低い大規模なRAID-TECグループを使用し、ディスク再構築作業をクラスタ全体に分散させます。</block>
+  <block id="6dcb05cff5b2040c9e618d652ac9eedc" category="inline-link-macro">前：独立、線形スケール</block>
+  <block id="c19d471797837b55c5a8c87550208759" category="cell"><block ref="c19d471797837b55c5a8c87550208759" category="inline-link-macro-rx"></block></block>
+  <block id="b89599897f78689775ab1f045cdf8c55" category="inline-link-macro">次へ：ストレージ効率</block>
+  <block id="1fee783e025135691dff26e8af6c8b77" category="cell"><block ref="1fee783e025135691dff26e8af6c8b77" category="inline-link-macro-rx"></block></block>
+  <block id="ba9f78a3da2c98ca4695295f6c157185" category="summary">NetApp AFX がルートボリュームを仮想化し、ブートイメージとクラスタデータベースをオンボードのブートメディアに移動する方法について説明します。</block>
+  <block id="8d4bebb36186ffde1221d7b4f9c5c365" category="paragraph">NetApp AFXは物理的なルートアグリゲートを削除し、ブートイメージと複製されたクラスタデータベースにオンボードのNVMeブートメディアを使用します。</block>
+  <block id="7c1f1842a4939f57630fb77edbe0255c" category="inline-link-macro">前へ：クラスター規模</block>
+  <block id="34a918752a6c315d982082421b2fde1d" category="cell"><block ref="34a918752a6c315d982082421b2fde1d" category="inline-link-macro-rx"></block></block>
+  <block id="e2c8766ef4eae8d561615b7e9955e166" category="inline-link-macro">次へ：パフォーマンス</block>
+  <block id="8e85322458e72e50123dc2d9aec2a6f7" category="cell"><block ref="8e85322458e72e50123dc2d9aec2a6f7" category="inline-link-macro-rx"></block></block>
+  <block id="d16fdbe48808d05fea5cacba0fee173d" category="summary">NetApp AFX重複排除ドメインがどのように変更されたか、およびONTAP 9.19.1がグローバル重複排除をどのように提供するかについて説明します。</block>
+  <block id="fd18465573ec21a6218982055981f6b1" category="doc">Storage Efficiency</block>
+  <block id="632d15e65f675c6a9228c8adc414c3ba" category="paragraph">NetApp AFXは重複排除境界を変更し、ONTAP 9.19.1以降では、ストレージ可用性ゾーン全体にわたるグローバルな重複排除ドメインをサポートします。</block>
+  <block id="bd7fe8049cfb5e245ef178ee07140836" category="paragraph">以下の表は、さまざまなシナリオにおける重複データの容量挙動を比較したものです。ファイルのコピーが統合された ONTAP のノードとアグリゲート（したがって重複排除ドメイン）にまたがる場合、スペースの節約効果は低下します。9.19.1 より前の AFX では、コピーがノードをまたぐ場合にも同様の現象が発生します。9.19.1 以降、グローバル重複排除はストレージ可用性ゾーン全体で同じ節約効果をもたらします。</block>
+  <block id="d05de44df7f24e70badd0a4c55e8c62d" category="paragraph">*同一の10GBファイルに対する重複排除動作 – 統合ONTAP とNetApp AFX*</block>
+  <block id="fbf77664391482a8ca45a51f12160ca3" category="cell">AFX 9.18.1</block>
+  <block id="a3d5ec4aa274797fb21c40a4b87c7e15" category="cell">AFX 9.19.1</block>
+  <block id="9b800715ba731f258d6ce5f88197f4f1" category="cell">同じ 10GB ファイルの 4 つのコピー、異なるボリューム、同じアグリゲート（ユニファイド ONTAP）または同じノード（AFX）；ボリューム間重複排除が有効</block>
+  <block id="7bbb2341e1f68cb884a4a4ad8242a8f0" category="cell">同じ 10GB ファイルの 4 つのコピー、4 つの異なるボリューム、4 つの異なるアグリゲート（統合 ONTAP）または 4 つの異なるノード（AFX）。ボリューム間重複排除が有効</block>
+  <block id="ae8dfab71ce3a08ecd350daf50301a27" category="inline-link-macro">前へ：RAIDの変更</block>
+  <block id="594fde184554ada70dfbd1fb2884299e" category="cell"><block ref="594fde184554ada70dfbd1fb2884299e" category="inline-link-macro-rx"></block></block>
+  <block id="fe2fb055835b763bb3584b749af596cf" category="inline-link-macro">次：ONTAP機能サポートの変更</block>
+  <block id="b93654fe68cc1bb2e693e7a2952ebb7e" category="cell"><block ref="b93654fe68cc1bb2e693e7a2952ebb7e" category="inline-link-macro-rx"></block></block>
+  <block id="57b706c0d0923b58e55e65858cc5cdab" category="summary">NetApp AFX が自動管理とパフォーマンスバランス調整のためにゼロコピーボリューム移動を使用する方法について説明します。</block>
+  <block id="2b8498e54f96836a89b5c416ba8bad40" category="doc">ボリューム移動</block>
+  <block id="25606fd8c2368bc5e6a80aa5e10185b5" category="paragraph">NetApp AFX はボリュームデータをコピーせずにノード間でボリュームの所有権を移動し、高速な自動化と目標達成ベースのバランシングを実現します。</block>
+  <block id="47db773889e8d2ca15bd4b7ce4ac5cf4" category="section-title">ストレージ可用性ゾーンがボリュームの動作をどのように変えるか</block>
+  <block id="2ff3d332293bba6e6af1d78768da00e1" category="paragraph">NetApp AFXのStorage Availability Zoneを使用すると、すべての容量がすべてのノード間で共有されます。ノードがボリュームを所有していることに変わりはありませんが、ONTAPは、各ノードが随時必要とする容量に基づいて容量を借用および解放することにより、各ノードの容量使用量を自動的に管理します。これにより、ストレージ管理者は使用可能なスペースを最適にバランス調整する方法について心配する必要がなくなります。この新しいアプローチは、ボリュームがノード間をより自由に移動するための方法も提供します。</block>
+  <block id="98509ec30ea1920baaae7ad6eb9f9bed" category="inline-link-macro">前：FlexGroup 管理の改善</block>
+  <block id="a42aebcd3b48a9a1305117441cb1fe8d" category="cell"><block ref="a42aebcd3b48a9a1305117441cb1fe8d" category="inline-link-macro-rx"></block></block>
+  <block id="07930f7010aa1de69598bec74b3daf77" category="inline-link-macro">次へ：クラスタースケール</block>
+  <block id="ec11e6004a5f7abbd80806f4c4115a4f" category="cell"><block ref="ec11e6004a5f7abbd80806f4c4115a4f" category="inline-link-macro-rx"></block></block>
+  <block id="a7c0c15a9a2c0523912a320ce0b0af0a" category="section-title">アーキテクチャのトピック</block>
+  <block id="2346bf7ba872c3618b6862ef695ee8b1" category="list-text"><block ref="2346bf7ba872c3618b6862ef695ee8b1" category="inline-link-macro-rx"></block></block>
+  <block id="28f072f460023ec8338c485644593c04" category="list-text"><block ref="28f072f460023ec8338c485644593c04" category="inline-link-macro-rx"></block></block>
+  <block id="c5ea8c1dc56e62486c1aa4cb5b682791" category="list-text"><block ref="c5ea8c1dc56e62486c1aa4cb5b682791" category="inline-link-macro-rx"></block></block>
+  <block id="130a460851e994bcd23b6be769fe15c8" category="list-text"><block ref="130a460851e994bcd23b6be769fe15c8" category="inline-link-macro-rx"></block></block>
+  <block id="32c8ddf6b92bcc8e121c78599ec04948" category="list-text"><block ref="32c8ddf6b92bcc8e121c78599ec04948" category="inline-link-macro-rx"></block></block>
+  <block id="2dce81bf3acf389dfb7ee3ffbd5aab33" category="list-text"><block ref="2dce81bf3acf389dfb7ee3ffbd5aab33" category="inline-link-macro-rx"></block></block>
+  <block id="aea6aabdefeda8105b1398fa70bfbf04" category="list-text"><block ref="aea6aabdefeda8105b1398fa70bfbf04" category="inline-link-macro-rx"></block></block>
+  <block id="3973e59e5869bd8620f6f32b16590bcc" category="list-text"><block ref="3973e59e5869bd8620f6f32b16590bcc" category="inline-link-macro-rx"></block></block>
+  <block id="2af265af0e7f234f6363b058835ffe29" category="list-text"><block ref="2af265af0e7f234f6363b058835ffe29" category="inline-link-macro-rx"></block></block>
+  <block id="7cee51cb451ff7308783158ac1db2ef3" category="list-text"><block ref="7cee51cb451ff7308783158ac1db2ef3" category="inline-link-macro-rx"></block></block>
+  <block id="58a82ec8a761904e904facb5e64b4aee" category="list-text"><block ref="58a82ec8a761904e904facb5e64b4aee" category="inline-link-macro-rx"></block></block>
+  <block id="dd1f775e443ff3b9a89270713580a51b" category="inline-link-macro">前へ</block>
+  <block id="0404fcd632cc3442dd58b5d1c07b7d2d" category="cell"><block ref="0404fcd632cc3442dd58b5d1c07b7d2d" category="inline-link-macro-rx"></block></block>
+  <block id="69be2c2dc375e8c3d4ef57e211abb8c3" category="inline-link-macro">次：ノードとディスクの関係</block>
+  <block id="7060b1d86f6e9d5a96964c27019caa21" category="cell"><block ref="7060b1d86f6e9d5a96964c27019caa21" category="inline-link-macro-rx"></block></block>
+  <block id="5a5a13b2fe196be4a679b058d5c7ade4" category="list-text">バックエンドクラスタネットワークポートは、AFX 1Kプラットフォームではクラスタスイッチへの100GB接続のみをサポートし、AFX 2Kでは400GB接続をサポートします。</block>
+  <block id="bf46d6b9c6a47122718c8db45552f64e" category="list-text">クラスタスイッチは400GBに対応しているため、バックエンドノードの接続には、AFX 1K上で4本の100GBブレークアウトケーブルを使用し、スイッチで使用するポート数を削減しています。AFX 2Kは、スイッチとの間で1対1の400GB接続を使用します。</block>
+  <block id="7a3c3c12c21a09ed089a89d765c810f2" category="paragraph">FlexGroup ボリュームが AFX アーキテクチャからどのようなメリットを得られるかについては、<block ref="0e113d6569e7ae4c8fb5353fd9b2254b" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="1c25a0b7f7b732ad965a5a7b1ff34e2e" category="cell"><block ref="1c25a0b7f7b732ad965a5a7b1ff34e2e" category="inline-link-macro-rx"></block></block>
+  <block id="3a87a2791dcee25eb67a005e13b677b5" category="inline-link-macro">次へ：ハードウェア</block>
+  <block id="5b243f25b6ba73e0773a6c9b112a3628" category="cell"><block ref="5b243f25b6ba73e0773a6c9b112a3628" category="inline-link-macro-rx"></block></block>
+  <block id="b1e7b5b40850fffdf0de6d8a90d75650" category="paragraph">NetApp AFXノードには、AFX 1K（AFF A1Kベース）とAFX 2Kがあります。これらのノードにはストレージ用のオンボードディスクは搭載されておらず、パフォーマンス要件に基づいてノードを容易に追加および削除できるようにモジュール式に設計されています。各ノードは2Uのラック空間を占有し、AFXクラスタに追加されるにつれてパフォーマンスが直線的に向上します。</block>
+  <block id="bb103e44d966373afdac269aa1c682af" category="paragraph">*NetApp AFX 2K ノードの詳細*</block>
+  <block id="594cf2fe6e4a6d11de793e30d812248a" category="paragraph"><block ref="594cf2fe6e4a6d11de793e30d812248a" category="inline-image-macro-rx" type="image"></block></block>
+  <block id="83ce79303db612602efbf5b6a365c745" category="paragraph">NetApp AFX 2K ノードでは、以下のスロット割り当てが使用されます。</block>
+  <block id="64f41ef936eb5fed920f53aa4cf113a4" category="list-text">スロット2はクラスタレプリケーション専用です。</block>
+  <block id="25af6e8ed5efe01de53396a9f937ccdb" category="list-text">スロット8Bと10Aは、ストレージシェルフ通信専用です。</block>
+  <block id="974e7cae37d10728a5a0998fab60aca3" category="paragraph">NetApp AFXは、その主要なアーキテクチャ概念の多くにおいて、バックエンドのクラスタスイッチを多用しています。例えば、クラスタインターフェイス、ストレージアダプタ、ストレージシェルフ、NVRAMカードはすべてクラスタスイッチに接続されます。クラスタスイッチは400GBに対応しています。バックエンドクラスタネットワークポートは、AFX 1Kプラットフォームではクラスタスイッチへの100GB接続のみをサポートし、AFX 2Kでは400GB接続をサポートします。その結果、AFX 1Kのバックエンドノード接続では、スイッチで使用するポート数を削減するために、4 x 100GBブレークアウトケーブルが使用されます。AFX 2Kは、スイッチとの間で1対1の400GB接続を使用し、ノードごとに6つのポート（HA用2つ、クラスタ用2つ、ストレージ用2つ）を備えています。ストレージシェルフモジュールは依然として100GBインターフェースを使用しています。例えば、16 x 100GBストレージシェルフモジュールポートはスイッチの4つのポートのみを使用し、AFX 1Kノードの合計8つのポートは2つのスイッチポートを使用します。</block>
+  <block id="b1852bcd6cc401fd02422858b178b7fa" category="section-title">スイッチ選択ガイド</block>
+  <block id="d4f5bed7457dc9b068d850e8db3f6d63" category="paragraph">各スイッチに必要な400GbEポートの数を合計し、その合計数をカバーする最小のスイッチクラスを選択してください。NetApp AFXは2つのクラスタスイッチを使用します。各スイッチのサイジングは個別に行います。各スイッチの2つのポートはISL用に予約されており（9332：ポート31～32、9364：ポート63～64）、9332では30個の使用可能なポート、9364では62個の使用可能なポートが残ります。</block>
+  <block id="58a28b7aad0bcc38fea19c69aa3c2a2e" category="paragraph">スイッチあたりのポート数：</block>
+  <block id="2adc0cf0a09cf3acc80b491a2290f5d8" category="list-text">AFX 1K：ノードあたり1×400GbEポート（4×100GBブレークアウト上の4×100GBノードポート）</block>
+  <block id="9589d0606f143c001b80863253dd143e" category="list-text">AFX 2K：スイッチ1台あたりノードごとに400GbEポート×3（1：1 400GB構成でノードあたり6ポート、内訳はHA用2ポート、クラスタ用2ポート、ストレージ用2ポート）</block>
+  <block id="ac6ce6a07231a222e16acb28790c8ff4" category="list-text">シェルフ：シェルフあたり2 × 400GbEポート（4 x 100GBブレークアウトでスイッチあたり8つの100GBシェルフポート）</block>
+  <block id="c7a931e8021e8267cb0901bcc68cd37f" category="cell">スイッチ1台あたり、合計400GbEポートが必要</block>
+  <block id="bbc155fb2b111bf61c4f5ff892915e6b" category="cell">スイッチ</block>
+  <block id="58596a213f53b4b05701bb140d62d7bf" category="cell">32ポートに対応（ISL適用後、30ポート使用可能）</block>
+  <block id="42bcfd3a8dc048ea39f9d0c10ee2a96d" category="cell">Cisco Nexus 9332D-GX2B （1U、32 x 400GbE）</block>
+  <block id="e70706dbefce23e201e90ad541e55ec0" category="cell">64ポートに対応（ISL適用後、62ポートが使用可能）</block>
+  <block id="efe7a5dcfac4e1f4c2b9191de735fbc6" category="cell">Cisco Nexus 9364D-GX2A （2U、64 x 400GbE）</block>
+  <block id="1f12392c4497f9ac149fdbca42e0946e" category="cell">64を超えるポート</block>
+  <block id="65a6ed729e513b4f5eaca8a428c7f976" category="cell">Cisco Nexus 9808、または<block ref="9c839fcdfb8699a63c787254d7b1ae03" category="inline-link-macro-rx"></block>で指定されているとおり</block>
+  <block id="2b18ac515c39f0ab341cce83909f328d" category="section-title">32ノードクラスター</block>
+  <block id="35ff71f05c8983f61171e984d415a7ed" category="paragraph">32ノードのクラスタ（現在のノード最大数。<block ref="8057bcb5fa3400871df7c7ff4e1295c3" category="inline-link-macro-rx"></block>を参照）は、シェルフを除いて、AFX 1Kではスイッチあたり32 × 400GbEポートを、AFX 2Kではスイッチあたり96 × 400GbEポート（32 × 3）を消費します。</block>
+  <block id="4c047bf01cf13b78e6f56a60670958f1" category="cell">AFX 1K（32ノード）</block>
+  <block id="a2b391a899b70755b0d3c1ab27a5f15c" category="cell">AFX 2K（32ノード）</block>
+  <block id="1547422835eb79b97349e89baef85f3d" category="cell">Cisco Nexus 9332D-GX2B</block>
+  <block id="3b1b01d87ddad32bc6d72e58efb62311" category="cell">サポートされていません（32個のノードポートは使用可能な30個のポートを超えています）</block>
+  <block id="aa7f77e663b832d5b0e544c5511e680c" category="cell">サポート対象外</block>
+  <block id="0e7640c65f26c9e296a33421d0fb5c5a" category="cell">Cisco Nexus 9364D-GX2A</block>
+  <block id="9fdf6bcdac1a241a8955b169567b18c7" category="cell">ノード数32個、シェルフ数8～12個（4:1～8:3）</block>
+  <block id="47ddab6bcde53dbdfbb588f4d0dbea23" category="cell">サポートされていません（96ノードポートが使用可能な62ポートを超えています）</block>
+  <block id="2082d0b73a4a04320b20b1e6d00e06cf" category="cell">Cisco Nexus 9808</block>
+  <block id="c2a28a26e08429569152ffb8f857d69b" category="section-title">スイッチあたりの最大ノード数</block>
+  <block id="b1b0daa7dd3f9035ea61b91ae807da38" category="paragraph">ノードとシェルフの比率が少なくとも4：1、最大で8：3になるようにサイズを調整し（<block ref="d566b83810a4cfd2b2f84ca67b7cd031" category="inline-link-macro-rx"></block>を参照）、ノード数（HAペア）は偶数、最低2つのシェルフが必要です。以下の組み合わせは、その範囲内で各スイッチに適合する最大ノード数です。</block>
+  <block id="0b5ab51d843f0ee81c7f5fe35a5f64b2" category="cell">AFX 1K（最大ノード数＋シェルフ数）</block>
+  <block id="d2f25cdf72eac27cad1b62c3c67ff140" category="cell">AFX 2K（最大ノード数＋シェルフ数）</block>
+  <block id="355fa6f69d9dafbd500585872dae9b15" category="cell">ノード20個＋棚5個（4：1構成。8：3構成では残りのポートが収まらない）</block>
+  <block id="30d0c7c8c635a2df51c71ea2096ec53f" category="cell">8ノード＋シェルフ2～3台</block>
+  <block id="1a0864e3949ddbe49cb17af8623340b4" category="cell">32ノード + 8～12シェルフ</block>
+  <block id="fbae992ee12090fcc55ea2e8f900e1a3" category="cell">16ノード + 4～6シェルフ</block>
+  <block id="08cfb6e76db9f00c891e4c8c99638d27" category="inline-link-macro">AFXケーブル配線に関するドキュメント</block>
+  <block id="c6f00dd82fb88c73cc1affee15f11b29" category="paragraph">最新のサポート対象スイッチモデルと制限については、<block ref="9c839fcdfb8699a63c787254d7b1ae03" category="inline-link-macro-rx"></block>および<block ref="3844b91710934dea50da7fd25206c584" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="4f3d3e12873b90a45449c984a4499e18" category="paragraph">NetApp AFXはTLCとQLCの両方のフラッシュタイプを利用できます。15.3TBのドライブはTLCモデルで、30.1TBを超えるドライブはQLCモデルとなります。メディアの種類に関係なく、NVIDIA SuperPod認証の性能基準を満たすことができます。</block>
+  <block id="90f92537bd0c62a6de58c704e5a16424" category="cell"><block ref="90f92537bd0c62a6de58c704e5a16424" category="inline-link-macro-rx"></block></block>
+  <block id="2364ed8d509e73107b12fdf99a8b6aab" category="inline-link-macro">次：最大値と制限値</block>
+  <block id="cb5f2c20c44d606279f07605e23d11c8" category="cell"><block ref="cb5f2c20c44d606279f07605e23d11c8" category="inline-link-macro-rx"></block></block>
+  <block id="640b166a939b1c27c7920eac1d149606" category="inline-link-macro">次へ：新着情報</block>
+  <block id="b67e20cba68163a77b85e37ab2daca79" category="cell"><block ref="b67e20cba68163a77b85e37ab2daca79" category="inline-link-macro-rx"></block></block>
+  <block id="ef91aa9567a75d03c6868af1847f4cf4" category="list-text">該当なし（物理アグリゲートなし）</block>
+  <block id="7bf8eae16212993845da05163b4a3fbf" category="list-text">32 （9.19.1GA）</block>
+  <block id="534994cf1c4bf0fba7ccadd5e842d86a" category="list-text">32PB（9.19.1GA）</block>
+  <block id="269c9c0d3e705486f10e28e428b6080f" category="list-text">クラスタあたり27（9.19.1GA）（HAペアの制限なし）</block>
+  <block id="bb556e89cd0b582b6e7abaaa250b8961" category="list-text">クラスタあたり648（9.19.1GA）</block>
+  <block id="7a44285c27460153ae068ccfea0bf40f" category="list-text">60PB （FlexGroup - 9.19.1以前）*</block>
+  <block id="9802807ac5fc172e3d6a7b7aaefaa3d8" category="list-text">~153PB （FlexGroup - 9.19.1以降）*</block>
+  <block id="cc53de6086b5b3e6671092062bcdba16" category="cell">最大FlexGroup構成要素数</block>
+  <block id="3c294186314ab35c0d7a513c9743e589" category="list-text">200 (9.18.1以前)</block>
+  <block id="f16d7d2e9e222cbce8c5180fee54d0fe" category="list-text">512 （9.19.1GA）</block>
+  <block id="e1dcf33eac0351976a8e0dcf1fd8cf14" category="list-text">1兆（FlexGroup - 9.19.1GA以降）</block>
+  <block id="63bfcf3c1ee1a84b0d38e2c985739ae2" category="paragraph">_*FlexGroupの最大サイズは32PBの物理サイズに制限されます。_</block>
+  <block id="2f91c35cdb90a816b70d0668ede0cd99" category="cell"><block ref="2f91c35cdb90a816b70d0668ede0cd99" category="inline-link-macro-rx"></block></block>
+  <block id="cde1ec9e62df2f2b0c4fb223c37ae19c" category="inline-link-macro">次へ：関連情報</block>
+  <block id="88390b84e73c339334f1a311fbe4d28e" category="cell"><block ref="88390b84e73c339334f1a311fbe4d28e" category="inline-link-macro-rx"></block></block>
+  <block id="2d73217bea28d4de29e8e928630f3f60" category="summary">NetApp AFX Storage Availability Zoneによって、使い慣れたONTAP管理ツールを引き続き使用しながら、容量管理をどのように簡素化できるかについて説明します。</block>
+  <block id="1d19e21de0f93b11f5ceb8b535a3afc2" category="section-title">容量管理</block>
+  <block id="f45fb7f03c0353830151a48537118dcd" category="cell"><block ref="f45fb7f03c0353830151a48537118dcd" category="inline-link-macro-rx"></block></block>
+  <block id="713b4d97097e92b47726a7fa3107b349" category="inline-link-macro">次：機能</block>
+  <block id="12e5eb49b71ce1d7c8f1f883315e2959" category="cell"><block ref="12e5eb49b71ce1d7c8f1f883315e2959" category="inline-link-macro-rx"></block></block>
+  <block id="cec7b7e2ab4af23bbd75323c75bebcc4" category="summary">エクスポート ポリシー、ボリューム、マウント、クライアント、ネットワークに関する考慮事項を含む、NetApp AFXパフォーマンス ベンチマーク結果を再現するためのガイダンスです。</block>
+  <block id="6ff9b18d98108ed1c5a4254ed3405e00" category="doc">パフォーマンスベンチマークのヒント</block>
+  <block id="177918529f1c5d3552752f3eb8edbb64" category="paragraph">このページでは、<block ref="b2c1492c06c7c9ee371bcee573757b69" category="inline-link-macro-rx"></block>に記載されているNetApp AFXのパフォーマンスベンチマーク結果を再現するための構成ガイダンスを提供します。これらは、完全なテスト手順ではなく、一般的な考慮事項と構成ガイドラインです。</block>
+  <block id="7bdd095938f2004676adf47872b70a5e" category="paragraph">NFSプロトコルの背景と推奨プラクティスについては、<block ref="fe159189c16fecab70e72088e682cdf8" category="inline-link-macro-rx"></block>および<block ref="149ea492f7c2980c5c032947943ca75e" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="5925ba0cbc49e94745f350c8780ae064" category="inline-link-macro">ベンチマーク/ONTAP</block>
+  <block id="75307cbd9ef346491b81810e4479f088" category="paragraph">ボリューム作成、LIF管理、クライアントチューニング用のNASベンチマークスクリプトは、<block ref="ea4557b8c8c815e13e677664ec890a7c" category="inline-link-macro-rx"></block>リポジトリで入手できます。</block>
+  <block id="3801370f7bfbe71c465f219b785fd20c" category="section-title">パフォーマンス テストに関する考慮事項</block>
+  <block id="b31ba42fb3f58a5e0ac8bb461406d2b5" category="paragraph">性能テストは一般的に、特定のワークロードシナリオにおいてシステムが達成できる限界値を明らかにすることを目的としています。ほとんどの場合、ONTAPのデフォルト設定を調整しなくても、ほとんどのワークロードで良好なパフォーマンスが得られますが、場合によっては、システムを最適化するために一部の設定を調整することをお勧めします。</block>
+  <block id="3274910f8cfb095a5c3536d03b8df615" category="section-title">NFSエクスポートポリシー設定</block>
+  <block id="5f56aa3b1ab835caa4ce8def49f87ea7" category="inline-link-macro">ONTAPエクスポートポリシーのドキュメント</block>
+  <block id="4566712322643c725ef6313681397c0a" category="paragraph">ONTAPのエクスポートポリシーは、NFSエクスポートへのアクセスを制御する方法です。すべてのボリュームにはエクスポートポリシーを設定する必要があり、ポリシー内でルールを構成する必要があります。ポリシーにルールが設定されていない場合は、「アクセス不可」とみなされます。詳細については、<block ref="7b4599762d97449c645b029177af4af3" category="inline-link-macro-rx"></block>および<block ref="20c6f5809d863de31db3333a15db9979" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="c73f8c5ef08e689c2b2e150defc33f61" category="paragraph">パフォーマンスベンチマークにおいては、テストに使用するクライアントの権限についてはあまり気にせず、権限に関連するエラーを回避することに重点を置くことが多いでしょう。そのため、エクスポートポリシーのルールは、データボリュームへのアクセスを全面的に許可するように設定し、データセットへのアクセスに使用されるクライアントのみに限定することをお勧めします。さらに、vsrootポリシーは、パストラバーサルのためにポリシー内での読み取りアクセスを*許可*する必要があります。</block>
+  <block id="6a80a4c2171b59d9740f458bd0da3947" category="paragraph">*vsrootポリシー（「default」ポリシーを使用）*</block>
+  <block id="5a4449d62b92fbf6acfd231a7ef07c87" category="paragraph">*データ量ポリシー*</block>
+  <block id="9e8275c080542c5273f7995e41a4c9f3" category="section-title">NFSサーバ構成</block>
+  <block id="c40f417a4b50a0e7189d7c0bd5adee6b" category="paragraph">次のNFSサーバオプションは、AFX内部パフォーマンスベンチマーク実行に使用されました。他のNFSサーバオプションを有効にすることもできます（例：NFSv4 ACLサポート）が、それらはこれらのベンチマークのヒントの範囲外です。NFSv4.1、pNFS、およびAFXのセッショントランキングパフォーマンスコンテキストについては、<block ref="149ea492f7c2980c5c032947943ca75e" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="054b4f3ea543c990f6b125f41af6ebf7" category="cell">オプション</block>
+  <block id="97ed5558fd729d9bf1d64d92c02eddaa" category="cell">v4.1を使用したチャンク アップロード署名要求がサポートされるようになりました。</block>
+  <block id="00d23a76e43b46dae9ec7aa9dcbebb32" category="cell">有効</block>
+  <block id="c54a41b01595bd7042188e1a80fd2682" category="cell">v4-id-domain</block>
+  <block id="6c183afb93887f22f1842b4585a81ebc" category="cell">[ドメイン名]*</block>
+  <block id="a116cf49a8ff6aa090241b64884e6942" category="cell">v4.1-pnfs</block>
+  <block id="50105299a2f7c1ad846c43bc3bced9c6" category="cell">v4.1-トランキング</block>
+  <block id="a0c2c60367f265eacb646fc2041a4fe5" category="cell">tcp-max-transfer-size</block>
+  <block id="4a1d32eb84d870d67d7c850ddfb7beb8" category="cell">262144</block>
+  <block id="eee0c632459952d672023b9db092728a" category="cell">v3-64bit-identifiers</block>
+  <block id="56302496859aa52d9f73380e79a26f7a" category="cell">v4-64bit-identifiers</block>
+  <block id="43a03299a3c3fed3d8ce7b820f3aca81" category="cell">v3を使用したチャンク アップロード署名要求がサポートされるようになりました。</block>
+  <block id="ce67994e6891e678798c27b16c343bd7" category="cell">v4.1-read-delegation</block>
+  <block id="5d36701ad2e987a0e9313d08124b560d" category="cell">v4.1-write-delegation</block>
+  <block id="b0348bc4253e8d0e18e59f7e3850bdfc" category="cell">RDMA</block>
+  <block id="e3addd10d40b4f4228ed5b4a7ddfe0ae" category="cell">有効化（オプション）</block>
+  <block id="09333b4449856fb5771c0079b9d1c6a0" category="cell">v4.0を使用したチャンク アップロード署名要求がサポートされるようになりました。</block>
+  <block id="476880932672ebfbc14bef388763ee31" category="cell">v3-hide-snapshot</block>
+  <block id="eb6c1a5ecd1e17d4cd46fa5c9d415816" category="cell">mount-rootonly</block>
+  <block id="77743dec92afc92eca95c255fd9333d7" category="cell">nfs-rootonly</block>
+  <block id="5cedb06da5dca9f183b28ed7a5a82fc6" category="paragraph">*NFSv4 IDドメインは、NFSクライアントで設定されている値と一致していれば、任意の値を指定できます。</block>
+  <block id="5b65ff668d1e0a6e3b4016e301fda5c3" category="paragraph">クライアント上の NFSv4 ID ドメインを確認するには：</block>
+  <block id="e3fd345c9e667112f0dfe54c7eb79a0d" category="admonition">これらのコマンドが機能しない場合は、NFSv4.x を利用するために必要な適切な NFS パッケージがインストールされていない可能性があります。例えば、Debian/Ubuntu ベースのシステムでは nfs-common が使われます。</block>
+  <block id="8ff2ecac95178be729a4e7fe9f064c39" category="inline-link-macro">ONTAP/NAS/configure-nfs-server.sh</block>
+  <block id="f4a4770ca66fce1941049c5854a84c20" category="paragraph">以下の CLI コマンドは、内部パフォーマンスベンチマーク実行に使用される NFS サーバ構成を適用します。SSH 経由でクラスターに接続し、この設定を適用するスクリプトは、<block ref="7c43567e166a23ca339d9fd4339ccf5c" category="inline-link-macro-rx"></block> で入手できます。</block>
+  <block id="4c4156e9025146d3d82a3c20f83ac0b1" category="inline-link-macro">ONTAP NFS over RDMA のドキュメント</block>
+  <block id="72d0a2907910de9336f247555ac20520" category="admonition">RDMAは、ほとんどのワークロードにおいてレイテンシを低減し、スループットを約10～30%向上させます。NFS over RDMAについては、<block ref="50b4b0365a5cdeb0b8e0ea0dcc899ed5" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="305160d35c5eb375133b99844c5c9c60" category="section-title">ボリューム構成</block>
+  <block id="abded65ae84d33076e0d3bf6d99d9db6" category="paragraph">次のセクションでは、ボリュームの作成と構成に関する考慮事項について説明し、初期作成時に使用すべきオプションを示します。AFX での FlexGroup ボリュームの動作については、<block ref="0e113d6569e7ae4c8fb5353fd9b2254b" category="inline-link-macro-rx"></block>、<block ref="ef53c970d92e82c57ca14cdc790a3fce" category="inline-link-macro-rx"></block>、および <block ref="aa86589b7ac63727c91bf2f5e5311f75" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="51ac4bf63a0c6a9cefa7ba69b4154ef1" category="cell">設定</block>
+  <block id="fc18634852d4299cd5f8c7ad55ddefbe" category="cell">ボリューム タイプ</block>
+  <block id="54452390cac5f65f3bcec580ba079531" category="cell">FlexGroup</block>
+  <block id="0ce32b6cab662379b54e961f5a61cdba" category="cell">作成方法</block>
+  <block id="91af5705f16502125e8b2187e64202c0" category="cell">CLI</block>
+  <block id="45dd6cd8597376faaab6161227310e91" category="paragraph">デフォルト設定が変更されました：</block>
+  <block id="dbea6952136b5cb500e8bbb34857355c" category="list-text">Snapshotポリシー無効</block>
+  <block id="365c580fef8c5322a510415e8c760e48" category="list-text">Maxfilesが増加しました</block>
+  <block id="f508eb85e03eaf943d8b6bdc85899129" category="list-text">Maxdirsize が増加しました</block>
+  <block id="a09233cbfa81d67531617b9aa1756129" category="list-text">ラージサイズ対応</block>
+  <block id="53f15368a8c0a123d3f24364d12c6539" category="list-text">自動サイズ調整が有効</block>
+  <block id="e0199db5509b9ce286e3ecb672d95caa" category="list-text">UNIXパーミッション 777</block>
+  <block id="56fac638b295ff68579d34399250421c" category="list-text">ファイルシステム分析が無効になっています</block>
+  <block id="834388998a2abd3e49af34aaefc25a9f" category="list-text">Snapdir アクセス false</block>
+  <block id="bf639544d424861bec8b5a411b7f2b8c" category="section-title">特別な考慮事項 -- FlexGroup ボリューム</block>
+  <block id="1e5201d5f7c70ae195e075e145d178e0" category="paragraph">ワークロードによって単一のフォルダ内に多数の大きなファイル（&gt;1GB）が作成される場合は、ボリュームのワークフローをデータに変更します。</block>
+  <block id="9cbbfd3974d6bbe6ee952f095cb41573" category="paragraph">ワークロードがFlexGroupボリューム上にホストされているVMwareデータストアの場合は、<block ref="7617fb157efcfcd230d531be7d153280" prefix=" " category="inline-code"></block>オプション（詳細なデータ分散）を無効にしてください。GDDは、AFX上での仮想化に対するNFSコピー オフロードではサポートされていません。<block ref="1825109c6e1c67edd90c86967a6829bb" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="91ae20d4b622fdb80be8b49624bfa0af" category="section-title">スナップショットが無効になっている理由</block>
+  <block id="f43c920585c66b5223d91100cd6e67a9" category="paragraph">一般的に、ONTAPのスナップショットはシステム全体のパフォーマンスに悪影響を与えるものではありません。AFXでのスナップショットとレプリケーションの仕組みについては、<block ref="04b3a1d46e853e0e0c761ef86804f847" category="inline-link-macro-rx"></block>を参照してください。しかし、ベンチマークテストにおいては、以下の2つの理由からスナップショットを無効にします。</block>
+  <block id="b970e465b23a0492ca92f811a974fc66" category="list-text">環境に対するきめ細かな制御 ― スナップショットを作成するシナリオをより適切に制御し、その影響を測定しやすくするために、必要なときにスナップショットを作成できます。</block>
+  <block id="ab1395a5252dadab5aa4404d0bd86880" category="list-text">データ変動 -- 多くのベンチマークテストでは大量のデータが生成され、その後そのデータが削除されるため、ボリューム上の既存のスナップショットのサイズが急速に増加します。スペース割り当ての問題を回避するため、スナップショット機能を無効にしています。</block>
+  <block id="85703f10d0af6259cfd165ba47b833f9" category="admonition">スナップショット間での不要なファイルシステムのクロールを防ぐため、Snapdirへのアクセスも無効になっています。</block>
+  <block id="f18f8a29d3e2281d374f43c78cf8f0f1" category="section-title">マウント オプション</block>
+  <block id="31a7d8e54c6d3fd9456ac4fe54ca6ae9" category="paragraph">一般的に、マウントオプションは使用状況に応じて様々です。このセクションでは、社内でのパフォーマンステストで使用した、一般的な使用例におけるマウントオプションの一覧を示します。NFSサーバが<block ref="3a662a12108befe526183fdf7b6968b5" category="inline-xref-macro-rx"></block>に示すとおりに正しく設定されている場合は、NFSのバージョンやwsize/rsizeオプションを指定する必要はありません。</block>
+  <block id="4ce404efd98f99e54601527d5fde56e5" category="paragraph">基本オプション（すべてのクライアント/シナリオに適用）：</block>
+  <block id="cb9acbb001659e7cf40c637f6e7da1d0" category="paragraph">*セッション トランキング（OS固有）*</block>
+  <block id="6f140a77a6794d506a135fcc9f3b0681" category="paragraph">セッション トランキングは、<block ref="b2c1492c06c7c9ee371bcee573757b69" category="inline-link-macro-rx"></block>構成<block ref="108fd47ee55441802d3323d3bf1c9ef4" prefix="(" category="inline-code"></block>）にも記載されています。NFSv4.x マルチパス IO コンテキストについては、<block ref="149ea492f7c2980c5c032947943ca75e" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="82a974e7c68c25388a605465179069a5" category="paragraph">*RDMA固有のオプション*</block>
+  <block id="942c3ab8c8760062adf3c6a34ccb3c29" category="paragraph">RDMA 上の NFS については、<block ref="50b4b0365a5cdeb0b8e0ea0dcc899ed5" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="e1c409146df75721fd62f7e8d42fdda6" category="section-title">その他のマウント オプション</block>
+  <block id="5cd79824f38e8eb72335d877491592be" category="paragraph">ベンチマークテスト中は、特定のワークロードに対して特別なマウントオプションを使用することでメリットが得られる場合があります。以下の表は、それらのオプションの一部と、パフォーマンスの向上が見込まれるユースケースを示しています。</block>
+  <block id="3f0cedb1230534673abaed1c3643835c" category="paragraph">*NFSマウントの代替オプションとその使用例*</block>
+  <block id="adff6803f909d46b9535860dbadb0e97" category="cell">NFSマウント オプション</block>
+  <block id="f9468c81b3d59ac0030570c4f58e95f1" category="cell">ユースケース</block>
+  <block id="36b9c52aaf89a9c37a0aa321ef2c330c" category="cell"><block ref="708af9c7418504d54f0ccfcbcba3bbdb" prefix="" category="inline-code"></block></block>
+  <block id="2c0961b6f1195da74a2cdc7cdfc4073d" category="cell">「close-to-open」キャッシュ整合性を無効にします。クライアントは、ファイルを開いたときにキャッシュされたファイル属性を再検証せず、古いデータであってもキャッシュされたデータに依存します。</block>
+  <block id="c2f6b416d249fe707edad2922cd2c239" category="cell">読み取り中心で、単一クライアントのワークロードであり、ファイルが変更されることはほとんどない（例：静的Webコンテンツ、ソフトウェアライブラリ、読み取り専用メディアアーカイブ）。複数クライアントによる書き込みには適していません。</block>
+  <block id="b230114b7a2c7c8e6dabc3d12bbe7c7a" category="cell"><block ref="1244eff5724972713f8dc5692f7cbaf0" prefix="" category="inline-code"></block></block>
+  <block id="cf374058628fff698e4e63c733341fa2" category="cell">クローズトゥオープンのキャッシュ一貫性を有効にします（デフォルト）。ファイルが開かれると、クライアントはサーバに問い合わせて、キャッシュされたコピーがまだ有効であることを確認します。あるクライアントで閉じられたファイルは、別のクライアントで開かれた際に最新の状態であると認識されることを保証します。</block>
+  <block id="411409749b85ea25c4854fb0498d8412" category="cell">データの一貫性が重要な、複数のクライアントが共有アクセスを行うワークロード（例：共有ホームディレクトリ、共同開発環境）。</block>
+  <block id="de3a430a0fd8dcc7bbda50a4695448d7" category="cell"><block ref="e6691770bb764a8feb320eccb2b2da18" prefix="" category="inline-code"></block></block>
+  <block id="23005ee11714c12491ea3557b812d807" category="cell">すべての属性キャッシュタイムアウト（acregmin、acregmax、acdirmin、acdirmax）を単一の秒単位の値に設定します。クライアントがキャッシュされたファイル/ディレクトリのメタデータを信頼する期間を制御し、その後サーバで再検証を行います。</block>
+  <block id="6495dd90777a35ab7b87b43f88fe8784" category="cell">均一なキャッシュポリシーを適用したい場合のチューニングを簡素化します。高い値は読み取り負荷の高い静的なワークロードに適しており、低い値（例：actimeo=0）はほぼリアルタイムの一貫性を必要とする急速に変化するデータに適しています。</block>
+  <block id="a004f3861b5b75ab66a8778c37c7ea80" category="cell"><block ref="f7a21f3d1e644dcd469b1baa6a4cacc2" prefix="" category="inline-code"></block></block>
+  <block id="faeb9fb1a76b0323b04b1b55137204a3" category="cell">クライアントが再検証を行う前に、通常のファイルの属性をキャッシュする最小時間（秒）を設定します。デフォルトは通常3秒です。</block>
+  <block id="126b837a7460a752b44b2df696a54756" category="cell">頻繁に更新される小さなファイルを扱うワークロードで、鮮度とパフォーマンスのバランスを微調整したい場合（例：ログの取り込み、設定ファイルのポーリング）。</block>
+  <block id="b5d87242492700be412fb597a8a2ce76" category="cell"><block ref="3e453c5d359221659f54f6f250f9f166" prefix="" category="inline-code"></block></block>
+  <block id="c1696edb90bb999af5938b36d7f7ccf1" category="cell">クライアントが通常ファイルの属性をキャッシュする最大時間（秒）を設定します。デフォルトは通常60秒です。</block>
+  <block id="bbbf238f466215fd6cc92010ab5cfe57" category="cell">主に静的なファイル ワークロードで、最大値を拡張することでメタデータのやり取りを削減できる場合（例：大規模な読み取り専用データセット、パッケージ リポジトリ）。</block>
+  <block id="dd5392f3ec819f77484027997ed5c1cd" category="cell"><block ref="260f1f72bacbc5f2b68df950afc23958" prefix="" category="inline-code"></block></block>
+  <block id="eb4fa8388824a0d75dae15a79ddbc0fa" category="cell">クライアントがディレクトリの属性を再検証する前にキャッシュする最小時間（秒）を設定します。デフォルトは通常30秒です。</block>
+  <block id="339226bf4e598b49ad4641ca542d1d2e" category="cell">ディレクトリの最新性が重要な、ディレクトリの一覧表示や作成が頻繁に行われるワークロード（例：ビルドシステム、Maildir形式のメールスプール）。</block>
+  <block id="f1aa67152cecac975090ff3f379eda69" category="cell"><block ref="05a317baef495c46ea575a2950d5449d" prefix="" category="inline-code"></block></block>
+  <block id="3ea06b7447a6d0854099dc1cd2ad53d3" category="cell">クライアントがディレクトリの属性をキャッシュする最大時間（秒）を設定します。デフォルトは通常60秒です。</block>
+  <block id="53513906f278f1ee95431f5b0b10cbf6" category="cell">変更されることがほとんどない安定したディレクトリ構造の場合、この値を上げるとGETATTR呼び出しが減少します（例：大規模な静的ディレクトリツリー、アーカイブストレージ）。</block>
+  <block id="661b3770ca932214a3ad23e96f738c4a" category="cell"><block ref="b6844ec7fe8c0c8bbd8a647d246991b0" prefix="" category="inline-code"></block></block>
+  <block id="da892c9bfe68bc026691fd20fb48dea0" category="cell">コールバック通信用にNFSサーバにアドバタイズするクライアント IP アドレスを指定します（NFSv4/v4.1以降）。サーバはこのアドレスを使用して、委任の取り消しやその他のコールバックを送信します。</block>
+  <block id="bfc9b5330351ad08be56ab2759e2a955" category="cell">マルチホーム クライアントや複雑なネットワーク環境（複数の NIC を持つクライアント、VPN/オーバーレイ ネットワーク、NAT など）では、自動検出されたアドレスが正しくない場合があります。</block>
+  <block id="713962bc493f4348d64390ec7e44d602" category="cell"><block ref="bb0fc0de24da5f7976510a315e4b7120" prefix="" category="inline-code"></block></block>
+  <block id="18cac1f212baf6258acbd5943b5bf2b7" category="cell">指定された数まで、NFSサーバへの複数のTCP接続（最大指定数）を単一のマウントに対して作成し、個別の接続を介した並列I/Oを可能にします。</block>
+  <block id="620c0f065224e5334c228a0a3185a2dc" category="cell">単一の TCP ストリームによってボトルネックとなる高スループット、I/O 集中ワークロード（例：大容量ファイル転送、HPC/科学計算、ビデオ編集、データベースバックアップ、ビッグ データ分析）。特に高帯域幅ネットワーク（10 GbE+）において効果的です。</block>
+  <block id="b8473bf1fa830073ba48bb57003266eb" category="cell"><block ref="47ec90a7a49e890c835fb230dc011f5c" prefix="" category="inline-code"></block></block>
+  <block id="66a6a3194567ee5b50fecb72898792fb" category="inline-link-macro">TR-4616: ONTAP における NFS Kerberos と Active Directory</block>
+  <block id="52200ed2b61831ddc5859fce0a6e364c" category="cell">マウント時に使用するKerberosセキュリティの種類を指定します。正しく動作させるには、Kerberosの設定が必要です。詳細は<block ref="4a66ae146d32b0d4abd903b7823fcf51" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="75c2074ac8362be3355fd04385c98d66" category="cell">NFSマウントのセキュリティ保護は、パフォーマンスに悪影響を及ぼします。</block>
+  <block id="64af77d3bfba52235087fbfc96d55f88" category="section-title">クライアント構成</block>
+  <block id="b994442bc28a0e32cd91fe29abf10c8d" category="inline-link-macro">ベンチマーク／クライアント</block>
+  <block id="cc3cc4afb7e859403a8ed33a4260f782" category="paragraph">内部ベンチマークに使用されるクライアント構成（NICおよびOSチューニングスクリプトを含む）については、<block ref="2c47e3dc9a4959f8f5dac7c646cf3465" category="inline-link-macro-rx"></block>リポジトリに記載されています。以下に、追加の設定に関する考慮事項をいくつか示します。このリストは網羅的なものではなく、今後、追加のユースケースやシナリオに対応するために随時修正される予定です。</block>
+  <block id="6ae7bd00b98aa923c7d36cefdd80326e" category="section-title">NFSの先読み</block>
+  <block id="607b855a35212c598910666cc7dda46f" category="inline-link-macro">積極的な先読み</block>
+  <block id="8112d84240fa6f8e21893e9c98f49d63" category="paragraph">クライアント NFS の先読み（下記参照）は、Linux のマウントポイント設定です。これは、AFX 上の ONTAP ボリュームレベル<block ref="143f27a7c12673e3fb9c144a2899dbf7" category="inline-link-macro-rx"></block>（クロスファイルシーケンシャルリード）とは別のものです。</block>
+  <block id="59a566ddffebf7bf94ee9bde3f24b6c5" category="inline-link-macro">Azure NetApp Files 向け Linux NFS 先読みのベスト プラクティス</block>
+  <block id="5165f88d995e916b5fe585606c70416d" category="paragraph">送信元：<block ref="edb70bd91039b7d0dabb722ab97705d6" category="inline-link-macro-rx"></block></block>
+  <block id="1955ed138d1ee63904dd9957d45e5dc6" category="paragraph">NFSの先読み機能は、アプリケーションによるI/O要求に先立って、ファイルからブロックを予測的に要求します。これは、クライアントのシーケンシャル読み取りスループットを向上させるように設計されています。最近まで、最新のLinuxディストリビューションはすべて、先読み値をマウントされたファイルシステムのrsizeの15倍に相当する値に設定していました。</block>
+  <block id="d70c3dad64882584e02840745c8edc16" category="paragraph">RHEL 8.3およびUbuntu 18.04では、クライアントのシーケンシャル読み取りパフォーマンスに悪影響を与える可能性のある変更が導入されました。以前のリリースとは異なり、これらのディストリビューションでは、使用するrsizeマウントオプションに関係なく、先読みのデフォルト値が128 KiBに設定されます。より大きな先読み値を持つリリースから、デフォルト値が128 KiBのリリースにアップグレードすると、シーケンシャル読み取りパフォーマンスが低下しました。ただし、先読み値は動的にも永続的にも上方修正できます。例えば、SAS GRIDを使用したテストでは、15,360 KiBの読み取り値が、3,840 KiB、960 KiB、128 KiBと比較して最適であることがわかりました。15,360 KiBを超える範囲については、プラスまたはマイナスの影響を判断するのに十分なテストが実施されていません。</block>
+  <block id="c8bf3e9d4fef57451990db6bd7613f4d" category="paragraph">NFSの先読み機能は、NFSファイルシステムのマウントポイントで定義されます。現在の値を表示するには、<block ref="cc94ef2e56589d69ad062409591f07aa" prefix=" " category="inline-code"></block>のマウント パスをgrepし、デバイス番号を使用して<block ref="8ddc39f6c3fa20a177a45c37c2451919" prefix=" " category="inline-code"></block>を表示します：</block>
+  <block id="eaea2b38189d2221189c78f331ea0960" category="paragraph">先読みを表示または動的に設定するための便利なスクリプトが <block ref="edb70bd91039b7d0dabb722ab97705d6" category="inline-link-macro-rx"></block> に提供されています。</block>
+  <block id="5dd57c2a315d3af44c2eb40eefc47111" category="section-title">ネットワーク設定</block>
+  <block id="05090df9b75fd62e9b8ef9109205f8a7" category="inline-link-macro">ハードウェア：スイッチ</block>
+  <block id="a2713f1e6c4ed7347c36a84f73589a57" category="paragraph">次のセクションでは、クライアントネットワークとストレージネットワークに関する一般的なネットワークガイダンスについて説明します。これらは、当社が実施した社内ベンチマークテストに基づいています。AFXネットワークの違いについては、<block ref="812f168fd0e789e42bc1c1766dfccd86" category="inline-link-macro-rx"></block>および<block ref="2fee07da6587f4aea66f56bff3db83d5" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="c3f5a4f819db48e7d17bc4a3094de169" category="section-title">ストレージネットワークに関する考慮事項</block>
+  <block id="681d4a315977585c52b03b23fc2502fa" category="list-text">各ノード、各SVMにつき、少なくとも1つのデータIPアドレスが必要です（ノードあたりのデータIPアドレスが多いほど望ましい）</block>
+  <block id="b5e41a4426e808c09884fc66c0c12ae8" category="list-text">ノードあたり、SVMあたり最大16個のIPアドレス</block>
+  <block id="50173ab29387149e795dff88a864dafb" category="list-text">すべてのデータインターフェースはすべてのクライアントにルーティング可能</block>
+  <block id="e4d77a44554985f77f43505af7fec244" category="list-text">LACPを使用したノードごとのボンディング/チーミングされたポート</block>
+  <block id="f5cf150f8aa95caf1f7a4a36c5294544" category="list-text">MTUサイズ9000（エンドツーエンド）</block>
+  <block id="ce666dc94bda746495b8b36176b68d52" category="list-text">優先フロー制御（PFC優先度3）RDMAを使用する場合に有効</block>
+  <block id="6b0beef472a4e98ccc356b139a742818" category="list-text">DNSラウンドロビン/ロード バランシングは、すべてのデータインターフェイスIPアドレスを含めるように設定されています</block>
+  <block id="8aa61d2edb84cc9fe02fd951ac48714b" category="section-title">クライアント ネットワークに関する考慮事項</block>
+  <block id="1d1c6d217cf3b287ea2c13229b1e371f" category="list-text">RoCE（LACP）用にボンディングされたデュアルNIC</block>
+  <block id="416cfacbff3a117f3ab3ec87077989fe" category="list-text">RX/TXリングバッファを8192に設定</block>
+  <block id="a5e84fb8b8190202b3270c64e3496a70" category="list-text">PFCとDSCPはNICごとに設定されます（RDMAを使用する場合）</block>
+  <block id="0ef8ee337c535a29539b1ca5ed5e0042" category="list-text">cma_roce_tosを使用して設定されたRoCEトラフィッククラス（RDMAを使用する場合）</block>
+  <block id="a604ab29abaa43e4991746a5fc3cc366" category="list-text">sunrpc.rdma_slot_table_entries を 200 に設定しました</block>
+  <block id="2fd46baa6c8970ce51c49de7a941e8e0" category="section-title">追加のONTAP機能に関する考慮事項</block>
+  <block id="23bf40f3100c3cfd4d56f508d3d26884" category="paragraph">以下では、<block ref="5dc2e1ad2a883f0db54500769cfd226a" category="inline-xref-macro-rx"></block>、<block ref="f5fd2a9b3382d4184fe7ca04ef61be22" category="inline-xref-macro-rx"></block>、<block ref="a8ddbfd882ca51665186444a1d530986" category="inline-xref-macro-rx"></block>、<block ref="e0c0a42e8a03c89d49d7ac73af85b0aa" category="inline-xref-macro-rx"></block>、または<block ref="fc1b185631f679e53d40e43d79cfb42d" category="inline-xref-macro-rx"></block>では説明されていない特定のONTAP機能構成の変更について説明します。</block>
+  <block id="170a02df89b5e5a117ddfedf354c7da4" category="section-title">ストレージ効率化を無効にする</block>
+  <block id="2c5d6ac0c1a46198480daa79e26ad517" category="paragraph">一般的に、ストレージ効率は本番環境のワークロードにおけるセールスポイントの一つであり、様々なワークロードにおいて大幅な容量削減を実現できます。しかし、パフォーマンスベンチマークにおいては、その価値は低くなります（シミュレーションされたワークロードの多くは圧縮不可能であるか、ゼロバイトのワークロードであり、常に重複排除が行われるため）。そのため、ベンチマークテストを実行する際は、すべてのストレージ効率化機能を無効にすることをお勧めします。</block>
+  <block id="65875c61e58078a0d0110c707950b5da" category="inline-link-macro">ONTAP 9.19.1の動的ストレージ効率</block>
+  <block id="4a2755c546e982dae4a309f25ba5bfa4" category="paragraph">AFX のストレージ効率化の仕組み（グローバル重複排除を含む）については、<block ref="f6a4e5f392dea02e52edfeb480e659cb" category="inline-link-macro-rx"></block>、<block ref="69ebea528f8de88780e77563f48d1438" category="inline-link-macro-rx"></block>、および <block ref="7d95d1b44e971a8b31fa401962f874f9" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="86a5638ccddbcd468185be2c3638f963" category="section-title">積極的な先読み</block>
+  <block id="af9f25116d000a48ae54c457b376b9b6" category="inline-link-macro">AFX SVM管理におけるクロスファイルシーケンシャルリード</block>
+  <block id="c8757e14012ed4acc63f1cee91b0c093" category="paragraph">積極的な先読みは、特定のワークロード（例えば、連番ファイルなど）の読み取りパフォーマンスを向上させるのに役立ちます。機能構成、注意事項、統計については <block ref="29c35f24ee23fab4f98d13d58967e75a" category="inline-link-macro-rx"></block> で説明します。関連項目：<block ref="186dbfaf66584f1d95001292c50733bd" category="inline-link-macro-rx"></block></block>
+  <block id="ff81e3c45a6b4b5ed961ad4c9c2ec690" category="cell"><block ref="ff81e3c45a6b4b5ed961ad4c9c2ec690" category="inline-link-macro-rx"></block></block>
+  <block id="9a26c5e63ee339ac29e0fae94b7ecb02" category="inline-link-macro">次：管理</block>
+  <block id="09dc531f35f47134129a1d79692f7f0d" category="cell"><block ref="09dc531f35f47134129a1d79692f7f0d" category="inline-link-macro-rx"></block></block>
+  <block id="0914c0ee63d323c745fa45db835613f4" category="paragraph">各 NetApp AFX ストレージ ノードは、読み取りと書き込みに対して特定のスループット量を提供します。クラスターにノードが追加されると、<block ref="2bc60cd5be2806e2bf4a0a14b5838c8a" category="inline-link-macro-rx"></block> で説明されているように、パフォーマンスは直線的に向上します。</block>
+  <block id="23b43ede4557b73e6fa354124a73ba91" category="inline-link-macro">AFX 2K</block>
+  <block id="4790820e71d568645bb04f281809cab5" category="paragraph">現在、ノードの種類は<block ref="9cf787ca68118452f94875110bf7c0d8" category="inline-link-macro-rx"></block>および<block ref="a67c7f87cb090f0e7a2eb2e9e2ce04a7" category="inline-link-macro-rx"></block>であり、読み取りと書き込みのスループットはおおよそ以下の値になります*。新しいハードウェアがNetApp AFXで利用可能になると、これらの制限は変更される可能性があります。</block>
+  <block id="7243f720b1a11790b4333cc5b0935200" category="list-text">パフォーマンス数値は、<block ref="451033c113f4cb2c96f7cf68d47e4bb7" category="inline-link-macro-rx"></block>ベンチマークツールとシーケンシャル読み取り / 書き込みを使用して取得しました。</block>
+  <block id="0afd336df6e2f35fa9136b405a81257e" category="admonition">複数のクライアントが複数のファイルを読み書きすることで最大のパフォーマンスが達成されました。これは以下の<block ref="b5e0ef07acc1f0284ac7885ebafed6e2" category="inline-link-macro-rx"></block>セクションに示されています。</block>
+  <block id="830183f90a7d21bc3023a5a607dc46b7" category="cell">約17GB/s （+70%増）</block>
+  <block id="913b914fe6c0068aa828d6146b79c0a5" category="paragraph">例えば、統合された ONTAP クラスターでは、各ノードに専用のディスク セットが備わっています。その結果、パフォーマンスはノードが所有するディスクのみに向けられます。1 つのノードしか 1 組のディスクにアクセスできないため、パフォーマンスは直接アクセスできるディスクに制限されます。</block>
+  <block id="82f771d84cb467c143d321be8dbc7f21" category="paragraph">NetApp AFXは、利用可能なすべてのディスクをストレージ可用性ゾーン（SAZ）と呼ばれる単一の容量プールに統合します。その結果、すべてのノードが利用可能なすべてのディスクを読み取り / 書き込みに活用できるようになります。ディスクとノードが分離されているため、統合型ONTAPアーキテクチャと比較して、同じ（またはそれ以上の）スループット性能を得るために必ずしも多くのシェルフを必要とするわけではありません。NetApp AFXの分離型アーキテクチャは、ディスク シェルフのパフォーマンスの可能性を最大限に引き出します。</block>
+  <block id="7f810f955c236680f67b2a1021577415" category="paragraph">ONTAP 9.19.1以降、ノード：シェルフの飽和比は少なくとも4：1であり、8：3も可能です。</block>
+  <block id="eb50d5ff1b733e0ea8ecd75f8f287469" category="list-text">シェルフ2台</block>
+  <block id="55e02fe01c041de2df692e61c98d3d4c" category="list-text">ONTAP 9.19.1GA</block>
+  <block id="633e06a968c3d6bf3e6bcdb2e4e5e0d8" category="admonition">これらの結果を再現するためのガイダンスについては、<block ref="3c132a78f1e5f9f536e14cc5956fa8f1" category="inline-link-macro-rx"></block>セクションを参照してください。</block>
+  <block id="4c67ea22e665230775a0cac794609c81" category="inline-link-macro">RFC-3530を使用したチャンク アップロード署名要求がサポートされるようになりました。</block>
+  <block id="5ca4a464648228916bed3e4290c12670" category="inline-link-macro">RFC-7530</block>
+  <block id="2aea8188aa09e32f688c60c4c200cf7b" category="paragraph">NFSv3のセキュリティもやや不十分です。このプロトコルが正しく機能するには、複数のファイアウォールポートを開放する必要があり、数値IDは平文でネットワーク上に送信されます。さらに、NFSは堅牢なACLサポートを備えておらず、ネイティブなファイルおよびフォルダ監査機能も含まれていません。これらの制限の結果、NFSv4は2003年に<block ref="137ffaad1617b26215dd671ba64c17d0" category="inline-link-macro-rx"></block>を通じて作成されました（2015年に<block ref="d04016ec9c74ac358e156447074d1dc9" category="inline-link-macro-rx"></block>により廃止）。</block>
+  <block id="0f9e52013f33fae4ae5e41b82a7a5bae" category="paragraph">*NetApp AFX – NFSv4.1 メタデータ IO パフォーマンス（NetApp AFX）*</block>
+  <block id="c85979dc9df0293013c870a3a6c3d3ea" category="inline-link-macro">前へ：ルートボリュームの変更</block>
+  <block id="912d5aab8dcb1cd097adc139fa840209" category="cell"><block ref="912d5aab8dcb1cd097adc139fa840209" category="inline-link-macro-rx"></block></block>
+  <block id="84ea3e0adf726b3a2dc9267da60f6105" category="inline-link-macro">次：パフォーマンスベンチマークのヒント</block>
+  <block id="50647fb6d245be71630049c337547d50" category="cell"><block ref="50647fb6d245be71630049c337547d50" category="inline-link-macro-rx"></block></block>
+  <block id="67e3534cd0feec346d52509c43cc0189" category="inline-link-macro">AFXのドキュメント</block>
+  <block id="aac324dd49176e0372c0960e9c0fc007" category="list-text"><block ref="aac324dd49176e0372c0960e9c0fc007" category="inline-link-macro-rx"></block></block>
+  <block id="b46cafb5f9677057bdc8d99d3dac0f2d" category="inline-link-macro">ONTAP 9.19.1 の AFX ストレージシステム向け新機能</block>
+  <block id="3cf6740992b2105d85fd83c427cf30e4" category="list-text"><block ref="3cf6740992b2105d85fd83c427cf30e4" category="inline-link-macro-rx"></block></block>
+  <block id="d6dc68843165a684e987738e53b08c30" category="cell"><block ref="d6dc68843165a684e987738e53b08c30" category="inline-link-macro-rx"></block></block>
+  <block id="d24862edb68c4a3a6f1a12cc75785b18" category="inline-link-macro">ONTAP 9.19.1 AFX リリースノート</block>
+  <block id="fc76d3c0e9382c04e62e5d88900c3a49" category="paragraph">このセクションでは、NetApp AFX の最新アップデートについて説明します。新しいリリースごとに更新されます。最新情報については定期的にこちらをご確認ください。また、<block ref="ee1f402c892dac49546e6fbc1d5fbce2" category="inline-link-macro-rx"></block>もご参照ください。</block>
+  <block id="9aa1f45719bf858ed30c6b1c92007d1d" category="paragraph">ONTAP 9.19.1 GA（2026年8月現在）</block>
+  <block id="c49dda61c923792fa4c954cb9d9ae5e2" category="inline-link-macro">AFX SVM管理</block>
+  <block id="6cf1aa323e659d9411cbcb428fda6a9e" category="list-text"><block ref="a826e33851b9cd0c3eb6a6e5c38e66aa" category="inline-link-macro-rx"></block>（<block ref="6817b90667db38df65a7c04862346459" category="inline-link-macro-rx"></block>も参照）</block>
+  <block id="0d99023b8d28443eecf4e91f63c871e2" category="list-text"><block ref="0d99023b8d28443eecf4e91f63c871e2" category="inline-link-macro-rx"></block></block>
+  <block id="6cdccfce9fefe85e6a9e9af76d4741ca" category="list-text"><block ref="bf8af62a71ca6281d6ca195ace50f233" category="inline-link-macro-rx"></block>（Cross File Sequential Read。<block ref="19edcd61cb92eab338aecb0e5018dfb1" category="inline-link-macro-rx"></block>も参照）</block>
+  <block id="b33131f5b5ac21f0d5c9588497fc6515" category="list-text"><block ref="121852755e21d112047104d291a1bf20" category="inline-link-macro-rx"></block>（<block ref="8057bcb5fa3400871df7c7ff4e1295c3" category="inline-link-macro-rx"></block>も参照）</block>
+  <block id="28667deb0757cf6329fb42c1d5b62b74" category="list-text"><block ref="28667deb0757cf6329fb42c1d5b62b74" category="inline-link-macro-rx"></block></block>
+  <block id="0699502353a45b9f902c4dab6106e095" category="list-text"><block ref="0699502353a45b9f902c4dab6106e095" category="inline-link-macro-rx"></block></block>
+  <block id="e988e5fd54b0b79f1d8fa9ce06ad58d5" category="cell">バージョン1.1</block>
+  <block id="63cbcbd8d90445f614dcfd8f2e998868" category="cell">2026年8月</block>
+  <block id="9c184e36c045df25198fbfca88d490f6" category="cell">この技術レポートをONTAP 9.19.1GA向けに更新しました。新しいAFX機能、32ノードおよび32PBスケール、AFX 1KおよびAFX 2Kのパフォーマンスとハードウェア、クラスタスイッチとシェルフのサイジング、更新されたプラットフォーム制限、パフォーマンスベンチマークのヒントページ、および製品ドキュメントへの追加リンクについて説明します。</block>
+  <block id="b12ef7cbb51744b90c455c58d40b1d46" category="cell"><block ref="b12ef7cbb51744b90c455c58d40b1d46" category="inline-link-macro-rx"></block></block>
+  <block id="ad54e6f7d665098e981d7e41732ce4c2" category="inline-link-macro">次へ：アーキテクチャ</block>
+  <block id="c6c7c72c67d9841863b0652c4dedcecb" category="cell"><block ref="c6c7c72c67d9841863b0652c4dedcecb" category="inline-link-macro-rx"></block></block>
 </blocks>
