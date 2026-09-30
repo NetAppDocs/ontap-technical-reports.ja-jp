@@ -1,0 +1,128 @@
+---
+sidebar: sidebar 
+permalink: high-file-count-workloads/high-file-count-workloads-03-maxdirsize-view.html 
+keywords: ONTAP, NAS, maxdir-size, maxdirsize, volume show, stat, find, XCP, SMB, EMS 
+summary: ONTAP の maxdir-size の上限を確認し、NFS、SMB、または XCP からディレクトリファイルを測定して、EMS ファイル ID をパスに解決します。 
+---
+= maxdir-size と現在のディレクトリサイズの表示
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/high-file-count-workloads/
+
+
+[role="lead"]
+volume `maxdir-size`フィールドは、ボリューム内の各ディレクトリに対して許可されている上限値です。個々のディレクトリを測定するには、ボリュームの使用データではなく、そのディレクトリオブジェクト自体を検査する必要があります。
+
+
+
+[[view-the-configured-cap]]
+== 設定されたキャップを表示する
+
+[listing]
+----
+set -privilege advanced
+volume show -vserver <svm> -volume <volume> -fields maxdir-size
+----
+これは、特定のディレクトリのサイズではなく、ディレクトリごとの上限値を報告するものです。
+
+
+
+[[view-the-directory-file-from-an-nfs-client]]
+== NFSクライアントからディレクトリファイルを表示する
+
+個々のディレクトリのサイズを直接報告する ONTAP コマンドは存在しないため、その値はクライアントから、または外部ツールを使用して照会する必要があります。ディレクトリオブジェクトの正確なサイズが必要な場合、NFS クライアントが推奨されるクライアント側の方法です。
+
+GNU/LinuxクライアントからマウントされたNFSパス上で、 `stat`またはディレクトリオブジェクト自体の長いディレクトリ一覧を使用します。
+
+[listing]
+----
+stat -c '%n %s bytes' /mount/path/directory
+ls -ld /mount/path/directory
+----
+この目的には `du`を使用しないでください。 `du`はディレクトリより下のレベルのデータをレポートしますが、 `maxdir-size`はディレクトリのメタデータファイル自体に適用されます。
+
+マウントポイント配下で最も大きいディレクトリを検索するには、末端ディレクトリをサイズ順に一覧表示し、Snapshotコピーを除外する `find`を実行します。以下は、上位10個の最大ディレクトリを返します。
+
+[listing]
+----
+find /mountpoint -name .snapshot -prune -o -type d -ls -links 2 -prune | sort -rn -k 7 | head
+----
+7列目はディレクトリファイルのサイズ（バイト単位）です。デフォルトの320 MBのディレクトリは、335,544,320バイトと表示されます。これは、数百万ものファイルを含むディレクトリでも高速に動作します。
+
+
+
+[[view-directory-size-from-an-smb-client]]
+== SMBクライアントからディレクトリサイズを表示する
+
+WindowsおよびSMBクライアントはディレクトリ自体のメタデータ サイズを公開しないため、 `stat`や `ls -ld`に直接相当する、 `maxdir-size`向けのSMB機能はありません：
+
+* `dir`ディレクトリを `<DIR>`としてリストします（独自のサイズはありません）。
+* ファイルエクスプローラーのフォルダーの *プロパティ* ダイアログには、フォルダーの下に含まれるデータの合計サイズ（ `du` に相当）が表示されます。ディレクトリのメタデータファイルは含まれません。
+
+
+SMBで提供されるデータセットのディレクトリサイズを測定するには、代わりに次のいずれかの方法を使用してください。
+
+* ボリュームがNFSも許可している場合は、それをマウントして、上記の `stat`、 `ls -ld`、または `find`の方法を使用してください。
+* SMB共有を直接スキャンできるNetApp XCPを使用します（次のセクションを参照してください）。
+
+
+
+
+[[scan-directory-sizes-with-xcp]]
+== XCPでディレクトリサイズをスキャン
+
+NetApp XCP はファイルシステムを並列にスキャンし、ディレクトリのサイズと数を報告します。これは、大規模なデータセットやFlexGroupデータセットに役立ちます。これは NFS エクスポートと SMB 共有の両方に対して有効です。XCP は一致する結果を返す前にファイルシステム全体をスキャンするため、ファイル数の多いデータセットでは時間がかかる場合があります。
+
+
+NOTE: XCP 1.5では、ツールが `scan`や `diag`などのサブコマンドに再編成されました。XCP 1.5以降では、 `xcp scan`形式を使用してください。それより前のリリースでは、 `scan`動詞を使用せずに、同じ `-match`オプションおよび `-fmt`オプションを直接実行します（例： `xcp -match "type == d" -fmt "..." <host>:/<export>`）。
+
+ツリー統計レポートを印刷します。このレポートには、最大のディレクトリのエントリ数（ `Dirsize`として表示）とファイル数およびディレクトリ数が含まれます：
+
+[listing]
+----
+xcp scan -stats <host>:/<export>
+----
+各ディレクトリとそのディレクトリファイルサイズ（バイト単位）を、大きい順に一覧表示します。ディレクトリオブジェクトの場合、 `used`値は、ディレクトリメタデータのサイズであり、 `maxdir-size`の上限：
+
+[listing]
+----
+xcp scan -match "type == d" -fmt "'{} {}'.format(used, x)" <host>:/<export> | sort -rn
+----
+ `-csv`または `-html`を追加して、簡略化されたコンソール合計ではなく、正確な値のレポートを保存します。
+
+選択したエントリ数を超えるディレクトリにスキャンを制限するには、 `xcp diag find`を使用します。次の例は、2,000件以上のエントリを持つディレクトリを一覧表示します（link:https://www.netapp.com/pdf.html?item=/media/12385-tr4571.pdf["TR-4571: NetApp ONTAP FlexGroup ボリューム"^]から改変）：
+
+[listing]
+----
+xcp diag find --branch-match True -fmt "'{size} {name}'.format(size=x.digest, name=x)" <host>:/<export> 2>/dev/null | awk '{if ($1 > 2000) print $1 " " $2}'
+----
+
+
+[[locate-a-directory-reported-by-ems]]
+== EMSが報告したディレクトリを特定する
+
+maxdir-size EMS イベントには、ボリューム ID とファイル ID が含まれます。そのinodeをパスに解決するには、以下を使用します：
+
+[listing]
+----
+volume file show-inode -vserver <svm> -volume <volume-or-constituent> -inode-number <file-id>
+----
+報告されたファイルIDは、作成に失敗したファイルではなく、制限に達した、または制限に近づいたディレクトリに属するものです。
+
+
+NOTE: FlexGroup の場合、 `volume file show-inode` は FlexGroup 名ではなく構成要素に対して動作します。 `fg__0024` など、EMS イベントで指定された構成要素を使用してください。
+
+[cols="<,>"]
+|===
+
+
+| link:high-file-count-workloads-02-maxdirsize.html["← 前へ：Maxdir-size と large ONTAP ディレクトリ"] | link:high-file-count-workloads-04-maxdirsize-indexing.html["次へ：ONTAP でのディレクトリインデックス作成 →"] 
+|===
+
+
+[[related-information]]
+== 関連情報
+
+* link:high-file-count-workloads-07-maxdirsize-features-ems.html["maxdir-sizeの機能、EMS、および監視"]
+* link:https://docs.netapp.com/us-en/ontap-cli/volume-file-show-inode.html[`volume file show-inode` コマンド リファレンス^]
+

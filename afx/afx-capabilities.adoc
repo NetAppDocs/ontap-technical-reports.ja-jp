@@ -59,7 +59,7 @@ NetApp AFXはONTAPで動作します。つまり、ONTAPと同じセキュリテ
 
 統合 ONTAP が取得した認証（およびその他のセキュリティ強化情報）については、以下を参照してください：
 
-* link:https://security.netapp.com/certifications["NetApp製品セキュリティ"^]
+* link:https://security.netapp.com/resources/["NetApp製品セキュリティ"^]
 * link:https://docs.netapp.com/us-en/ontap-technical-reports/ontap-security-hardening/security-hardening-overview.html["ONTAPセキュリティ強化の概要"^]
 
 

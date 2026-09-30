@@ -1,0 +1,36 @@
+---
+section: high-file-count-workloads
+title: ファイル数の多いNASワークロード
+entries:
+- title: 概要
+  url: "/high-file-count-workloads/high-file-count-workloads-01-overview.html"
+- title: Maxdir-sizeと大きなディレクトリ
+  entries:
+  - title: 概要
+    url: "/high-file-count-workloads/high-file-count-workloads-02-maxdirsize.html"
+  - title: maxdir-size と現在のディレクトリサイズの表示
+    url: "/high-file-count-workloads/high-file-count-workloads-03-maxdirsize-view.html"
+  - title: ONTAPのディレクトリインデックス作成
+    url: "/high-file-count-workloads/high-file-count-workloads-04-maxdirsize-indexing.html"
+  - title: maxdir-sizeの影響
+    url: "/high-file-count-workloads/high-file-count-workloads-05-maxdirsize-impact.html"
+  - title: ボリュームに関する考慮事項
+    url: "/high-file-count-workloads/high-file-count-workloads-06-maxdirsize-volume-types.html"
+  - title: 機能、EMS、およびモニタリング
+    url: "/high-file-count-workloads/high-file-count-workloads-07-maxdirsize-features-ems.html"
+- title: ファイル数とinode容量が多い
+  entries:
+  - title: 概要
+    url: "/high-file-count-workloads/high-file-count-workloads-08-maxfiles-high-file-counts.html"
+  - title: iノードタイプ
+    url: "/high-file-count-workloads/high-file-count-workloads-09-maxfiles.html"
+  - title: MaxfilesとONTAP inode情報
+    url: "/high-file-count-workloads/high-file-count-workloads-10-maxfiles-limits.html"
+  - title: maxfilesの制御
+    url: "/high-file-count-workloads/high-file-count-workloads-11-maxfiles-controlling.html"
+  - title: モニタリング、EMS、および機能強化
+    url: "/high-file-count-workloads/high-file-count-workloads-12-maxfiles-monitoring.html"
+- title: 計画アプローチ
+  url: "/high-file-count-workloads/high-file-count-workloads-13-planning.html"
+- title: ベストプラクティス
+  url: "/high-file-count-workloads/high-file-count-workloads-14-best-practices.html"

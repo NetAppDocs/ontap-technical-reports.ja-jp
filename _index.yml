@@ -57,6 +57,8 @@ indexpage:
       url: nas.html
     - title: NFS over TLS
       url: "/nfs-tls/nfs-tls-overview.html"
+    - title: ファイル数の多いNASワークロード
+      url: high-file-count-workloads/high-file-count-workloads-01-overview.html
     - title: その他のNASテクニカル・レポート
       url: nas.html
   - title: SAN

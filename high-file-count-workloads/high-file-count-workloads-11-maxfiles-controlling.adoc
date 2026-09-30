@@ -1,0 +1,87 @@
+---
+sidebar: sidebar 
+permalink: high-file-count-workloads/high-file-count-workloads-11-maxfiles-controlling.html 
+keywords: ONTAP, NAS, maxfiles, files, files-set-maximum, files-maximum-possible, FlexGroup 
+summary: ONTAP ボリュームファイルの上限を特定の値または現在の最大値に設定し、上限を引き上げた場合の影響を事前に理解しておく。 
+---
+= maxfilesの制御
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/high-file-count-workloads/
+
+
+[role="lead"]
+ボリューム `-files`オプションは、パブリック inode の上限です。ワークロードが inode を使い果たす前に、計画値または現在の値まで上げてください `files-maximum-possible`。制限、NFS ファイル ID の動作、および枯渇の症状については、link:high-file-count-workloads-10-maxfiles-limits.html["MaxfilesとONTAP inode情報"]を参照してください。
+
+
+
+[[set-a-specific-ceiling]]
+== 特定の上限を設定する
+
+キャパシティプランニングで特定の値が必要な場合に `volume modify -files`を使用します：
+
+[listing]
+----
+volume modify -vserver <svm> -volume <volume> -files <inode-count>
+----
+ONTAPは、要求された値を、ボリュームサイズ、最大許容値、および既に割り当てられているinodeファイル容量と比較して検証します。設定された上限値は、既に達しているinodeファイル容量を下回る値にすることはできません。
+
+FlexGroup の場合は、FlexGroup 名と希望する FlexGroup 全体の合計を指定します。コンスティチュエントに対して個別に `files`を設定しないでください。ONTAP は、要求された合計を現在のコンスティチュエント間で均等に分散し、各コンスティチュエントがそれぞれの割り当てを適用します。
+
+[listing]
+----
+volume modify -vserver <svm> -volume <flexgroup> -files <flexgroup-total-inodes>
+----
+値を変更した後、使用状況が設定された制限ほど均等に分散されるとは限らないため、構成要素レベルを検査してください `files`および `files-used`。
+
+[listing]
+----
+volume show -vserver <svm> -volume-style-extended flexgroup-constituent -fields files,files-used
+----
+一部のONTAPコマンドは相対的な増加を受け入れます：
+
+[listing]
+----
+volume modify -vserver <svm> -volume <volume> -files +<additional-inodes>
+----
+結果を `volume show`で確認します。
+
+
+
+[[setting-files-to-the-maximum-up-front]]
+== ファイルを最初に最大サイズに設定する
+
+ `files`を現在の `files-maximum-possible`に増やしても、パブリックinodeファイルの事前割り当ては行われず、対応するinodeレコード容量も予約されません。したがって、即時のスペースリスクは低くなります。ファイル数の多いNASボリュームの場合は、inodeが不足するイベントを待つのではなく、ボリュームサイズとプロトコルの制約が許す限り、 `files`をボリュームが保持できる最大値に設定してください。
+
+残りの考慮事項は、名前空間が実際にその上限に向かって拡大した場合に何が起こるか、およびそれ以上引き上げることができない制限に達した場合に何が起こるかについてのものです。
+
+* *容量は、iノードが割り当てられる際にのみ消費されます。*ONTAP 9 のパブリック inode はそれぞれ、inode ファイル内で 288 バイトを使用し、さらに inode ファイル構造とその他のメタデータが含まれます。FlexVol の絶対的な上限値では、生の inode レコードだけでも約 2,040,109,451 × 288 バイト（約 547 GiB）になります。使用されたスペースは基盤となるストレージも占有するため、ボリュームの使用率だけでなく、総空き容量を監視してください。link:high-file-count-workloads-08-maxfiles-high-file-counts.html#capacity-impact["容量が及ぼす影響"]を参照してください。
+* *inode ファイルが拡張された後は、 `files`を `inodefile-public-capacity`より低く設定することはできません。*上限を高く設定しても、未使用の容量はロックされません。ロックされるのは、割り当てられたレコードです。
+* *FlexVol では、2,040,109,451 が上限値です。*そのボリュームには、これ以上パブリック iノードを追加することはできません。ワークロードが1つのボリュームの絶対上限を超える可能性がある場合は、FlexGroup を使用することで、構成要素を追加できます。FlexVol または構成要素を*現在のサイズ*で許容される最大値に設定することは依然として適切です。その値は、多くの場合、2,040,109,451 をはるかに下回ります。
+* *FlexGroup 全体の合計は20億iノードを超える可能性があります*（統合ONTAPでは最大4000億、ONTAP 9.19.1以降を実行しているAFXでは最大1兆）。NFSの場合、表示されるファイルIDの数が20億に近づく前に、64ビットのファイル識別子を有効にしてください。参照してくださいlink:high-file-count-workloads-10-maxfiles-limits.html#nfs-64-bit-file-identifiers-and-flexgroup-file-counts["NFS 64ビットファイル識別子とFlexGroupファイル数"]。
+* *引き続き監視する `files-used`に対して `files`。*最大設定にすると、デフォルトの上限が予期せぬ形で削除されますが、サポートされている上限に達すると、ボリューム内のinodeが不足する可能性があります。
+
+
+現在の最大値を適用するには、ONTAP 9.9.1以降の詳細な `files-set-maximum`アクションを使用してください：
+
+[listing]
+----
+set -privilege advanced
+volume modify -vserver <svm> -volume <volume> -files-set-maximum true
+----
+これは1回限りの処理であり、永続的な割り当てモードではありません。 `true`のみが有効です。後でボリュームが拡張された場合に、新しい最大値を適用するには、再度実行してください。最大値未満の特定の値を設定する場合は、 `-files`を使用します。FlexVol volume（またはFlexGroup構成要素）が約7.8 TB以上の場合、設定可能な最大値は絶対的な上限である2,040,109,451になり、この値はボリュームサイズが大きくなってもそれ以上増加しません。
+
+[cols="<,>"]
+|===
+
+
+| link:high-file-count-workloads-10-maxfiles-limits.html["← 前へ：Maxfiles と ONTAP inode 情報"] | link:high-file-count-workloads-12-maxfiles-monitoring.html["次へ：maxfiles、EMSイベント、およびONTAPの機能強化の監視 →"] 
+|===
+
+
+[[related-information]]
+== 関連情報
+
+* link:https://docs.netapp.com/us-en/ontap/volumes/change-maximum-number-files-allowed-concept.html["FlexVol volumeに許可されるデフォルトおよび最大ファイル数"^]
+* link:https://www.netapp.com/pdf.html?item=/media/12385-tr4571.pdf["TR-4571: NetApp ONTAP FlexGroup ボリューム"^]
+

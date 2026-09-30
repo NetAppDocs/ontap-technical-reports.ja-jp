@@ -1,0 +1,108 @@
+---
+sidebar: sidebar 
+permalink: high-file-count-workloads/high-file-count-workloads-12-maxfiles-monitoring.html 
+keywords: ONTAP, NAS, maxfiles, EMS, files-used, inodefile-public-capacity, monitoring 
+summary: ONTAP maxfilesの使用状況の監視、inode EMSイベントの解釈、およびリリースにおける機能強化のレビューを行います。 
+---
+= maxfiles、EMSイベント、ONTAP機能強化のモニタリング
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/high-file-count-workloads/
+
+
+[role="lead"]
+現在のパブリックinodeの使用状況と、パブリックinodeファイルに割り当てられた上限容量の両方を監視してください。EMSイベントを使用して、枯渇とコンスティチュエントの不均衡を検出します。
+
+
+
+[[ems-messages-related-to-maxfiles]]
+== maxfilesに関連するEMSメッセージ
+
+
+
+[[callhome-no-inodes]]
+=== `callhome.no.inodes`
+
+このERRORイベントは、ボリュームのinodeが不足していることを示しています。inodeが利用可能になるか、設定されている最大値が増加するまで、新しいファイルシステムオブジェクトを作成できません。制限を変更する前に、 `files`、 `files-used`、 `files-maximum-possible`、およびボリュームの容量を確認してください。
+
+
+
+[[flexgroup-constituent-events]]
+=== FlexGroup コンスティチュエントイベント
+
+* `fg.inodes.member.nearlyFull`構成要素のiノードがほぼ枯渇していることを示します。ONTAPはその構成要素への作成数を減らし、配布やパフォーマンスに影響を与える可能性があります。
+* `fg.inodes.member.full`構成要素のinodeが不足しており、新しいファイルを受け入れることができないことを示します。
+* `fg.inodes.member.allOK`これは、ほぼ満杯または満杯イベントを引き起こした条件が現在は該当しないことを示しています。
+
+
+FlexGroup イベントについては、構成要素の分布と FlexGroup レベルの合計を調査してください。1 つの構成要素に直接 `files`を設定するのではなく、FlexGroup のファイル許容量を引き上げてください。*データ*容量が不足している構成要素は、FlexGroup 全体に `ENOSPC`を報告させ、さらに失敗 `ls`することもあります。link:high-file-count-workloads-10-maxfiles-limits.html#flexgroup-constituent-out-of-space["FlexGroup コンスティチュエントのスペース不足"]を参照してください。
+
+
+
+[[monitoring-example]]
+== 監視例
+
+CLIを使用して、パブリック上限と現在の使用状況を確認します：
+
+[listing]
+----
+volume show -vserver <svm> -volume <volume> -fields files,files-used
+----
+高度な権限では、最大可能値と割り当てられたパブリックinodeファイル容量を含めます：
+
+[listing]
+----
+set -privilege advanced
+volume show -vserver <svm> -volume <volume> -fields files,files-used,files-maximum-possible,files-set-maximum,inodefile-public-capacity
+
+volume show-space -vserver <svm> -volume <volume>
+----
+REST API を使用して、パブリック `files`の上限と現在の使用状況を取得します：
+
+[listing]
+----
+GET /api/storage/volumes?name=<volume>&fields=files
+----
+REST `files.maximum`および `files.used`フィールドはCLI `files`および `files-used`に対応しています。詳細CLIフィールドは `inodefile-public-capacity`に使用します。
+
+`files-used`には、公開ACL iノード、名前付きストリーム、ストリームディレクトリ、公開ディレクトリインデックス、およびその他の公開オブジェクトが含まれます。 `volume show`では、ACL-inodeカウンタは別途提供されません。
+
+現在の使用量とinodeファイル容量の両方を追跡します。大規模な削除後に `files-used`の値が低くなっても、inodeファイルの容量が回復したことを意味するものではありません。
+
+
+
+[[ontap-functionality-and-enhancements-related-to-maxfiles]]
+== ONTAPのmaxfilesに関連する機能と機能強化
+
+|===
+| ONTAPリリース | 機能 
+
+
+| 以前の ONTAP 9 リリース | 管理者は `files`と `files-used`を検査し、特定の `-files`値を設定できます。デフォルトの自動値は、ボリュームサイズが約680 GBに達した時点で21,251,126で増加が停止していました。これはデフォルトサイズのプラトー（上限）であり、設定可能な最大値ではありません。 
+
+
+| ONTAP 9.9.1 |  `-files-set-maximum true`を追加しました。これは `files`を現在の `files-maximum-possible`に設定するワンショットアクションです。link:high-file-count-workloads-11-maxfiles-controlling.html#setting-files-to-the-maximum-up-front["ファイルを最初に最大サイズに設定する"]を参照してください。 
+
+
+| ONTAP 9.13.1 | ボリュームが以前の約2100万という上限を超えて増加するにつれて、自動的なデフォルトinodeサイズ調整が継続されます。 
+
+
+| ONTAP 9.17.1 | ディレクトリインデックスのinodeをパブリックinode空間に配置し、移行するオプションを追加しました。link:high-file-count-workloads-04-maxdirsize-indexing.html#about-private-and-public-index-inodes["プライベートインデックスinodeとパブリックインデックスinodeについて"]を参照してください。 
+|===
+リリースサポートおよび制限事項は、プラットフォームおよびボリュームタイプによって異なる場合があります。使用中の ONTAP リリースのコマンドリファレンスで動作を確認してください。
+
+[cols="<,>"]
+|===
+
+
+| link:high-file-count-workloads-11-maxfiles-controlling.html["← 前へ：maxfilesの制御"] | link:high-file-count-workloads-13-planning.html["次へ：計画アプローチ →"] 
+|===
+
+
+[[related-information]]
+== 関連情報
+
+* link:https://docs.netapp.com/us-en/ontap/volumes/display-file-inode-usage-task.html["ONTAP ボリュームのファイルと inode の使用状況を確認する"^]
+* link:https://docs.netapp.com/us-en/ontap-ems/callhome-no-events.html[`callhome.no.inodes` EMSリファレンス^]
+* link:https://docs.netapp.com/us-en/ontap-ems/fg-inodes-events.html["FlexGroup inode EMSイベント"^]
+

@@ -1,0 +1,118 @@
+---
+sidebar: sidebar 
+permalink: high-file-count-workloads/high-file-count-workloads-08-maxfiles-high-file-counts.html 
+keywords: ONTAP, NAS, maxfiles, files-used, inodefile-public-capacity, high file count 
+summary: ONTAP の inode カウンタの変化と、ファイル数の増加が容量および NAS ワークロードに与える影響について説明します。 
+---
+= ONTAPにおける大量のファイル数とinode容量
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/high-file-count-workloads/
+
+
+[role="lead"]
+ONTAPは、設定されたパブリックinode制限、現在のパブリックinode使用量、および割り当てられたパブリックinodeファイルの高水位容量を個別の値として報告します。
+
+
+
+[[high-file-counts-in-ontap]]
+== ONTAP でのファイル数の増大
+
+ONTAPはファイルシステムオブジェクトを追跡するためにinodeを使用します。CLI、REST API、またはSystem Managerで以下のボリューム値を使用して、パブリックinodeの使用状況を監視できます：
+
+* `files`は、設定されたパブリックinodeの上限です。
+* `files-used` は、現在使用中のパブリック iノードの数です。
+
+
+ `files`オプションは、パブリック inode ファイルに割り当てられるパブリック inode エントリの数を制御します。 `files`の上限を増やしても、inode または inode ファイル領域がアクティブ ファイル システムにすぐに割り当てられるわけではありません。その代わりに、ボリュームで許容される上限値を設定します。
+
+ファイル、ディレクトリ、ACL、名前付きストリーム、またはパブリックディレクトリインデックスを作成すると、パブリックinodeファイルが大きくなる可能性があります。オブジェクトを削除すると `files-used`パブリックinodeの数が減少し、再利用のためにパブリックinodeが返されますが、パブリックinodeファイルのサイズは縮小しません。
+
+ファイル数の使用状況の詳細を表示する方法の例については、link:high-file-count-workloads-12-maxfiles-monitoring.html#monitoring-example["監視例"]を参照してください。サイジングのガイダンスについては、link:high-file-count-workloads-14-best-practices.html["ファイル数が多いNASワークロードのベストプラクティス"]を参照してください。
+
+
+
+[[how-an-inode-count-increments]]
+== inodeカウントの増加方法
+
+すべての inode がパブリック inode 制限にカウントされるわけではありません。link:high-file-count-workloads-09-maxfiles.html#private-inodes["プライベートiノード"]はカウントされません。link:high-file-count-workloads-09-maxfiles.html#public-inodes["公開iノード"]ファイル、ディレクトリ、ACL、名前付きストリーム、パブリックディレクトリインデックスなどはカウントされます。
+
+ `files-used`は、パブリック inode が使用されるたびに増加します。割り当てられた inode ファイルに既に空きパブリック inode が存在する場合、 `files-used`は引き続き増加しますが、 `inodefile-public-capacity`は増加しません。空きパブリック inode が残っていない場合、ONTAP はパブリック inode ファイルを最大 `files`まで拡張し、両方の値が増加します。
+
+一般的な操作には以下が含まれます：
+
+* ファイル、ディレクトリ、シンボリック リンク、または特殊ファイルの作成：親ディレクトリにパブリック inode を +1 し、新しい名前を追加します。
+* ハードリンクを作成します：親ディレクトリにパブリックinodeが+0個、名前が+1個追加されます。
+* ACL inodeがまだ存在しないオブジェクトにNTFSまたはNFSv4 ACLを保存する場合：最大+1個のパブリックinode（ACL共有の対象）。
+* 名前付きストリームを作成する場合：ストリーム用のパブリック inode が +1 され、必要に応じてストリームディレクトリ inode も追加されます。どちらも親ユーザーディレクトリに名前を追加しません。
+* ディレクトリインデックスを公開領域に移動：インデックス付きディレクトリ1つにつき、約+1つの公開inodeが追加されます。
+
+
+これらのオブジェクトタイプ、ACL共有、および `Zone.Identifier`などのストリームが可視ファイル数に与える影響については、link:high-file-count-workloads-09-maxfiles.html["ONTAP inode タイプ"]を参照してください。
+
+`files-used`パブリックiノードが空き状態になると減少します。例えば、削除が完了し、オブジェクトがゾンビとして保持されなくなった後などです。 `inodefile-public-capacity`は最高水位を維持したままで、inodeファイルのサイズは減少しません。
+
+新しいファイルは、割り当てられた inode ファイルがいっぱいになるまで再利用不可のレコードを作成し、その後、 `files`およびボリューム容量が許可する場合、ONTAP はそれを拡張します。
+
+
+
+[[how-high-file-counts-affect-nas-workloads]]
+== ファイル数が多いとNASのワークロードにどのような影響があるか
+
+ファイル数が多いほど、データ転送に対するメタデータ作業の割合が増加します。一般的な操作には以下が含まれます：
+
+* iノードの割り当てと解放
+* ディレクトリ名とファイルハンドルの検索
+* 属性、権限、タイムスタンプの読み取りと更新
+* ファイルの開閉、名前変更、リンク、削除
+* ディレクトリの列挙とディレクトリツリーの走査
+* 分析、バックアップ、レプリケーション、またはセキュリティ機能のための名前空間のスキャン
+
+
+パフォーマンスへの影響は、処理速度、並行処理、プロトコル動作、名前空間レイアウト、キャッシュ状態、およびノードリソースによって異なります。ファイルの総数だけでは、パフォーマンスを予測することはできません。多数のアクティブなディレクトリに分散された数百万のファイルは、単一のディレクトリ空間に集中した同数のファイルよりも、より多くの並列処理能力を発揮できる可能性があります。
+
+
+
+[[capacity-impact]]
+== 容量が及ぼす影響
+
+各 ONTAP 9 の inode は、inode ファイル内で 288 バイトを占有します。計画上の概算値は次のとおりです：
+
+[listing]
+----
+inode-file bytes = inode count × 288
+----
+|===
+| inode | 生のinodeバイトのおおよその値 | おおよそのバイナリ容量 
+
+
+| 1 million | 288,000,000 | 274.7 MiB 
+
+
+| 100 million | 28,800,000,000 | 26.8 GiB 
+
+
+| 10億 | 288,000,000,000 | 268.2 GiB 
+|===
+これらの数値はinodeレコードを表しています。観測される物理的な使用状況には、inodeファイル構造、ブロック丸め、Snapshotの保持、その他のメタデータも含まれる場合があります。
+
+ `files`を増やすと、許可される上限が引き上げられます。対応するすべての inode ファイル スペースがすぐに割り当てられるわけではありません。容量は、inode ファイルの増加に伴って消費されます。その後、パブリック inode の数が 100 万個になると、生の inode レコードは実際の volume 容量の 288 MB（約 274.7 MiB）を使用します。inode ファイルは縮小しないため、容量計画では過去の最大割り当て量を考慮する必要があります。後で `files`を下げることはできますが、 `inodefile-public-capacity`を下回ることはできません。そのフィールドは、割り当てられた inode ファイルの最大値であり、ピーク時の `files-used`や以前の `files`設定ではありません。たとえば、inode ファイルがすでに 100 万レコードに増加している場合、現在の `files-used`がそれよりはるかに少なくても、 `files`を 100 万未満に設定することはできません。inode ファイルがそこまで増加していない状態で `files`を増やした場合は、現在の容量まで再度下げることができます。
+
+inode ファイルの使用済み物理容量は、 `maxdir-size`使用容量とは別です。 `maxdir-size`各ディレクトリの名前マッピングファイルのバイトサイズを制限します。320 MB のディレクトリファイルは、そのディレクトリ内の 320 MB のディレクトリファイルブロックを使用します。同様のサイズの inode ファイルはボリューム全体の inode 集団を表し、 `maxdir-size`による制限を受けません。
+
+容量単位でinodeファイル領域を検査する方法と、 `inodefile-public-capacity`をinode数として読み取る方法については、link:high-file-count-workloads-12-maxfiles-monitoring.html#monitoring-example["maxfiles、EMSイベント、ONTAP機能強化のモニタリング"]を参照してください。
+
+[cols="<,>"]
+|===
+
+
+| link:high-file-count-workloads-07-maxdirsize-features-ems.html["← 前へ：maxdir-size の機能、EMS、および監視"] | link:high-file-count-workloads-09-maxfiles.html["次：ONTAP inode の種類 →"] 
+|===
+
+
+[[related-information]]
+== 関連情報
+
+* link:high-file-count-workloads-10-maxfiles-limits.html["MaxfilesとONTAP inode情報"]
+* link:high-file-count-workloads-11-maxfiles-controlling.html["maxfilesの制御"]
+

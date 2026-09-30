@@ -2101,7 +2101,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="acdc6b4f6edd40f37bce01247a32ff86" category="list-text">SnapLock</block>
   <block id="99ea7fe6dea3854ba90d4c925836e232" category="paragraph">統合 ONTAP が取得した認証（およびその他のセキュリティ強化情報）については、以下を参照してください：</block>
   <block id="c97236d0432cf7fbbc8c3b120b3e6701" category="inline-link-macro">NetApp製品セキュリティ</block>
-  <block id="9f1a69c754d3a3e49b333d12ee8f0f24" category="list-text"><block ref="9f1a69c754d3a3e49b333d12ee8f0f24" category="inline-link-macro-rx"></block></block>
   <block id="3ddcacddc2a36f511a8e26ece20945dd" category="list-text"><block ref="3ddcacddc2a36f511a8e26ece20945dd" category="inline-link-macro-rx"></block></block>
   <block id="81b6f23eeb09459b1b476aee5f8f72ee" category="section-title">スナップショットとデータ保護</block>
   <block id="b15cf320632a63bcd52340d2e192c30a" category="inline-link-macro">ルールと設定</block>
@@ -2999,4 +2998,850 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="b12ef7cbb51744b90c455c58d40b1d46" category="cell"><block ref="b12ef7cbb51744b90c455c58d40b1d46" category="inline-link-macro-rx"></block></block>
   <block id="ad54e6f7d665098e981d7e41732ce4c2" category="inline-link-macro">次へ：アーキテクチャ</block>
   <block id="c6c7c72c67d9841863b0652c4dedcecb" category="cell"><block ref="c6c7c72c67d9841863b0652c4dedcecb" category="inline-link-macro-rx"></block></block>
+  <block id="40da6219717973f4627532d01a44b1c7" category="list-text"><block ref="40da6219717973f4627532d01a44b1c7" category="inline-link-macro-rx"></block></block>
+  <block id="f4de8ddc885d0fc99b9cece543148ffe" category="summary">ファイル数の多いNASワークロードがONTAPメタデータをどのように使用するか、およびmaxfilesとmaxdir-sizeがどのように異なるスケーリング境界を定義するかについて説明します。</block>
+  <block id="229da1acb4868cbc46661f7f8b4e6783" category="doc">NetApp ONTAP NASボリュームにおける高ファイル数ワークロード</block>
+  <block id="dc1632b4acc0fdb523a481ff108b0720" category="paragraph">ファイル数の多いNASワークロードは、少数の大きなファイルが中心となるワークロードよりも、名前空間とメタデータの操作に重点を置きます。このドキュメントセットでは、NetApp ONTAPが大量のファイルを保存および管理する方法、<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>と<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の制限を区別する方法、および予測可能な容量とパフォーマンスを実現するためのNASネームスペースの計画方法について説明します。</block>
+  <block id="00ad2276bd9834fba381a5c8f0b1a6c2" category="section-title">ファイル数が多いワークロードとはどういう意味ですか？</block>
+  <block id="a2a9c7188bc6e147fa17f75782bcc81f" category="paragraph">ファイル数が多いというのは、実際のワークロードを表すには少々不適切な表現です。すべてのワークロードが高ファイル数ワークロードとなる特定のファイル数しきい値は存在しません。その判断は、ファイル総数だけではなく、他の要素にも左右されます。</block>
+  <block id="2a51df753b9adf8e5d0b1a005d75c25f" category="paragraph">たとえば次のように指定できます。</block>
+  <block id="2ee4f5c379ae6ea1452a40114e14fea9" category="list-text">ボリューム内にはいくつのファイルとディレクトリが存在しますか？</block>
+  <block id="39ca386f26ebb527784c392ed4844b91" category="list-text">1つのディレクトリにいくつの名前が集中しているか</block>
+  <block id="034ebeb390f67d366086c872c97a23f4" category="list-text">ファイルの作成、オープン、列挙、名前変更、削除の頻度</block>
+  <block id="9a076650f9fb143b899ef2b2a46cb2fc" category="list-text">ファイル名の長さ、パスの長さ、文字セット、およびプロトコルによって生成された代替名</block>
+  <block id="a9e8f747f09b268872b029e549d2f444" category="list-text">データアクセスがディレクトリ、FlexGroup構成要素、およびクラスターノード全体に分散しているかどうか</block>
+  <block id="cb65d0b916981c10f5f25b2f4550d267" category="list-text">アプリケーションが名前空間全体をスキャンまたは一覧表示する頻度</block>
+  <block id="8500fa255698b4fb79d6e312581cf769" category="list-text">スナップショットのコピー数と保持期間</block>
+  <block id="91849a2a71adc87443ae54a371888874" category="paragraph">ワークロードの予測されるネームスペースが、inode計画、ディレクトリファイルの増加、メタデータ容量、クライアント操作のレイテンシ、バックアップまたはレプリケーションの動作、あるいは復旧時間に重大な影響を与える可能性がある場合、そのワークロードはファイル数が多いものとして扱う必要があります。</block>
+  <block id="f40a02baea6f545763d1df9f8e6a7459" category="paragraph">しかし、数百万ものファイルが多数のディレクトリに分散しているワークロードは、同じ数のファイルを単一のディレクトリに配置するワークロードとは大きく異なる動作をする可能性があります。</block>
+  <block id="5b096d1fd0df41870bf237baf985f5f8" category="section-title">ファイル数が多い場合によく見られるワークロード</block>
+  <block id="350c7e02d0ca5ee08eb90006f56e940b" category="paragraph">すべてのワークロードがファイル数の多いプロファイルを生成するわけではありませんが、以下のリストは、ファイル数の多いワークロードと見なされる一般的なワークロードの一部を示しています。</block>
+  <block id="b67a8058b310a1e4f9d89bdcf19716a3" category="list-text">電子設計自動化（EDA）と半導体設計フロー</block>
+  <block id="69897376d3aea83e701fde63cdebb08d" category="list-text">ソフトウェアのソースツリー、パッケージリポジトリ、継続的インテグレーションのビルドエリア</block>
+  <block id="8e7246305ec094b637e9845ed1f778bc" category="list-text">画像、トークン、チェックポイント、またはその他の小さなオブジェクトを含む人工知能および機械学習データセット</block>
+  <block id="239587caa6ec69943fe5873a3d3d0875" category="list-text">ゲノミクスおよびライフサイエンス分野のパイプライン</block>
+  <block id="e53136583ec31de30fe6241ac47634b9" category="list-text">メディアレンダリング、視覚効果、アニメーションフレームのリポジトリ</block>
+  <block id="bf5864d6dff705d97b271a10e5da4db7" category="list-text">ホームディレクトリ、部門別共有フォルダ、コンテンツ管理リポジトリ</block>
+  <block id="0752d8a32798021ba10241f5d9215710" category="list-text">分析、テレメトリ、およびロギング環境では、多数の短命ファイルが生成されます。</block>
+  <block id="d25b6dea33fbff35a071be9413847716" category="list-text">科学およびハイパフォーマンスコンピューティングのスクラッチスペース</block>
+  <block id="244206cbff65bb71fdf8bef60391c478" category="paragraph">ファイルのサイズはワークロードのファイル数が多いかどうかを決定づけるものではありませんが、ファイル数が多いワークロードは多くの場合、多数の小さなファイルで構成されており、データセットの容量使用量は控えめであるにもかかわらず、単一ボリューム内の多くのinodeを消費する可能性があります。</block>
+  <block id="3b2e93cfec0555e229bc5b2f7feae7c6" category="section-title">ファイル数が多い場合の課題</block>
+  <block id="4ed52761600ce2b6a804bd51e0147bff" category="paragraph">ファイル数の多いワークロードは、ファイル数やスループットが少ないワークロードでは必ずしも発生しない、特有の解決困難な課題を数多く抱えています。</block>
+  <block id="bcb598846f52a45771f7b5eb195ffa58" category="section-title">メタデータ操作</block>
+  <block id="6e1238080e6e7cfba6f181f1775db7d8" category="paragraph">各ファイルまたはディレクトリにはinodeが必要であり、オブジェクト名はinode自体ではなくディレクトリ内に存在します。ファイルの作成、検索、属性の取得、名前の変更、列挙、削除といった一般的なメタデータ操作は、データスループットが低い場合でも、ファイル数が多いワークロードの大部分を占める可能性があります。このようなシナリオでは、CPU使用率、演算の逐次処理、およびネットワークのRTTがパフォーマンスのボトルネックとなる可能性があります。プロトコルの動作も重要です。NFS および SMB クライアントは、ルックアップ、オープン、クローズ、属性、ディレクトリ読み取り操作のさまざまな組み合わせを発行できますが、多くの場合これらはプロトコル バージョンに依存します。その結果、使用するプロトコルとプロトコル バージョンによって、同様のファイル数が多いワークフローでも異なる結果が得られることがあります。</block>
+  <block id="3b8f7696879f77dfc8c74aa8df8db24b" category="section-title">Capacity</block>
+  <block id="69a7a942d8e79435e3c7635d56ce699d" category="paragraph">ONTAPは、公開iノードをシステム管理下の非表示のボリュームレベルiノードファイルに格納します。ONTAP 9の各iノードは288バイトを使用するため、iノードファイル自体がボリューム内の使用可能な容量を消費します。割り当てられた100万個のパブリックiノードは約288 MBの容量を使用します。オブジェクトを削除すると、再利用のためにiノードが解放されますが、iノードファイル自体は縮小しません。</block>
+  <block id="b971751bcf30482bae3ef3a7829ae9a4" category="paragraph">さらに、ディレクトリファイルは、同じディレクトリに多数の名前を保存すると、容量を消費します。これらのディレクトリファイルはinodeファイルの一部ではありません。これらは名前とinode番号へのマッピングを保存し、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>それぞれを個別に制限します。320 MBというデフォルト設定は上限値であり、予約値ではありません。1つのディレクトリファイルが320 MBのディレクトリファイルブロックにまで拡張された場合、それらのブロックは実際のボリューム容量のうち320 MBを使用します。</block>
+  <block id="8a65255b781230833e38cebf686524db" category="paragraph">これら2つの構造は積み重なる可能性があります。割り当てられるinode数が多い場合、inodeファイルだけで数GBに達することがあり、さらに1つ以上の大きなディレクトリファイルが加わることで、数百MBの容量が追加される可能性があります。ボリュームには、すべてのディレクトリサイズが小さいまま大きなinodeファイルを持つものもあれば、inodeファイルは小さいまま大きなディレクトリが1つ存在するものもあります。そのメタデータは使用済みボリューム容量を消費しますが、クライアント側のユーザーデータファイルの一覧のみを参照している場合は見落としやすいものです。inodeファイルはユーザーから見えないファイルです。ディレクトリファイルのサイズは、ディレクトリオブジェクト自体に表示されます。</block>
+  <block id="01ea62a8ece9da7e13e3839b0cec2b58" category="section-title">ディレクトリ列挙</block>
+  <block id="4db91f9a95f38ccbb1235dd60cc0e21c" category="inline-link-macro">maxdir-size の上限値の動作について</block>
+  <block id="13c217a58ec9672f43d5b99347532cee" category="inline-link-macro">スパースディレクトリとホールパンチング</block>
+  <block id="e9a2ce9676cefd6a2aa39d79562494ea" category="paragraph">大きなディレクトリは小さなディレクトリよりも列挙に時間がかかり、多くのファイルが削除されたディレクトリのスキャンは依然としてコストがかかる場合があります。ディレクトリファイルサイズは、名前を削除した後でも、最大値のまま維持されます。インデックス付きディレクトリのホールパンチングにより、空の物理ブロックを回収して<block ref="1e36542efa12c0d5b70478c43512c5cf" prefix=" " category="inline-code"></block>中にスキップできますが、通常は報告されたサイズを縮小しません。<block ref="641c8ac33fa4c945e7b9ba33e11449a5" category="inline-link-macro-rx"></block>および<block ref="63c6d23f7ae00c851617cae48ae139d9" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="a35ab908fce1565a02a0a7f09c696833" category="section-title">故障領域の集中</block>
+  <block id="c10064fd3bd7a92de732d2731e8241e4" category="paragraph">数百万件のエントリを1つのディレクトリに集中させると、単一ディレクトリのスケーリングとシリアル化のポイントが作成され、ディレクトリ自体だけでなく、そのディレクトリを所有するノード（またはボリューム）のパフォーマンスにも影響を与える可能性があります。ファイルを複数のディレクトリ階層に分散させることで、並列処理が向上し、ディレクトリスキャンの範囲が縮小され、運用タスクが容易になります。</block>
+  <block id="039326759dfb7d9450adffb38a871c9b" category="section-title">データ保護と復旧</block>
+  <block id="a047b87db49e9d9c4705516bf5c6473d" category="paragraph">オブジェクト数が多いと、名前空間スキャン、バックアップカタログ作成、レプリケーション、リストア処理、およびリストア後のディレクトリインデックス構築に時間がかかる場合があります。例えば、NetApp SnapMirror は変更されたメタデータとファイルデータの両方を複製するため、作成、削除、名前変更が多数含まれるベースラインや更新は、ファイル数や容量が小さくてもコストが高くなる可能性があります。これらの課題は、NDMPベースのバックアップにも及ぶ可能性があります。</block>
+  <block id="bbc0b94efae57eab598c02b8fffb0789" category="inline-link-macro">ONTAPのディレクトリインデックス作成</block>
+  <block id="6280c5ce598335346a878cf1d180e4a3" category="paragraph">SnapMirrorによるディレクトリ インデックス転送の詳細については、<block ref="60a8cb3ef3340b9d5df8a57636fa5d59" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="65a4ce797da4c38811f0aff5886ea0e2" category="section-title">Maxfilesとmaxdir-sizeの比較</block>
+  <block id="d95568346be55bdf41f322e4173d5193" category="paragraph"><block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>と<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の概念は、ONTAPのさまざまなリソースを保護します。どちらも他方の代わりにはなりませんが、混乱を招くことがよくあります。このセクションでは、それらの点を明確にします。</block>
+  <block id="4fd87fe081c717a3844cc0b0aabe03b6" category="paragraph">ボリュームには十分な空きinodeがあっても、1つのディレクトリ内で<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>に達することがあります。さらに、データセットはディレクトリサイズを大きくすることなく、ボリューム内のパブリックinodeの供給を使い果たしてしまう可能性があります。クライアントの症状は最初は似ているように見えます。NFSは通常<block ref="e654d1196cfba5f5e0c0a869185f35cf" prefix=" " category="inline-code"></block>を返し、SMBは通常<block ref="844f00cf5b8d9136a1bae0413d46f4ae" prefix=" " category="inline-code"></block>を返します。ディレクトリがいっぱいになると、ボリュームに空きinodeとデータ容量がある場合でも<block ref="07be006d9d1b96a6c8e1574ecf8d03b9" prefix=" " category="inline-code"></block>を返すことがあります。</block>
+  <block id="d2fa7510fb0f926dea1444c15196542a" category="inline-link-macro">MaxfilesとONTAP inode情報</block>
+  <block id="ffe64056b6da03b2f855081434941773" category="inline-link-macro">Maxdir-size と large ONTAP ディレクトリ</block>
+  <block id="97fdb7b2bc812c5e3e8785d210a36654" category="paragraph">次の表は、通常のデフォルト値、およびONTAPで許可される最小値と最大値を示しています。FlexVol<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>の最大値はボリューム サイズに依存するため、絶対的な上限を設定可能として扱う前に、クエリを実行して<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>確認してください。詳細は、<block ref="2ae44a68f4b4d01216f8f81ea0603975" category="inline-link-macro-rx"></block>および<block ref="e0e2503a3085feee61226f9dc6c1bb33" category="inline-link-macro-rx"></block>に記載されています。</block>
+  <block id="f5ccadfc7734d3a5818e229f8fd28f0d" category="cell">環境</block>
+  <block id="a1d0ec6d56f8833a078b5a7ac4caf2d4" category="cell">最小</block>
+  <block id="8321e79c278ec510f63675c040594892" category="cell">最大</block>
+  <block id="34604e8bd44c9555ad794509a8a7e7d0" category="cell"><block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix="" category="inline-code"></block> <block ref="248d9da2c0d74a21dcc355578c72ff8d" prefix="(" category="inline-code"></block>）</block>
+  <block id="84b9523e45d813a33b6812a09967996f" category="cell">FlexVol</block>
+  <block id="4cd5f6f3f31e8ff64a1975948dee868f" category="cell">ボリュームサイズ32 KiBあたり約1つのパブリックinode</block>
+  <block id="b3fb323aa9f87876953333d2cbf2d86e" category="cell">最低購入数量の制限はありません。<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>は<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>以下に下げることはできません。</block>
+  <block id="63337feed5360ad6b97c039bb831dcf3" category="cell">2,040,109,451個のパブリックiノード。小さいボリュームの場合、<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>ボリュームサイズ4 KiBあたり約1つのinodeと、値が低くなります。2,040,109,451を設定可能にするには、ボリュームが約7.8 TB以上である必要があります。</block>
+  <block id="5b1f646e5162ada424447d113a3084fc" category="cell">コンスティチュエントごとの同じ密度を、FlexGroup全体の合計として報告</block>
+  <block id="bf1b4cc4b1a51fb386832c1d3af851ac" category="cell">構成要素ごとの最低値は同じです。合計は1つの構成要素ではなく、FlexGroupに設定してください。</block>
+  <block id="a9ccfa0a41004ad46aa7b3dd4046b253" category="cell">統合 ONTAP では最大 4,000 億のパブリック i ノード、ONTAP 9.19.1 以降を実行する AFX では最大 1 兆のパブリック i ノードをサポートします。各コンスティチュエントの上限は 2,040,109,451 のままです。</block>
+  <block id="504ecde76c817ced842a451fd5d1fe58" category="cell"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block></block>
+  <block id="84178a48ba5916fad5b726c2d9340f98" category="cell">FlexVol と FlexGroup</block>
+  <block id="1bcc39daae50092f6f41ff13f187855c" category="cell">320 MB</block>
+  <block id="b451357f6f0b531a24c843667110b879" category="cell">4 KiB</block>
+  <block id="974c2262615af73433567515efbb80e9" category="cell">4 GB</block>
+  <block id="7d465796a1393689b73213da46fb3016" category="inline-link-macro">maxdir-sizeの機能、EMS、および監視</block>
+  <block id="35210a50894d01d0fc724a54def8cf1a" category="paragraph"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block> は、FlexVol と FlexGroup で同じ上限値です。FlexGroup は、この上限値にコンスティチュエント数を乗算しません。上限値を引き上げる前に、ONTAP リリースおよびプラットフォームでサポートされている<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>最大値を確認してください。<block ref="0d57fd843d9429e5c147709b28774c7d" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="4f3cce61fb4fed7b4110dca0b72e69b9" category="section-title">maxdir-sizeとは何ですか？</block>
+  <block id="4a7ca009f970380ae99a2aaf35e83988" category="paragraph"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block>これは、そのボリューム内の個々のディレクトリファイルがどれだけ大きくなることができるかという、ボリュームごとの上限値です。これは、固定されたエントリ数ではなく、容量値として提示されています。ただし、単一ディレクトリ内の名前の数は、ディレクトリのサイズを増加させる要因の1つです。ファイル名の長さ、Unicode文字表現、SMB 8.3エイリアス、NFS代替名、およびFlexGroupリモートエントリの表現方法はすべて、ディレクトリサイズに影響します。ボリュームの<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>値を増やすと、この設定では、スペースを事前に割り当てるのではなく、ディレクトリごとに拡張を許可します。</block>
+  <block id="98927b3f41022782976c35ab85a63a69" category="list-text">maxdir-sizeの計算の詳細については、<block ref="e0e2503a3085feee61226f9dc6c1bb33" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="f6e1bcf54dca58e6f102a6b37a28229d" category="list-text">ディレクトリのインデックス情報については、<block ref="60a8cb3ef3340b9d5df8a57636fa5d59" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="0b5c418c44941d37ad6eb9ea7d3af31b" category="inline-link-macro">maxdir-sizeの影響</block>
+  <block id="12154019e8e4b0bc55f2ab60a5dc0bfe" category="list-text">容量、パフォーマンス、および制限超過時の動作については、<block ref="29dcc7199d168adbbb46b5925138a4cb" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="79c21c333a7653784a457c3223bf6ba9" category="inline-link-macro">ボリュームに関する考慮事項</block>
+  <block id="1f4e2173cc1c2f834cebbe70821fb663" category="list-text">FlexVol および FlexGroup の考慮事項については、<block ref="e84d886af3e6b3d2dcb999a6c9370ef5" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="ae4b24bd318bd1024669aaadf19edf33" category="list-text">リリースの機能強化とEMSイベントについては、<block ref="0d57fd843d9429e5c147709b28774c7d" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="3e8700177f2866efb90cd1156e5b64b5" category="section-title">maxfilesとは何ですか？</block>
+  <block id="9df7ad6820416e188f45204b94014da2" category="paragraph"><block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix="" category="inline-code"></block>（ボリュームレベルのオプションとして設定<block ref="248d9da2c0d74a21dcc355578c72ff8d" prefix=" " category="inline-code"></block>）は、単一ボリュームで使用可能なパブリック inode 数の構成可能な上限です。その数には、ファイルやディレクトリだけでなく、名前付きストリーム、ACL、その他のパブリックオブジェクトも含まれます。これらのオブジェクトの中には、通常のディレクトリ一覧には表示されないものもあります。ボリュームには、それらのレコードを格納する隠し inode ファイルが含まれています。ONTAP は、新しいパブリック inode が必要で空きレコードが残っていない場合に、<block ref="248d9da2c0d74a21dcc355578c72ff8d" prefix=" " category="inline-code"></block>の設定とボリュームの合計サイズに達するまで inode ファイルを拡張します。<block ref="248d9da2c0d74a21dcc355578c72ff8d" prefix=" " category="inline-code"></block>の設定可能な最大値は、ボリュームサイズと ONTAP の制限によって異なります。</block>
+  <block id="717a768c92deff75bbd0135f081dcb6c" category="inline-link-macro">ファイル数とinode容量が多い</block>
+  <block id="d532ca60480e4f4eaa3a99d748a670dd" category="list-text">iノードカウンタと容量については、<block ref="e69384c54586986ef3e23ab69e8bc2d5" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="cc01847d453fbbc05114e43a6de428b0" category="inline-link-macro">ONTAP inode タイプ</block>
+  <block id="8937f82cc0e54c23127a15feeafa6026" category="list-text">パブリックおよびプライベートinodeタイプについては、<block ref="b380ffd86e368ce2eca63e3ab71be44f" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="d584db2b29027186522f0f61e4b6ff4d" category="list-text">ボリュームサイズの制限、NFS ファイル ID、および枯渇動作については、<block ref="2ae44a68f4b4d01216f8f81ea0603975" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="cd25b77e72c1a989ab5e02ae43f8f4bc" category="inline-link-macro">maxfilesの制御</block>
+  <block id="f4b8063d2677d5f91ce721ad10696c33" category="list-text">設定方法については<block ref="248d9da2c0d74a21dcc355578c72ff8d" prefix=" " category="inline-code"></block>、<block ref="5fc88fb8d7c0a48e0cdaec0da30885fc" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="8e9f32eafcbccd0be4908214bf4f84db" category="inline-link-macro">maxfiles、EMSイベント、ONTAP機能強化のモニタリング</block>
+  <block id="04a1318e5cd728901b371ab184c31b6c" category="list-text">EMSイベントとモニタリングについては、<block ref="fa7252d30fd8a1bdbff7bf3f1d1774ce" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="ba86233aabb388391c862f25c11169a1" category="inline-link-macro">計画アプローチ</block>
+  <block id="49aa6d9dbc3ee3d187ef4522e762deb7" category="list-text">inode、ディレクトリ、操作レート、および容量の推定値の収集方法については、<block ref="c4cc53e575d976b43bd48c2b31604253" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="6bb5a900e591856ee7bfa29a69e68ba0" category="inline-link-macro">ファイル数が多いNASワークロードのベストプラクティス</block>
+  <block id="ef7e8af064787924afaa32aae4861ea8" category="list-text">設計および運用に関する推奨事項については、<block ref="d5dcdda42a9208c03ec5055ea1119b7f" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="17333907f7b9af94536d9ec9fe5c1c61" category="inline-link-macro">次へ：Maxdir-size と大規模な ONTAP ディレクトリ →</block>
+  <block id="193de3b87351e9539471c9d2a424f6f3" category="cell"><block ref="193de3b87351e9539471c9d2a424f6f3" category="inline-link-macro-rx"></block></block>
+  <block id="e69384c54586986ef3e23ab69e8bc2d5" category="list-text"><block ref="e69384c54586986ef3e23ab69e8bc2d5" category="inline-link-macro-rx"></block></block>
+  <block id="fc823a943f048e174186dd77721e3bb3" category="inline-link-macro">ONTAP ボリュームのファイルと inode の使用状況を確認する</block>
+  <block id="7a538b882ea2f3238cd79d4a79020011" category="list-text"><block ref="7a538b882ea2f3238cd79d4a79020011" category="inline-link-macro-rx"></block></block>
+  <block id="d57255c0688fac591849362fc79bedb4" category="inline-link-macro">FlexVolの最大ディレクトリ サイズ</block>
+  <block id="d5e9d156436247677e5f39c065b7887e" category="list-text"><block ref="d5e9d156436247677e5f39c065b7887e" category="inline-link-macro-rx"></block></block>
+  <block id="3248c070e99ebaba111415026ee3d5e5" category="inline-link-macro">FlexGroup ボリューム管理</block>
+  <block id="bb9c6ceff8da9c8ecb1bffaeee599083" category="list-text"><block ref="bb9c6ceff8da9c8ecb1bffaeee599083" category="inline-link-macro-rx"></block></block>
+  <block id="e88d5bf022941f3198b1bc799070f090" category="summary">ONTAP の maxdir-size が測定する内容と、ディレクトリファイルサイズの計算方法について説明します。</block>
+  <block id="a005852705770e068b16506d89458b12" category="inline-link-macro">ディレクトリファイルあたりの名前の数を推定する</block>
+  <block id="c4ceb069c94fb2ff812fadf99e728849" category="paragraph"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block>は、そのディレクトリ内の名前に割り当て可能な容量を制限することで、ONTAPボリューム内の各ディレクトリファイルのサイズを制限します。これはボリュームの<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>inode制限とは独立しており、単一ディレクトリ内の名前の数に静的に定義可能な制限はありません。これは、その値が可変であり、名前の長さや文字の種類など、多くの要因に基づいているためです。詳細については、<block ref="641d8e688b09b8b149bf7a7641f804bc" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="584dfab436a938c80c72bb7b927e3602" category="section-title">ONTAPにおけるディレクトリとは何ですか？</block>
+  <block id="69372c686e10c33887f59556c45e5f9d" category="paragraph">WAFL ディレクトリは、名前を inode 番号にマッピングするメタデータファイルです。そのサイズは、そのディレクトリ以下のファイルに保存されているデータの合計ではなく、ディレクトリに格納されているファイル名の数と、それぞれの名前が必要とするディレクトリ容量によって決まります。新しく作成されたディレクトリは 4 KiB から始まり、エントリが追加されるにつれて 4 KiB のディレクトリブロック単位でサイズが大きくなります。</block>
+  <block id="2c20c99b1299efd157d1d9e7a02aafbd" category="paragraph">このディレクトリは1つのinodeを消費し、そのレコードはボリュームレベルのinodeファイル（概念的にも機能的にも別個のファイル）に格納されます。ディレクトリ名は、そのディレクトリ自身のデータブロックに格納されます。名前を追加すると個々のディレクトリファイルのサイズが大きくなり、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の制限に近づく可能性があります。また、より多くのファイルシステムオブジェクト（ファイル、ディレクトリ、ACL、名前付きストリームなど）を作成すると、より多くのinodeレコードが割り当てられ、ボリュームレベルのinodeファイルが<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>の制限に向かって拡張される可能性があります。単一の4KiBディレクトリブロックに格納できる名前エントリの数は、各名前の格納方法によって決まり、格納方法は名前の長さと文字エンコーディングによって異なります。</block>
+  <block id="98eddd0fb8633307eafbbfbc41fe7029" category="section-title">ディレクトリブロックのレイアウト</block>
+  <block id="bc2526adf5b2cde5d93e1aaa67274bbf" category="paragraph">ONTAPディレクトリファイルは4 KiBのブロック単位で拡張され、各ブロックは、それぞれのサイズに基づいて可変数のエントリレコードと名前チャンクに制限されます。ONTAPの名前チャンクは、ファイル名の一部を格納する16バイトのスロットです。各ファイル名は1つのエントリレコードと、エンコードされた長さに必要な数の16バイトのチャンクを占有します。</block>
+  <block id="9e725f0c9c7fd414f61a46ae700e3d1e" category="paragraph">48バイトの名前に対して、名前のチャンクがどのように割り当てられるかの例：</block>
+  <block id="eb1ebe238580ee3565bf712c5b7b5728" category="image-alt">48バイトのファイル名を、16バイトの名前チャンク3つと16バイトのUnicode短縮形式のオーバーヘッドチャンク1つとして格納した図</block>
+  <block id="88405dd2f807ed13bd0db43d70fe0857" category="section-title">ディレクトリブロックの最大数と名前の最大数</block>
+  <block id="51bf44cc90a81cea0f77bc324b55ea82" category="paragraph">ディレクトリブロックの最大許容数は、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の値によって決まります。</block>
+  <block id="1af63039bd0f6115bd4700f76efa1e04" category="paragraph">320 MB のディレクトリサイズでは、最大 81,920 個のディレクトリブロックを割り当てることができます （320 MB / 4 KiB、ここで 320 MB は 335,544,320 バイトです。これは ONTAP がこれらの値をバイナリ単位で報告するためです）。したがって、ディレクトリファイルで許可される名前の総数は、ディレクトリブロックごとに許可されるエントリ数によって決まります。</block>
+  <block id="18ff32e480e127c1e8b0a70171bed022" category="section-title">ディレクトリブロックの構築方法</block>
+  <block id="ed9c91ece844c94704987812c771d1f9" category="paragraph">4 KiB のディレクトリブロックはすべて同じように分割されます：</block>
+  <block id="a799c650994bc951f29c95736e46cc31" category="list-text">最大128件のエントリレコード（各レコード12バイト、合計1536バイト）</block>
+  <block id="ff69e61f2d1cf94f49450201d7c893fe" category="list-text">16バイトずつの160個の名前チャンク（合計2560バイト）からなる共有プール</block>
+  <block id="5bba17794d9e1bd66bd596061ecc56cd" category="paragraph">これらを合わせると、4 KiB のブロック1つを占めます。保存される各名前には、エントリレコードと1つ以上の名前チャンクが必要であり、128個のエントリレコードまたは160個の名前チャンクのどちらかが先に枯渇した方によって、そのブロックに格納できる名前の数が決まります。ASCII文字を使った名前の場合、名前のチャンクが最初に使い切られます。その結果、<block ref="19f94aba38a69bc317a4e6a5bdcdbdbd" prefix=" " category="inline-code"></block>も1メガバイトあたりのファイル数の固定比率も正確ではありません。</block>
+  <block id="ffe006229075bfa47ac9eccad8b995b6" category="paragraph">下の図は、前の例で示した48バイトの名前を示しています。その1つの名前は、12バイトのエントリレコード1つと、先に示した4つの16バイトの名前チャンク（合計64バイト）を消費します。</block>
+  <block id="9ca04ae75f544a0d2a2003618cc612d4" category="image-alt">4 KiB のディレクトリブロックの図。1 つの 12 バイトのエントリレコードと 4 つの 16 バイトの名前チャンクを使用した、48 バイトの Unicode 短縮名を示す。</block>
+  <block id="24a1e84f171f7624a56edc931ebd942f" category="paragraph">{nbsp}</block>
+  <block id="f2054987e1bcc96cc1e49e9a76cc422d" category="paragraph">160個のチャンクからなるプールは、エントリレコードが消費される前にブロック内の空き容量が不足します。合計160個のチャンク / 4個のチャンクで、1ブロックあたり40個の名前になります。あるいは、128件のエントリレコードのうち88件は未使用のままとなります。より短い日常的な名前であれば、必要なチャンクは3つだけで済むため、同じ4 KiBのディレクトリブロックには、そのような名前を約53個格納できます。これは、名前のサイズが、単一のディレクトリで許可される名前の数に直接影響を与えることを示しています。</block>
+  <block id="7c38f3cfcbde4dbb6f83468bfd261771" category="paragraph">1つのディレクトリにいくつの名前が収まるかを概算するには、まず4 KiBのブロック1つにいくつの名前が収まるかを計算し、次にその数に上限で許可されているブロック数を掛けます。（320 MBの上限では、81,920ブロックになります。）</block>
+  <block id="78065e8c836777b2d8a9e543cff01f16" category="paragraph">1つのブロックにいくつの名前が収まるかは、それぞれの名前がブロック内のスペースをどれだけ占めるかによって決まります。短くてシンプルな名前はスペースをあまり取らないため、より多くの名前が収まります。長い名前、またはONTAPがより広い形式で保存する必要がある名前は、より多くのスペースを占有するため、収まる名前の数が少なくなります：</block>
+  <block id="797271d9454fae9be9a185ce336348b3" category="list-text">日常的な名前は最大約32文字（例：<block ref="d9a6fc7b698d02a5cdce5ddf21075753" prefix=" " category="inline-code"></block>）はすべて同じようにパックされ、1つのブロックに約53個入ります。</block>
+  <block id="fb589e6f21531690c8fb86c75d8283ac" category="list-text">名前が長くなるほど、1ブロックあたりに収まる数は少なくなります。例えば、48文字の名前の場合、1ブロックあたり約40個しか収まりません。</block>
+  <block id="cd7d7e500f1764fd3fb65633ae2c9687" category="list-text">より広い形式で保存する必要のある名前は、およそ2倍のスペースを必要とするため、保存できる名前の数は少なくなります。これは、非ASCII文字（アクセント付きテキストや東アジアのテキストなど）を含む名前、NFS代替名も持つ名前、およびFlexGroupリモートエントリーに適用されます。この種の32文字の名前は、特殊文字に必要なサイズのため、1ブロックあたり約26個しか収まりません。SMBが長い名前の他に短い「8.3」エイリアスも生成する場合、そのエイリアスも余分なスペースを消費します。</block>
+  <block id="22adc3e36a38fb567d4558000a58e089" category="paragraph">従来のDOSスタイルの「8.3」という名前を格納する古いボリュームは、これらの名前が非常に小さい（バイト数が少ない）ため、1ブロックあたり最大128個のエントリを格納できます。ただし、通常の名前を持つ最新のボリュームでは、このような動作は発生しません。これは、現在のONTAPボリュームがファイル名をUnicode形式（デフォルトではC.UTF-8）で保存するためです。これにより、はるかに古いシステムが依存していた8文字のDOSスタイルの名前とは異なり、NFSやSMBを介して長いファイル名や国際文字をサポートできます。ボリューム言語の詳細については、&lt;insert link here&gt;を参照してください。</block>
+  <block id="93e7159b2cd36f4c48b0e6b2d3a3d927" category="paragraph">ファイル名は非常に多様なので、ディレクトリ内に保存できるファイル数に決まった上限はありません。有用な計画数値は、FlexVol volume の 320 MB 設定で約 430 万の通常名です。ここでいう「通常の名前」とは、ASCII 文字で約 32 文字までのものを指します。これはあくまで大まかな例であり、保証するものではありません。また、名前の長さに特定の条件があるわけでもありません。下の表は、いくつかの一般的なケースと、320 MB の設定で 1 つのディレクトリ内にそれぞれ許容される名前のおおよその数を示しています。</block>
+  <block id="0fb9a3aacd63c84f1ae85f8b9e89c91f" category="cell">名前プロフィール</block>
+  <block id="63c51d7ff7e26cff28ce5bee89809dab" category="cell">サンプルファイル名</block>
+  <block id="53dfa44b443fd17261265d4ca8beb362" category="cell">4 KiBブロックあたりの名前数</block>
+  <block id="29e10ed6b9ebe22a1b0285e1cf04efe9" category="cell">1つのディレクトリ内のファイル名（320 MB）</block>
+  <block id="3744483a2dc4b209e522d955989702be" category="cell">短くて普段使いしやすい名前（8文字）</block>
+  <block id="ebced5b6aac81313d9f82a408bc5419a" category="cell"><block ref="546f4179751e71e52ddbe0b3df2b013a" prefix="" category="inline-code"></block></block>
+  <block id="d82c8d1619ad8176d665453cfb2e55f0" category="cell">53</block>
+  <block id="dc890c7ebb2ed7839c318874d0a17e0a" category="cell">4,341,758</block>
+  <block id="9c51e46718eeef7f9df0c028ae0af439" category="cell">日常的な名前（32文字）</block>
+  <block id="cf6a09608b309c99057734ede2fc9c77" category="cell"><block ref="08e0d6d1334bdf2478002785281fde99" prefix="" category="inline-code"></block></block>
+  <block id="092c92b2388cc4921f7b07fdbc0bb7d9" category="cell">長い名前（48文字）</block>
+  <block id="31a3cd52d56f34b8f1fed20e04bf9ca2" category="cell"><block ref="0bef88b853cce2aef5d3da471fb378f0" prefix="" category="inline-code"></block></block>
+  <block id="d645920e395fedad7bbbed0eca3fe2e0" category="cell">40</block>
+  <block id="710ccd1b43c2593852db2409930f9b03" category="cell">3,276,798</block>
+  <block id="fc3c2d2c2f8b469b79316551b72a8d8d" category="cell">非ASCII文字を含む名前、またはFlexGroupエントリ（32文字）</block>
+  <block id="2e66b0bcf43d646ebef814ed0eae882f" category="cell"><block ref="c7ab0c41bfb7fc32be5d752eb822dbbf" prefix="" category="inline-code"></block></block>
+  <block id="4e732ced3463d06de0ca9a15b6153677" category="cell">26</block>
+  <block id="6d97a051e15746cfc1e8011aaa99c18b" category="cell">2,129,918</block>
+  <block id="4184e6388e0067948f4776ee215959eb" category="cell">NFS代替名も持つ名前（32文字）</block>
+  <block id="de631889dfb819407885e392966a5acb" category="cell"><block ref="bb3f9e668eb37a473824627ea033a11c" prefix="" category="inline-code"></block>代替案付き<block ref="e5089162c74be9696656b992c76abb74" prefix=" " category="inline-code"></block></block>
+  <block id="b6d767d2f8ed5d21a44b0e5886680cb9" category="cell">22</block>
+  <block id="bd4a1f51468f592c728bcee2119531d4" category="cell">1,802,238</block>
+  <block id="c3246fbde843d87ddab98cc4694ed427" category="paragraph">*注:* カウントは、<block ref="5058f1af8388633f609cadb75a75dc9d" prefix=" " category="inline-code"></block>および<block ref="58b9e70b65a77700ba66e9c64d6b9f89" prefix=" " category="inline-code"></block>のエントリが存在することを前提としており、そのため各値は計算結果よりもわずかに小さくなっています。</block>
+  <block id="899d2ccd6b87fa9c7279177a8e76fc1a" category="paragraph">要約すると、同じ320MBの容量制限では、短くて日常的な名前であれば約430万件まで保存できますが、名前をより広い形式で保存する場合は、その半分以下の数しか保存できません。すべての名前がプロトコルの最大文字数である255文字までだとすると、約73万7,000個の名前しか許可されません。</block>
+  <block id="2267e3edc6f3b9e8f6c66b84a6909870" category="section-title">ファイル名の長さとパスの長さの比較</block>
+  <block id="68c165547a408aa850ffbc3924ea2b6f" category="paragraph"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block>特定の親ディレクトリに格納されているベース名を表します。エントリごとに完全な絶対パスを保存するわけではありません。各パス名コンポーネントは、それぞれ独自の親ディレクトリ内のエントリです。そのため、より深いディレクトリ構造では<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の使用量は増加しません。</block>
+  <block id="2aa27b11c87cca483639881652be5f98" category="paragraph">階層構造を深くすると、ボリューム内にディレクトリとパブリックiノードが追加されますが、各ディレクトリに格納される名前の数は減少します。このトレードオフは通常、拡張性と全体的なパフォーマンスを向上させます。</block>
+  <block id="c8354b3f5f62964e41038be7b936b7ca" category="paragraph">*注:* プロトコルとクライアントのパス長制限はそれぞれ独立して適用されます。</block>
+  <block id="d7ddf904dc4efb8ca8d1356eac40e09b" category="paragraph">この上限はボリューム内のすべてのディレクトリに個別に適用され、予約ではなく制限です。320 MBという設定は、即座に320 MBのボリューム容量を確保するものではなく、単に任意のディレクトリがそのサイズまで拡張できるようにするものです。</block>
+  <block id="1eff408264ee0107c4bd1a97fe1943cd" category="paragraph">以下に、考慮すべき事項をいくつか挙げます。</block>
+  <block id="89ffa13bb76285e21de3ab358c478fc3" category="list-text">ディレクトリファイルが320MBのブロックにまで拡張した場合、それらのブロックは320MBの実際のボリューム容量を使用します。</block>
+  <block id="248bf42c6e93338b95d18dcf6f7d41bc" category="list-text">ディレクトリファイルが一度大きくなると、後でエントリが削除されたとしても、そのサイズは最大サイズのまま維持されます。</block>
+  <block id="477fe086b72f0150ad874844e1b1e3bc" category="list-text">ファイルやディレクトリを削除すると、それらのエントリスロットは再利用可能になりますが、ディレクトリファイルは圧縮されません。</block>
+  <block id="bb3655c073073c1e42b6c8f500e07648" category="list-text">インデックス付きディレクトリは、完全に空の 4 KiB ブロックにホールパンチを実行し（ONTAP 9.5 以降で使用可能）、ディスク上の物理ブロックを解放できますが、報告されるディレクトリファイルのサイズは通常縮小しません。</block>
+  <block id="963783cbc7c685a68637412fa1f0cdb6" category="paragraph">*注：* ONTAPが大規模ディレクトリ用に作成する付属のディレクトリインデックスは、独自のメタデータ容量とinodeを消費しますが、ディレクトリファイルの一部ではなく、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>のカウント対象にはなりません。インデックスがSnapMirrorレプリケーション目的でパブリックinodeスペースを占有するように設定されている場合は、代わりに<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>（パブリックinode制限）のカウント対象となります。</block>
+  <block id="1ca4a2c46af767a14ff3bf32f52fa80a" category="paragraph">詳細については、<block ref="60a8cb3ef3340b9d5df8a57636fa5d59" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="bc22de74feeee3243554246b3ce12768" category="section-title">maxdir-sizeの値を上げる</block>
+  <block id="7229bd4b6d14ee15b53558d74f3667a3" category="list-text">ボリューム内のすべてのディレクトリに適用されます</block>
+  <block id="33256a1c40d644feab69aac99ae3abe4" category="list-text">ディレクトリファイルのサイズを以前の上限を超えて拡張できるようにする</block>
+  <block id="d66d83dff66e4b9532524ed3aae5ca1c" category="list-text">新しい最大値を事前割り当てまたは予約しない</block>
+  <block id="085ef83dc3d0420d71fd46f80bc2b8d0" category="list-text">公開iノードを追加したり変更したりしません<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block></block>
+  <block id="d1108d7f60fe374db0c7d1aef9e3497f" category="list-text">既存のディレクトリがすぐに容量を消費することはありません</block>
+  <block id="49aa6da6ee3949280e055c8bdfa8425f" category="inline-link-macro">maxdir-size と現在のディレクトリサイズの表示</block>
+  <block id="db3fd014301bde25147528cd989cca35" category="paragraph">設定されたcapとディレクトリの現在のサイズを確認する方法については、<block ref="309f0393f6b9933e0b779d252fb16f5f" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="5ea19e7a0e1b289edd587b21fa3bf42b" category="section-title">FlexGroupボリュームはmaxdir-sizeの制限を回避しますか？</block>
+  <block id="b9c438153a3879f94d1d92f729c30fa3" category="paragraph">いいえ。FlexGroupは、1つのディレクトリの<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>を構成数で乗算することはありません。ディレクトリファイルは依然として単一の構成要素上に存在し、リモートエントリによってそのファイルはFlexVol上の同じ名前よりも速く増大する可能性があります。配置、リモートエントリの膨張、および計画数値については、<block ref="347f065a571cb7b3b11e9c32c58c81ff" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="6047a94a6a82e02d518fe8eab128f40d" category="inline-link-macro">← 前へ：NetApp ONTAP NASボリュームにおける高ファイル数ワークロード</block>
+  <block id="b1e726cf7c884d5d079fa979d1739e2b" category="cell"><block ref="b1e726cf7c884d5d079fa979d1739e2b" category="inline-link-macro-rx"></block></block>
+  <block id="3669e19aed8275a2a36673a279aa7a57" category="inline-link-macro">次へ：maxdir-size と現在のディレクトリサイズを表示する →</block>
+  <block id="8c1bc90b792d86daaff3001d61628621" category="cell"><block ref="8c1bc90b792d86daaff3001d61628621" category="inline-link-macro-rx"></block></block>
+  <block id="e84d886af3e6b3d2dcb999a6c9370ef5" category="list-text"><block ref="e84d886af3e6b3d2dcb999a6c9370ef5" category="inline-link-macro-rx"></block></block>
+  <block id="c1ae4fd21ac963dda06f98d23a4009f9" category="summary">ONTAP の maxdir-size の上限を確認し、NFS、SMB、または XCP からディレクトリファイルを測定して、EMS ファイル ID をパスに解決します。</block>
+  <block id="e61add5765edb70d2061b170a887a24e" category="paragraph">volume<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>フィールドは、ボリューム内の各ディレクトリに対して許可されている上限値です。個々のディレクトリを測定するには、ボリュームの使用データではなく、そのディレクトリオブジェクト自体を検査する必要があります。</block>
+  <block id="1b64a709b727a8631e339ee3e6703ec8" category="section-title">設定されたキャップを表示する</block>
+  <block id="60894a8d46b1f0ed396f418895328f7a" category="paragraph">これは、特定のディレクトリのサイズではなく、ディレクトリごとの上限値を報告するものです。</block>
+  <block id="78ef83c397194c62451a3aed8e7a0ff8" category="section-title">NFSクライアントからディレクトリファイルを表示する</block>
+  <block id="4c7163c8e2ba5db2a0bff997048d6611" category="paragraph">個々のディレクトリのサイズを直接報告する ONTAP コマンドは存在しないため、その値はクライアントから、または外部ツールを使用して照会する必要があります。ディレクトリオブジェクトの正確なサイズが必要な場合、NFS クライアントが推奨されるクライアント側の方法です。</block>
+  <block id="7ea839d9e82e3a5e51660b7bc5e5f355" category="paragraph">GNU/LinuxクライアントからマウントされたNFSパス上で、<block ref="77ddcb5f19832f4145345889013ab3a4" prefix=" " category="inline-code"></block>またはディレクトリオブジェクト自体の長いディレクトリ一覧を使用します。</block>
+  <block id="857b891bc26faf7c65def81a54d99b8d" category="paragraph">この目的には<block ref="13a014cb9de9f7cad88d5dafb70ecb41" prefix=" " category="inline-code"></block>を使用しないでください。<block ref="13a014cb9de9f7cad88d5dafb70ecb41" prefix=" " category="inline-code"></block>はディレクトリより下のレベルのデータをレポートしますが、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>はディレクトリのメタデータファイル自体に適用されます。</block>
+  <block id="d153575b3245e44f72dfd57704517ab3" category="paragraph">マウントポイント配下で最も大きいディレクトリを検索するには、末端ディレクトリをサイズ順に一覧表示し、Snapshotコピーを除外する<block ref="ea170e2cafb1337755c8b3d5ae4437f4" prefix=" " category="inline-code"></block>を実行します。以下は、上位10個の最大ディレクトリを返します。</block>
+  <block id="7ad499864015aa8a91a360f8d67b6cec" category="paragraph">7列目はディレクトリファイルのサイズ（バイト単位）です。デフォルトの320 MBのディレクトリは、335,544,320バイトと表示されます。これは、数百万ものファイルを含むディレクトリでも高速に動作します。</block>
+  <block id="45f36f4593263ea6e1906bddf7fda306" category="section-title">SMBクライアントからディレクトリサイズを表示する</block>
+  <block id="298ebc28f3eb4be1e46cc4587acfe07d" category="paragraph">WindowsおよびSMBクライアントはディレクトリ自体のメタデータ サイズを公開しないため、<block ref="77ddcb5f19832f4145345889013ab3a4" prefix=" " category="inline-code"></block>や<block ref="a96df544e36b059028e4c15d439f9a2e" prefix=" " category="inline-code"></block>に直接相当する、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>向けのSMB機能はありません：</block>
+  <block id="5c54c7f59bd55b2ebdd1bdc4e8c224dc" category="list-text"><block ref="736007832d2167baaae763fd3a3f3cf1" prefix="" category="inline-code"></block>ディレクトリを<block ref="22a3afa6929a2c87025fe3045a234971" prefix=" " category="inline-code"></block>としてリストします（独自のサイズはありません）。</block>
+  <block id="92816f66972285f6eddbd2f00ccf6116" category="list-text">ファイルエクスプローラーのフォルダーの *プロパティ* ダイアログには、フォルダーの下に含まれるデータの合計サイズ（<block ref="13a014cb9de9f7cad88d5dafb70ecb41" prefix=" " category="inline-code"></block> に相当）が表示されます。ディレクトリのメタデータファイルは含まれません。</block>
+  <block id="9a9cbf6c49b21b94cad698c98470108d" category="paragraph">SMBで提供されるデータセットのディレクトリサイズを測定するには、代わりに次のいずれかの方法を使用してください。</block>
+  <block id="5bd30821767ed20e0e4025479da8f723" category="list-text">ボリュームがNFSも許可している場合は、それをマウントして、上記の<block ref="77ddcb5f19832f4145345889013ab3a4" prefix=" " category="inline-code"></block>、<block ref="a96df544e36b059028e4c15d439f9a2e" prefix=" " category="inline-code"></block>、または<block ref="ea170e2cafb1337755c8b3d5ae4437f4" prefix=" " category="inline-code"></block>の方法を使用してください。</block>
+  <block id="5092b5b55d9d197b1e937276a2ed6f53" category="list-text">SMB共有を直接スキャンできるNetApp XCPを使用します（次のセクションを参照してください）。</block>
+  <block id="dc6e0127498d0179e62e60b5c27b4967" category="section-title">XCPでディレクトリサイズをスキャン</block>
+  <block id="288588426582ddfa054fc2609bb779cd" category="paragraph">NetApp XCP はファイルシステムを並列にスキャンし、ディレクトリのサイズと数を報告します。これは、大規模なデータセットやFlexGroupデータセットに役立ちます。これは NFS エクスポートと SMB 共有の両方に対して有効です。XCP は一致する結果を返す前にファイルシステム全体をスキャンするため、ファイル数の多いデータセットでは時間がかかる場合があります。</block>
+  <block id="62e5a74d1f68d55e05a7b7150c38e4e6" category="admonition">XCP 1.5では、ツールが<block ref="53aefec08170b2ebed981a0a86d0dbe0" prefix=" " category="inline-code"></block>や<block ref="776e6c3d14fd9df9fc13e130d598c448" prefix=" " category="inline-code"></block>などのサブコマンドに再編成されました。XCP 1.5以降では、<block ref="79b37c0e9765296c2ba8efc16a70d15f" prefix=" " category="inline-code"></block>形式を使用してください。それより前のリリースでは、<block ref="53aefec08170b2ebed981a0a86d0dbe0" prefix=" " category="inline-code"></block>動詞を使用せずに、同じ<block ref="af7e4e4bdf56fd6022afd2b0cf443794" prefix=" " category="inline-code"></block>オプションおよび<block ref="3c8468c40f21d7ea04242771207b5d3e" prefix=" " category="inline-code"></block>オプションを直接実行します（例：<block ref="1c693ed4ffafafccc21bf397c1844898" prefix=" " category="inline-code"></block>）。</block>
+  <block id="cee8f6b02a4fd48c05899e3f01446a51" category="paragraph">ツリー統計レポートを印刷します。このレポートには、最大のディレクトリのエントリ数（<block ref="9a19e4962658ae45e6a1aea119360fe4" prefix=" " category="inline-code"></block>として表示）とファイル数およびディレクトリ数が含まれます：</block>
+  <block id="6cbd453e804fff64a0e5100665d4af25" category="paragraph">各ディレクトリとそのディレクトリファイルサイズ（バイト単位）を、大きい順に一覧表示します。ディレクトリオブジェクトの場合、<block ref="1aec9c5d0644e11fd9dd0f9fb36009fb" prefix=" " category="inline-code"></block>値は、ディレクトリメタデータのサイズであり、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の上限：</block>
+  <block id="9f383f9d3d8cc2b8bace04b1769f0c56" category="paragraph"><block ref="e36751ffcb15beae9c1bdef00c6041fd" prefix=" " category="inline-code"></block>または<block ref="a04601c5ed04826cdcefa49dea445044" prefix=" " category="inline-code"></block>を追加して、簡略化されたコンソール合計ではなく、正確な値のレポートを保存します。</block>
+  <block id="fa60c8b6be00f3b465d58255b81177d8" category="inline-link-macro">TR-4571: NetApp ONTAP FlexGroup ボリューム</block>
+  <block id="7bcb965c7fbbba8f8c9667bd27694699" category="paragraph">選択したエントリ数を超えるディレクトリにスキャンを制限するには、<block ref="3ea70755a2fc175617414017dae734ee" prefix=" " category="inline-code"></block>を使用します。次の例は、2,000件以上のエントリを持つディレクトリを一覧表示します（<block ref="fad2d810978652bf5a12211d515b051a" category="inline-link-macro-rx"></block>から改変）：</block>
+  <block id="beeca4807ac49c10ffce7ba004188072" category="section-title">EMSが報告したディレクトリを特定する</block>
+  <block id="fb2e5f34edda6bcd07301aa4ee0f309d" category="paragraph">maxdir-size EMS イベントには、ボリューム ID とファイル ID が含まれます。そのinodeをパスに解決するには、以下を使用します：</block>
+  <block id="57cb86aa81e9d8e7778c8d576e6e4666" category="paragraph">報告されたファイルIDは、作成に失敗したファイルではなく、制限に達した、または制限に近づいたディレクトリに属するものです。</block>
+  <block id="972746386f212dca96d325df4b5e120c" category="admonition">FlexGroup の場合、<block ref="6512b22ca4ccbb5e6ed551c8d865b2fb" prefix=" " category="inline-code"></block> は FlexGroup 名ではなく構成要素に対して動作します。<block ref="d9e5bd0c57301c8671f78b5bd348953b" prefix=" " category="inline-code"></block> など、EMS イベントで指定された構成要素を使用してください。</block>
+  <block id="83ec8963307b91690195b1cc99f5328c" category="inline-link-macro">← 前へ：Maxdir-size と large ONTAP ディレクトリ</block>
+  <block id="c65ffd9f0f454584e6fdf332e5facdda" category="cell"><block ref="c65ffd9f0f454584e6fdf332e5facdda" category="inline-link-macro-rx"></block></block>
+  <block id="a4bf80c1f243d5d52eeaaf5c8f6336f6" category="inline-link-macro">次へ：ONTAP でのディレクトリインデックス作成 →</block>
+  <block id="16d1ebd22028d9f75783990bd778cb59" category="cell"><block ref="16d1ebd22028d9f75783990bd778cb59" category="inline-link-macro-rx"></block></block>
+  <block id="0d57fd843d9429e5c147709b28774c7d" category="list-text"><block ref="0d57fd843d9429e5c147709b28774c7d" category="inline-link-macro-rx"></block></block>
+  <block id="3aee1d563b354432eaaae5c8316c622f" category="list-text">link:https://docs.netapp.com/us-en/ontap-cli/volume-file-show-inode.html<block ref="6512b22ca4ccbb5e6ed551c8d865b2fb" prefix="[" category="inline-code"></block> コマンド リファレンス^]</block>
+  <block id="3d0f0ebec6c1d1d28a03ae93ed68e9e9" category="summary">ONTAP のディレクトリインデックス、パブリックインデックス inode とプライベートインデックス inode の比較、およびスパースディレクトリのホールパンチングについて説明します。</block>
+  <block id="00dfea70e4f418f925ba3e633ff9b361" category="paragraph">ONTAPは大規模なディレクトリを自動的にインデックス化するため、対象を絞った検索時にディレクトリファイル全体を一度に読み込む必要がありません。インデックス作成は<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>とは別であり、ディレクトリファイルの最大上限を変更しません。</block>
+  <block id="444fac9d27ede0588c1394fed2f67822" category="section-title">ディレクトリインデックスが存在する理由</block>
+  <block id="8d0a1166f1e96ebc2e966ff66c7f0ab2" category="paragraph">コンピュータにおけるインデックスとは、すべてのレコードを走査することなく「これはどこにあるか？」という問いに答えるための補助的な構造です。書籍の索引はなじみ深い形式で、本全体を読む代わりに用語を調べて該当ページにジャンプできます。データベース、検索エンジン、ファイルシステムはすべて同じ考え方に基づいており、コレクションが大きくなっても検索コストを抑えることができます。インデックスはデータの複製ではありません。名前などのキーから該当アイテムの場所へのマッピングです。</block>
+  <block id="b682f3b96546fdd08617fd0a80b5d7a3" category="paragraph">ディレクトリとは、名前のリストのことです。インデックスがない場合、1つの名前を探すには、リストの大部分をくまなく調べなければなりません。ONTAPのディレクトリインデックスは、そのショートカットのファイルシステム版です。</block>
+  <block id="9ec4f55ec76691181848c983c06cbe57" category="paragraph">永続的なインデックスがない場合、名前を検索するには、多くのディレクトリブロックを読み込み、メモリ内にハッシュを構築する必要があります。ONTAP 9.2 以降、ディレクトリファイルが約 2 MiB に達すると、ONTAP は自動的にコンパニオンディレクトリインデックス inode を作成します。</block>
+  <block id="03bb02d679378028320b2ed4a7512846" category="paragraph">永続インデックスは、ディレクトリファイル内のエントリの場所にマッピングされます。したがって、ターゲットを絞った検索では、ディレクトリファイル全体をメモリに読み込む代わりに、必要なインデックスと特定のディレクトリブロックを読み取ることができます。インデックス作成は一般的に、大規模ディレクトリに対する検索指向の操作においてCPU、メモリ、およびI/Oを削減するため、大規模ディレクトリのコンテンツに加えて、他のワークロード向けにより多くのノードリソースを解放できます。</block>
+  <block id="29401b0a903cb32a3e21e806d14a842f" category="image-alt">2 MiB未満のディレクトリファイルに対するクライアント名操作が、フルスキャンによって応答される様子を示すフロー図</block>
+  <block id="0b8f5f8864b35a332859fe49482100a4" category="inline-link-macro">パフォーマンスへの影響</block>
+  <block id="03beb838c51259165a802953f9d9fb22" category="paragraph">ディレクトリインデックスを有効にするために管理者オプションは必要ありません。デフォルトで有効になっています。ディレクトリが永続的なインデックスの対象となるのは、そのディレクトリファイルが約2MiBのしきい値を超えた場合のみです。その条件が満たされると、ディレクトリをしきい値以上に拡張する操作、インデックススキャナ、またはLOOKUP、ACCESS、パスベースのオープンもしくは作成、名前変更、削除などの適格なフロントエンド名前操作によってインデックス構築が開始されます。これらのスキャナーとフロントエンドトリガーは、サイズしきい値を上書きしたり、より小さなディレクトリに対して永続的なインデックスを作成したりしません。約2MiBという数値の違いが、ターゲット検索の処理方法に影響を与えます。これはディレクトリサイズに基づくプロトコル遅延しきい値ではありません。ディレクトリの拡張がクライアントとノードの動作にどのように現れるかについては、<block ref="abcfbd44bfb6727d375bc3fac8efbf5a" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="4d81f9a112ffc9052e6f3cbe8590a646" category="section-title">インデックス作成で変わらないもの</block>
+  <block id="f8d43549b840814456a4022181b4c66a" category="paragraph">ディレクトリインデックスはディレクトリファイルとは別個のものです。ディレクトリインデックスが存在する場合でも、以下のことは依然として当てはまります。</block>
+  <block id="e4724c6f156782b17472d4ac1de72e36" category="list-text"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block>ディレクトリのファイルサイズには依然として制限があります。</block>
+  <block id="f394d737c77e651f43c10dc0bc79f618" category="list-text">コンパニオンインデックスは追加のメタデータとinodeを消費しますが、ディレクトリサイズには影響しません。</block>
+  <block id="b750c16eca192d6af798e0385d17fe52" category="list-text">インデックスを作成することで、ディレクトリ全体を列挙するよりも、対象を絞った検索の精度が向上します。</block>
+  <block id="2eac6d683f49a0291c8e790db54b621d" category="list-text">ワイルドカードスキャンと<block ref="1e36542efa12c0d5b70478c43512c5cf" prefix=" " category="inline-code"></block>は、引き続きディレクトリの名前空間全体を処理します。</block>
+  <block id="5f3a76e85daf3bb63914f72cb63e8d40" category="list-text">インデックスの消失または再構築によって、ディレクトリ名は削除されません。ONTAPはディレクトリファイルから再構築できます。</block>
+  <block id="c52fd100bbf573e794ecb11569b7c681" category="section-title">プライベートインデックスinodeとパブリックインデックスinodeについて</block>
+  <block id="4ef0f74dc2d623f7fd1d73fd5f0910f4" category="paragraph">インデックス付きディレクトリはそれぞれ独自のインデックスを持ち、ディレクトリインデックスは共有されません。したがって、ボリュームは、約2MiBのしきい値を超えて増大するディレクトリごとに1つのインデックスを保持できます。しきい値以下のディレクトリは非永続的なルックアップパス上に残り、スキャナまたはフロントエンド操作がアクセスする場合でも、コンパニオンのディレクトリインデックスinodeは割り当てられません。対象ディレクトリのインデックスがカウントされるかどうか<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>は、それらがプライベートかパブリックかによって異なります。詳細はこちらをご覧ください。</block>
+  <block id="4d9a6825bc6255757ca727d3591c454b" category="paragraph">デフォルトでは、ディレクトリインデックスは従来、プライベートinode空間に存在していました。プライベートディレクトリインデックスinodeはSnapMirror転送から除外されるため、ONTAPはアクティベーションまたはリストア後に、必要に応じてデスティネーションでインデックスを再構築します。</block>
+  <block id="8ad5682c9d7bfd706c2c80c12fb239fc" category="paragraph">ONTAP 9.17.1 以降、ボリュームレベルのオプション<block ref="e1d44dc23fa161b7efafebc7ef17c1da" prefix=" " category="inline-code"></block>はディレクトリインデックスをパブリック inode 空間に移動し、サポートされている SnapMirror および SnapMirror Cloud ワークフローでそれらを転送できるようにします。オプションが<block ref="b326b5062b2f0e69046810717534cb09" prefix=" " category="inline-code"></block>の場合、新しいインデックスはパブリック inode 空間に作成され、スキャナが既存のプライベートインデックスを移行します。これにより、リストア後のインデックス構築を削減できますが、パブリックインデックスはパブリック inode を消費するため、<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>の計画に含める必要があります。</block>
+  <block id="cc3086a3bba87be27480dedba3cf6b47" category="paragraph">volume showオプションを使用すると、公開ディレクトリインデックスが存在するかどうかを確認できます<block ref="7af26439b9362be6f801d444714c859d" prefix=" " category="inline-code"></block>。このオプションは手動で設定することはできません。公開ディレクトリインデックスが存在する場合にのみ「true」と表示されます。</block>
+  <block id="7130bc5684566d7f796e3d50724ddafd" category="paragraph">公開ディレクトリのインデックスは<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>にカウントされ、インデックス付きディレクトリごとに約1つのinodeずつ<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>を増加させる可能性があります。</block>
+  <block id="843811da49d8820c85b40f2d8b623e60" category="paragraph">プライベートインデックスはパブリック<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>の割り当てを消費しません。</block>
+  <block id="8c25aa44339e5153dad559d4075906f6" category="section-title">パブリックディレクトリインデックス転送を有効にするタイミング</block>
+  <block id="a6917e716e12360c452b5cc421143551" category="paragraph">インデックス転送を有効にすると、レプリケーションまたはリストア用にインデックスが保持され、ファイル数が多いディレクトリでのコストのかかる再構築を回避できます。インデックス転送が無効になっている場合、SnapMirrorはプライベートインデックスを省略します。アクティベーションまたはリストアの後、ONTAPは、インデックス作成スキャナーまたは対象となるフロントエンド処理を介して、該当するディレクトリの欠落しているインデックスを再構築できますが、これにより、SnapMirrorデスティネーションへのフェイルオーバー後にパフォーマンスに影響が及ぶ可能性があります。インデックス転送を有効にしても、ローカルのルックアップパフォーマンスは向上しません。このオプションが<block ref="68934a3e9455fa72420237eb05902327" prefix=" " category="inline-code"></block>の場合、ローカルのインデックス作成はすでに実行されています。これは、SnapMirror関係の一部であるボリュームでの使用のみを厳密に目的としています。</block>
+  <block id="b67f3ed78555cd0fa4f0c125cb7123d3" category="paragraph">ディレクトリファイルは大きくなることがありますが、多くの名前が削除されると（つまり、ディレクトリからファイルが削除されると）、その後は疎になります。ディレクトリファイルのサイズは最大水位のままであるため、<block ref="1e36542efa12c0d5b70478c43512c5cf" prefix=" " category="inline-code"></block>空のブロックを走査するために相当量のCPUとI/Oを消費する可能性があります。</block>
+  <block id="af3d704a9976590fd40bb7b4fcf66092" category="paragraph">インデックス付きディレクトリの場合、ONTAPは4 KiBのディレクトリブロックが完全に空になったときに、穴を開けることができます。</block>
+  <block id="f70ab4eae7ea22c57243b63b716490e0" category="paragraph">インデックスはホールを追跡します。これにより、次のことが可能になります：</block>
+  <block id="90f59c0bc8b1d427a3ec249869e48230" category="list-text"><block ref="1e36542efa12c0d5b70478c43512c5cf" prefix="" category="inline-code"></block>空のブロックはスキップできます。</block>
+  <block id="edeb33a78acb089f1d2ee3549830f33d" category="list-text">物理的なブロックは再利用可能です。</block>
+  <block id="0d6d871171ec38532138bdd16b5dfbcd" category="list-text">作成されたオブジェクトは、後でその論理的な場所を再利用できます。</block>
+  <block id="71c14d24752ed55edf023c632927c5df" category="paragraph">高度な<block ref="7e464cb367dc4f9c8a3200495bed4def" prefix=" " category="inline-code"></block>フィールドは、読み取り専用のボリューム表示オプションです。値<block ref="b326b5062b2f0e69046810717534cb09" prefix=" " category="inline-code"></block>は、ボリュームにディレクトリブロックが最適化されたホールパンチ形式で含まれていることを意味します。</block>
+  <block id="143bfeb8e4c2fba388b0a88cf4302e41" category="paragraph">アプリケーションのディレクトリサイズが削除後も問題となる場合は、残りのエントリを新しく作成したディレクトリにコピーすることで、よりコンパクトなディレクトリファイル構成を実現できます。低下<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>してもスパースディレクトリは圧縮されません。</block>
+  <block id="05f355eaaa5c9b8bf9aaee8c770a43f4" category="inline-link-macro">← 前へ：maxdir-size と現在のディレクトリサイズを表示する</block>
+  <block id="197f4242236b795192d7a3c594c409d4" category="cell"><block ref="197f4242236b795192d7a3c594c409d4" category="inline-link-macro-rx"></block></block>
+  <block id="cfadd6a3838289060e3af501042a0e7a" category="inline-link-macro">次へ：maxdir-sizeの影響 →</block>
+  <block id="21b2134a01957d164ef55839595d9dc3" category="cell"><block ref="21b2134a01957d164ef55839595d9dc3" category="inline-link-macro-rx"></block></block>
+  <block id="b380ffd86e368ce2eca63e3ab71be44f" category="list-text"><block ref="b380ffd86e368ce2eca63e3ab71be44f" category="inline-link-macro-rx"></block></block>
+  <block id="1108b1d53a251696e175ef9d2a27bb6c" category="summary">大規模な ONTAP ディレクトリの容量とパフォーマンスへの影響、および maxdir-size を超えた場合の動作について説明します。</block>
+  <block id="987e4a85175b88d3e34acd2b78c558ef" category="paragraph"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の制限を引き上げることで、ディレクトリファイルの拡張が許可されます。容量とパフォーマンスのコストは、ディレクトリファイルが実際に大きくなったときにのみ発生し、作成および名前変更操作は、ファイルが上限に達すると失敗します。</block>
+  <block id="cfc1f4735af262fa57ab4b1c7e2bd080" category="section-title">容量が及ぼす影響</block>
+  <block id="98f723e54c3f6c0e908845c88760110e" category="paragraph">変更する<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>設定自体は容量を消費しません。ディレクトリのエントリ数の増加はそれにつながります。ディレクトリファイルは、名前が追加されるたびに 4 KiB のブロックを割り当てます。付随するインデックスと Snapshot に保持されるディレクトリブロックは、さらに多くのブロックを追加します。上限を設定しても、そのスペースは予約されません。削除後の高水位サイズについては、<block ref="641c8ac33fa4c945e7b9ba33e11449a5" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="172a3fa9f7c12cf4a9d263a868fcffee" category="paragraph">値を見積もる際<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>、ディレクトリ配下のファイルに格納されているデータを含める必要はありません。代わりに、単一のディレクトリ内のエントリのみを考慮してください。このオプションはボリュームレベルで設定されますが、ディレクトリごとに適用されます。</block>
+  <block id="6bcf43889baf6a726a6a4641d1bc9138" category="paragraph">ファイル数の多いディレクトリの容量使用量を計画する際には、ディレクトリとインデックスのオーバーヘッドも考慮に入れる必要があります。例えば、それぞれが320 MBの上限まで成長する100個のディレクトリを含むボリュームには、約32 GBのディレクトリファイルメタデータが格納され、これはボリュームの使用容量にカウントされます。それらのディレクトリがインデックス化されていて公開されている場合は、maxfiles の予算に約100個の inode を追加してください。ディレクトリのメタデータが頻繁に更新される場合は、Snapshotコピーには置き換えられたディレクトリおよびインデックスブロックが保持されるため、追加の Snapshot 容量を考慮してください。</block>
+  <block id="d4d75666ac34aca979e0893d3aeb2679" category="paragraph">ONTAP システム内の大きなディレクトリは、以下に影響を与える可能性があります：</block>
+  <block id="dc4bbb33598973549fcf59f439cc5877" category="list-text">名前検索、作成、リンク解除、およびリネームのパス長</block>
+  <block id="8e3bd39eff0227effbfedc2e0ccc4705" category="list-text">ディレクトリの完全列挙とワイルドカード検索</block>
+  <block id="6466769ce8aeedf810068998f769fd54" category="list-text">名前空間処理に使用されるCPUとメモリ</block>
+  <block id="33df7146759ee48d2cd1957443fa1fec" category="list-text">インデックスブロックとディレクトリブロックをロードするためにコールドキャッシュI/Oが必要</block>
+  <block id="4ff2591da2f6193f11d3105abc1fbf1e" category="list-text">長時間の処理中のプロトコル遅延とクライアントタイムアウト</block>
+  <block id="4afa4c92bb944275107bf40cd626a138" category="list-text">分析、バックアップ、レプリケーション、またはセキュリティ機能によって実行される名前空間スキャン</block>
+  <block id="dab9a4b72d4fcec15ade86ce9b557fd9" category="paragraph">ディレクトリインデックスはターゲット検索のコストを削減しますが、非常に大きなフラットディレクトリをシャーディングされた階層構造と同等にするものではありません。周囲のボリュームやクラスタに未使用のリソースがある場合でも、単一のディレクトリに対する操作では、シリアル化やアフィニティの制限が発生する可能性があります。インデックス作成は、検索、オープン、作成、名前変更、削除といった、特定の名前に対する操作を容易にします。ディレクトリ全体のスキャンとワイルドカード検索は、引き続きディレクトリの名前空間を走査します。インデックスを名前からブロックへのショートカットとして使用しません。ホールパンチされたディレクトリでは、インデックスは<block ref="1e36542efa12c0d5b70478c43512c5cf" prefix=" " category="inline-code"></block>の際に空のブロックをスキップできますが、それはシャーディングされたレイアウトの代替にはなりません。</block>
+  <block id="57933fa997846b2ff159a6ce95668645" category="paragraph">ONTAPがパフォーマンス障害を宣言する、個別のディレクトリファイルサイズのしきい値は存在しません。約 2 MiB のインデックスしきい値（<block ref="4cbfcbcec4de4349b3a0d749ca877c43" category="inline-link-macro-rx"></block>で説明）は、ターゲット検索の提供方法を変更します。そのサイズ以下では、名前の検索においてディレクトリブロックをスキャンして一時的なインメモリハッシュを構築できるため、コストはディレクトリのサイズとともに増加しますが、ONTAP は永続的なインデックスを作成しません。そのサイズを超えると、ターゲットを絞った名前操作にはインデックスが使用されます。ディレクトリが大きくなるにつれてコストが上昇し続けるのは、完全な列挙とワイルドカード検索、ディレクトリおよびインデックスブロックのコールドキャッシュロード、ならびにそのディレクトリに対する操作のシリアライゼーションです。</block>
+  <block id="da76589d3f0437d24e2d3f7784b4e716" category="paragraph">クライアントは、より長いディレクトリ一覧、ワイルドカード検索、アプリケーションスキャン、より高いプロトコル遅延、およびそれらの操作中のタイムアウトが発生する可能性があります。ディレクトリを所有するノードは、データスループットが低いまま、メタデータにCPUとメモリを費やす可能性があります。その影響は、操作速度、同時実行性、キャッシュの状態、およびそのディレクトリに集中している名前の数によって異なります。<block ref="b3858595805a9c8bfdd9eb4d86966268" prefix=" " category="inline-code"></block>、通常は<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の約90%で、ディレクトリのサイズが上限に近づいていることを警告します。これは、測定された遅延しきい値を示すものではありません。</block>
+  <block id="49d39299a9bd0891a40ad59f6d521007" category="paragraph">例えば、そのディレクトリ内の既知のファイルを1つ開く場合、インデックスが名前検索の役割を果たすため、すぐに結果が返ってくる可能性があります。同じディレクトリを<block ref="44ba5ca65651b4f36f1927576dd35436" prefix=" " category="inline-code"></block>で一覧表示したり、<block ref="ea170e2cafb1337755c8b3d5ae4437f4" prefix=" " category="inline-code"></block>でウォークしたり、すべての名前を読み取るアプリケーション、バックアップ、またはセキュリティスキャンを実行すると、長時間実行されたり、ハングアップしたように見えたり、クライアントまたはアプリケーションのタイムアウトが発生したりする可能性があります。その間、クライアントはごくわずかなファイルデータしか転送しません。既に開いているファイルの読み書きは、通常影響を受けません。</block>
+  <block id="3b44cfaf2e4613fd0be1df05a8d2dd27" category="paragraph">ワークロードがより大きな単一ディレクトリを必要とし、かつ再構築が現実的でない場合にのみ<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>を上げてください。アプリケーションが許容する場合は、幅の広い階層構造または深い階層構造を優先してください。</block>
+  <block id="655c059f8f77e5fbf012e668f55b5868" category="section-title">maxdir-sizeを超えるとどうなりますか？</block>
+  <block id="37893addbdd3b6d417e15531e9942dda" category="paragraph">ディレクトリファイルが上限に達した場合：</block>
+  <block id="a7fee3a94d803cfce8528eeeccd14991" category="list-text">ONTAPは、そのディレクトリに別の名前を追加する必要がある操作（作成や名前変更など）を拒否します。</block>
+  <block id="4bd1e614959e93fc3f8112d4fd384574" category="list-text">クライアントは、ENOSPC、「ファイルが大きすぎます」、NFS エラー 27、<block ref="07be006d9d1b96a6c8e1574ecf8d03b9" prefix=" " category="inline-code"></block>、またはアプリケーション固有の作成または名前変更の失敗を報告する可能性があります。</block>
+  <block id="baf2dffe748614fd87d1d72323a2cf4f" category="list-text">他のディレクトリは、容量とinodeに余裕があれば、引き続きエントリを受け入れることができます。</block>
+  <block id="c3b3a177fbf8c62f1658a52ead1bb743" category="list-text">そのボリュームには、空きデータ容量と公開iノードが残っている可能性があります。</block>
+  <block id="b8a4f83d326ecc14871cbe19755502db" category="list-text">既存のファイルを読み込むことは、ディレクトリに別のエントリを追加することとは異なり、通常は影響を受けません。</block>
+  <block id="af0497d871bb7afa16809ae6297b2ac8" category="paragraph"><block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>または<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>を超過すると、容量の問題のように見える場合があります。EMSメッセージを確認してください。クライアントエラーはinode枯渇と重複しています。<block ref="f028b2bdc233e1bb6571b4079dd2c26d" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="6341bbbdcd71e02e2bfaa4421839ca60" category="paragraph">フラットな名前空間を変更できない場合は、制御された<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>増加を評価します：</block>
+  <block id="266a1be9ee43fdbbfb124206c6b0b269" category="paragraph">平均的な成長率を目指す場合、現在の上限を約2%ずつ増額してください。既知の測定要件がある移行の場合、上限値をその要件の約2%上に設定してください。変更は即座に行われ、無停止で実施されます。</block>
+  <block id="a85df5e776877d8ff9b9a2f284d2ff23" category="paragraph">後で上限値を下げることはできますが、既存のディレクトリファイルの最大サイズを下回ることはできません。上限値を下げても、既存のディレクトリは圧縮されません。ONTAPリリースとプラットフォームでサポートされている値を確認し、変更後のパフォーマンスを監視してください。</block>
+  <block id="a8b0c839df47847d66842244c9433323" category="inline-link-macro">← 前へ：ONTAPのディレクトリインデックス作成</block>
+  <block id="a2b76cc9c6239075921caaefb957957c" category="cell"><block ref="a2b76cc9c6239075921caaefb957957c" category="inline-link-macro-rx"></block></block>
+  <block id="0229af845cd3380416ccc19bf387cb8f" category="inline-link-macro">次へ：ボリュームに関する考慮事項 →</block>
+  <block id="1e54f65fdd0f5eddbe01a804a618f8fa" category="cell"><block ref="1e54f65fdd0f5eddbe01a804a618f8fa" category="inline-link-macro-rx"></block></block>
+  <block id="d5dcdda42a9208c03ec5055ea1119b7f" category="list-text"><block ref="d5dcdda42a9208c03ec5055ea1119b7f" category="inline-link-macro-rx"></block></block>
+  <block id="13d2fdb3d05ca4dec274c2efb6ecfe53" category="summary">ボリュームの種類、ボリュームのオプション、およびボリュームの言語が ONTAP の maxdir-size の動作に与える影響について説明します。</block>
+  <block id="1fec920728d55a34b57c2cf90285c1bd" category="paragraph"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block>はディレクトリごとの上限ですが、そのディレクトリ周辺のボリュームも依然として重要です。ボリュームの種類、ボリュームのオプション、ボリュームの言語はすべて、ディレクトリファイルの増大速度と上限の管理方法に影響します。</block>
+  <block id="49d3b88c61e27530e95806100473a086" category="paragraph"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block> FlexVolとFlexGroupの両方のすべてのディレクトリに適用されます。FlexGroupのディレクトリエントリとコンスティチュエントレイアウトによって、ディレクトリファイルの肥大化速度が変わります。</block>
+  <block id="7d98517078b732298ebd050c16b0fdc2" category="section-title">FlexVol</block>
+  <block id="b9576e56d9bb4a7a0058a92233082b81" category="paragraph">FlexVolにはファイルシステムが1つ、パブリックinode供給が1つあります。<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>これは依然として各ディレクトリに個別に適用されます。単一のホットディレクトリは、そのボリュームの所有権の範囲内で処理され、クラスタに追加のノードが含まれているからといって並列処理能力が得られるわけではありません。</block>
+  <block id="39f698e46a98421aa2d38832de61df76" category="paragraph">FlexGroupは、複数のFlexVolコンスティチュエントによって支えられた1つの名前空間を提供します。これにより、集約ファイル数と容量のスケールが向上し、ノードとディスク間でのデータ分散が可能になりますが、1つの論理ディレクトリの制限<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="(" category="inline-code"></block>）をコンスティチュエント数倍にするわけではありません。</block>
+  <block id="2aa8e80d3aaf3293ed8266f246618a29" category="paragraph">次の図は、ディレクトリファイルが1つの構成要素上に保持される一方で、そのディレクトリによって命名されたファイルオブジェクトが他の構成要素上に存在できる仕組みを示しています。</block>
+  <block id="45a886b5bd028b8a7d5b50afa3acd2ad" category="image-alt">単一の構成要素上に1つのディレクトリinodeとディレクトリファイルを持つFlexGroupの図</block>
+  <block id="698f1eec7165ca39c1e7535f480d82d5" category="paragraph">以下の相違点を考慮してください。</block>
+  <block id="62cf3a6760700ed83ee0b896e3ea3fe3" category="list-text">ディレクトリエントリはリモートコンポーネント上のファイルを指すことができ、ローカルのFlexVolエントリよりも大きなディスク上の表現を必要とする場合があります。</block>
+  <block id="a8ec0db390724e3ee01e27cf3e413ded" category="list-text">そのため、同じ表示ファイル名でも、FlexVolとは異なる速度でディレクトリファイル領域を消費する可能性があります。</block>
+  <block id="96f9a2ff0abc82e57e33923291e0f347" category="list-text">ファイルとinodeの容量は構成要素ごとに維持されるため、分散と構成要素の負荷が重要となります。</block>
+  <block id="bb552c15c64ec7566298bf7e9600511c" category="list-text"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block>は、構成要素に直接ではなく、FlexGroupレベルで変更されます。</block>
+  <block id="39755a4213b422d643944d0e79a61241" category="list-text">FlexGroupボリュームを使用してアプリケーションを複数のディレクトリにシャーディングすることで、ONTAPは作業とファイルを分散する機会が増えます。</block>
+  <block id="3d89cf9b74e63b48c6ea1f39f4e42eb8" category="paragraph">結論として、リモートディレクトリエントリはより多くのスペースを必要とするため、FlexGroup の同じ<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>設定では、FlexVol よりも保持できる名前の数が少なくなることが多いです。その差がどれくらい大きいかは、データセットのレイアウトとリモート配置がどの程度行われたかによって異なります。</block>
+  <block id="04abb5a87d839ca3712d2480d4195b60" category="inline-link-macro">一般的な名前</block>
+  <block id="20132e950c3b9a7d16cab0c946805cc7" category="paragraph">FlexGroupボリュームのリモートハードリンクは、リモートに保存されているエントリの割合に応じて、ディレクトリごとの値を増加させます。大規模でフラットなディレクトリ（約85%がリモートエントリ）の場合、上限を約2倍として計画すると、実際の上限はデフォルトの320MBで約200万から260万<block ref="df7b5e22f24d65e2f48ea9fd959a9fc7" category="inline-link-macro-rx"></block>に下がります。これに対し、FlexVolでは最大約430万となります。ディレクトリ構造を広くまたは深くすることで、比率およびリモートハードリンクの増加を抑えることができます。代表的なディレクトリを使用して<block ref="77ddcb5f19832f4145345889013ab3a4" prefix=" " category="inline-code"></block>、<block ref="a96df544e36b059028e4c15d439f9a2e" prefix=" " category="inline-code"></block>、またはXCPで検証してください。</block>
+  <block id="66cbf41a87a685e6ad37ed18e6f61f06" category="section-title">ボリュームオプション</block>
+  <block id="71b1756d911f82060ac78619ad694c86" category="paragraph">以下のボリュームフィールドは、大規模ディレクトリの計画やトラブルシューティングを行う際に最も頻繁に登場するものです。</block>
+  <block id="6f16a5f8ff5d75ab84c018adacdfcbb7" category="cell">フィールド</block>
+  <block id="4ada223039411afb579ac3fe87d5c70c" category="cell">設定可能および特権</block>
+  <block id="261addf78c7b2c961032b3dd08ba0b1f" category="cell">目的</block>
+  <block id="eaec4c717b3eb151de6fc6bf46f50960" category="cell">はい、上級者向け</block>
+  <block id="b380019a397ac7747489a783812da2cb" category="cell">ディレクトリごとにより大きなファイルを許可することで、ディレクトリあたりのファイル数を増やすことができます。</block>
+  <block id="c0fd863d5a9b1fdb88a261d148882a48" category="cell"><block ref="f24ba6971ba5e1b4ac8a13498a3c871f" prefix="" category="inline-code"></block></block>
+  <block id="0d26a90b48bc95ef2f5d20d662ae578c" category="cell">はい、管理者</block>
+  <block id="9f06002a7dbf649d2c740be46c68c27d" category="cell">ディレクトリインデックスをパブリックinode空間に移動することで、サポートされているレプリケーションとリストアの移植性を確保します。</block>
+  <block id="fd1a5d9dc9ecb5f64dc430854f6a9387" category="cell"><block ref="72282239ba49ec548ea8f906c44d48f6" prefix="" category="inline-code"></block></block>
+  <block id="e453d9ad332d3909374c45d99c1a9dc7" category="cell">いいえ、高度な</block>
+  <block id="66b063093f18ef8cf197ca6c61f7ec27" category="cell">公開ディレクトリインデックスのinodeが存在するかどうかを報告します。</block>
+  <block id="9f1b892084e7200f935582e3a8f8b09f" category="cell"><block ref="0720849131310db175fa5c1a73edd94f" prefix="" category="inline-code"></block></block>
+  <block id="be6ff02cb1cc624948f2ba2f60214065" category="cell">ボリュームに最適化されたホールパンチ済みスパースディレクトリが含まれているかどうかを報告します。</block>
+  <block id="600f831989a08b27c943912bd409b7a9" category="cell"><block ref="8512ae7d57b1396273f76fe6ed341a23" prefix="" category="inline-code"></block></block>
+  <block id="49d12e3510dba2acf8fec929611ed5f7" category="cell">限定、管理者</block>
+  <block id="2e57cf9e6991a1baf784fe250b2d78cb" category="cell">名前の解釈を制御します。非ASCII名と4バイトUTF-8 <block ref="a45e9a54ad98779d8ad2cc5d230b186c" prefix="(" category="inline-code"></block>）文字を使用すると、ディレクトリあたりの名前の数が減る場合があります。<block ref="fa44aa5811e5b45948ee7730ba759cc4" category="inline-xref-macro-rx"></block>を参照してください。</block>
+  <block id="72c36bbcb899a758965b592d07710198" category="cell"><block ref="ca7efa87c2332fe7ee734351674695cc" prefix="" category="inline-code"></block></block>
+  <block id="b60a82d043ff8ff746703eff1b1216f5" category="cell">ファイルシステム分析機能を有効にします。名前空間スキャンはファイル数の多いボリュームで作業を追加する可能性がありますが、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>を変更しません。</block>
+  <block id="e32c0e4d28f73d647c0fa5cbee123293" category="section-title">ボリュームの言語</block>
+  <block id="adddb01ce8cd0433ab43d2e0efd1bd1b" category="paragraph">ボリューム<block ref="125f441bc9cbc0508cd433b4e293f279" prefix=" " category="inline-code"></block>の設定は、NFSがクライアントのエンコーディングとディスクに保存されているUnicode名との間で名前を変換する方法を制御します。作成時に<block ref="125f441bc9cbc0508cd433b4e293f279" prefix=" " category="inline-code"></block>を設定しない限り、ボリュームはSVMのデフォルト設定を継承します。ONTAPのデフォルトは<block ref="75b7d8d431c0a1daf597a17e359442e0" prefix=" " category="inline-code"></block>です。ONTAP 9.5以降、<block ref="a45e9a54ad98779d8ad2cc5d230b186c" prefix=" " category="inline-code"></block>は余分なバイトをビットバッグに格納する代わりに、4バイトのUTF-8名（絵文字やその他のUnicode補助文字）を格納します。</block>
+  <block id="c27993aee706b0a13d388352ae88ab65" category="paragraph">言語コード自体は、ディレクトリに格納できるASCII名の数には影響しません。<block ref="75b7d8d431c0a1daf597a17e359442e0" prefix=" " category="inline-code"></block>、<block ref="95a7bb7a8d0ee402edde95bb78ef95c7" prefix=" " category="inline-code"></block>、<block ref="fdf101480f27348897c4d400d18617de" prefix=" " category="inline-code"></block>、<block ref="cfaf87dbee404bb459b7f68f1e26dc47" prefix=" " category="inline-code"></block>、および<block ref="a45e9a54ad98779d8ad2cc5d230b186c" prefix=" " category="inline-code"></block>はすべて、同じ文字に対して同じUnicodeディレクトリパッキングを使用しています。カウントを変えるのは、その言語が保持することを意図した名前の文字です。非ASCIIテキストはより広い形式で保存され、<block ref="a45e9a54ad98779d8ad2cc5d230b186c" prefix=" " category="inline-code"></block>ボリューム上の4バイトの補助文字はさらに広い形式で保存されます。ボリュームエンコーディングで名前を表現できないNFSv3クライアントも、ONTAPが8文字のNFS代替名を保存する原因となる場合があり、その場合はさらに多くのディレクトリ領域が必要になります。</block>
+  <block id="154c5f29504cd1804747db057c31c294" category="paragraph">以下の例では、320 MB<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>で32文字の名前を使用し、<block ref="5058f1af8388633f609cadb75a75dc9d" prefix=" " category="inline-code"></block>および<block ref="58b9e70b65a77700ba66e9c64d6b9f89" prefix=" " category="inline-code"></block>エントリを含みます。これらは計画上の数値であり、保証ではありません。</block>
+  <block id="51ca06967ad75f3e56e837398ac1adb7" category="cell">典型的な使用例</block>
+  <block id="1ed04bb9b78adc26256db18487c7c242" category="cell">例：32文字の名前スタイル</block>
+  <block id="7dcd9451e1a72253797b6b452b3ddcc4" category="cell">デフォルトのASCIIと比較</block>
+  <block id="fe7ac79ef01a8073842460a2f37fd208" category="cell"><block ref="75b7d8d431c0a1daf597a17e359442e0" prefix="" category="inline-code"></block>（ONTAP デフォルト）</block>
+  <block id="e9804d05aa44dc7fa48535451a1898d4" category="cell">UTF-8 を使用した POSIX C ロケール。新しい SVM とボリュームは、<block ref="125f441bc9cbc0508cd433b4e293f279" prefix=" " category="inline-code"></block> が設定されていない限り、これを継承します。</block>
+  <block id="1b2fd320ebdca0835125bdcbf92fcfa7" category="cell">ASCII、例えば<block ref="08e0d6d1334bdf2478002785281fde99" prefix=" " category="inline-code"></block></block>
+  <block id="a4a32c4764653e50488bff6ce2eb815b" category="cell">ベースライン</block>
+  <block id="581f1ace440271cc28becc57d6df1301" category="cell"><block ref="95a7bb7a8d0ee402edde95bb78ef95c7" prefix="" category="inline-code"></block></block>
+  <block id="f109fa3e616d94165bcc94c68a3e7722" category="cell">米国英語 UTF-8</block>
+  <block id="1d57bd6ee1811c1e1105ce9dce2f8701" category="cell">同じASCIIまたは基本ラテン名</block>
+  <block id="f9ea16df518e760c4585c37133c20464" category="cell">ASCII名の場合、デフォルトと比較して削減なし</block>
+  <block id="01122e6ae115252acd1db2e0f98920a3" category="cell"><block ref="fdf101480f27348897c4d400d18617de" prefix="" category="inline-code"></block></block>
+  <block id="e6c1c0ac2b9e58537754069a30103551" category="cell">ドイツ語 UTF-8（ウムラウトを含む <block ref="8419b71c87a225a2c70b50486fbee545" prefix="(" category="inline-code"></block>,<block ref="a172480f4e21d0a124bac19c89569c59" prefix=" " category="inline-code"></block>,<block ref="c03410a5204b21cd8229ff754688d743" prefix=" " category="inline-code"></block>,<block ref="e11ce22edb052b40813b1e145b704775" prefix=" " category="inline-code"></block>）</block>
+  <block id="674167fc282994c0681d8a5eb3d75d60" category="cell">アクセント付きラテン語、例えば<block ref="051a9f655364a06ac6776997096ee46f" prefix=" " category="inline-code"></block></block>
+  <block id="47322f4f13c85268734fa6adf806f695" category="cell">デフォルトのASCIIカウントの約49%</block>
+  <block id="0b8fcd28c26325bc27752d64ea810d6b" category="cell"><block ref="cfaf87dbee404bb459b7f68f1e26dc47" prefix="" category="inline-code"></block></block>
+  <block id="82bea84e97bcd03721471a0996086d08" category="cell">日本語UTF-8（基本多言語面におけるCJK）</block>
+  <block id="b5c39a3ddc184510f9dacf6dde3c93c3" category="cell">同じ32文字の長さの日本語名</block>
+  <block id="3c5a20374dfa414f2539014b60bbfaf4" category="cell"><block ref="a45e9a54ad98779d8ad2cc5d230b186c" prefix="" category="inline-code"></block></block>
+  <block id="19b7dfb4a618720d24aa384ebbee0700" category="cell">4バイト UTF-8（ONTAP 9.5以降）。名前に絵文字やその他の補助文字が含まれる場合に使用します。</block>
+  <block id="effc3f40c1d145f932da22dd66162d29" category="cell">通常のドイツ語や日本語のテキストは、上記のUTF-8の行と同様に圧縮されます。補助文字（例えば絵文字）を含む32文字の名前は、より広くパックされます。</block>
+  <block id="d6d4bc8334f84e3348e0a559f1b229e2" category="cell">補助文字が存在する場合、デフォルトのASCII文字数の約41%</block>
+  <block id="8309a14c025dc3f3950e8a58e92b6b0c" category="paragraph">名前が基本 ASCII のままの場合、<block ref="75b7d8d431c0a1daf597a17e359442e0" prefix=" " category="inline-code"></block>から<block ref="95a7bb7a8d0ee402edde95bb78ef95c7" prefix=" " category="inline-code"></block>、<block ref="fdf101480f27348897c4d400d18617de" prefix=" " category="inline-code"></block>、<block ref="cfaf87dbee404bb459b7f68f1e26dc47" prefix=" " category="inline-code"></block>、または<block ref="a45e9a54ad98779d8ad2cc5d230b186c" prefix=" " category="inline-code"></block>に切り替えても、ディレクトリごとの件数は減りません。NFS と SMB が混在するアクセスでは、これらの数値に加えて NFS 代替名または SMB 8.3 エイリアスを追加できます。</block>
+  <block id="953b567435ab2bcfe100f453798ea51b" category="paragraph">テーブルの後ろにある梱包規則については、<block ref="641d8e688b09b8b149bf7a7641f804bc" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="f1693e5c76ff79f49d3feaa9451bf0fd" category="inline-link-macro">← 前へ：maxdir-size の影響</block>
+  <block id="64014312f95c1d2dc88bd35dfb2cd55d" category="cell"><block ref="64014312f95c1d2dc88bd35dfb2cd55d" category="inline-link-macro-rx"></block></block>
+  <block id="645d0424d7dc05ad9ed38e26a87ab142" category="inline-link-macro">次は、maxdir-sizeの機能、EMS、および監視についてです →</block>
+  <block id="d935b1e447c5ac947e3f4472ab22b81f" category="cell"><block ref="d935b1e447c5ac947e3f4472ab22b81f" category="inline-link-macro-rx"></block></block>
+  <block id="a35775001cd4bf1d7af10b6026a0e765" category="inline-link-macro">SMBマルチバイトファイル、ディレクトリ、およびqtree名</block>
+  <block id="97d6197e87f8f12e321dd92b7aacc751" category="list-text"><block ref="97d6197e87f8f12e321dd92b7aacc751" category="inline-link-macro-rx"></block></block>
+  <block id="c1f1980b7c7e45a55ec1112b20ba2965" category="summary">ONTAP の maxdir-size リリースの機能強化、EMS イベント、および大規模ディレクトリの監視に関するガイダンスを確認します。</block>
+  <block id="b36a3a8750fa7b08315b4ded5282980a" category="paragraph">ONTAP リリース機能、EMS イベント、およびディレクトリ サイズ測定を使用して、大規模ディレクトリの作成が失敗する前にその増大を検出します。</block>
+  <block id="f1daad01ea43c9f49b00e1ce30a01ac5" category="paragraph">表示方法については<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>、ディレクトリオブジェクトの現在のサイズについては、<block ref="309f0393f6b9933e0b779d252fb16f5f" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="d1d66f8aea5faaee0ad667883a8b166d" category="section-title">ONTAP の maxdir-size に関連する機能と強化</block>
+  <block id="6f5d65265f83dc677b44095a40b11f53" category="cell">ONTAPリリース</block>
+  <block id="e7e0038bb30579a3120d266861982881" category="cell">機能</block>
+  <block id="2d516701e0d06f054e2784c2106d7aa2" category="cell">ONTAP 9.2</block>
+  <block id="06d39fa10ac6b8b99d498b31732793cd" category="cell">永続的なディレクトリインデックス作成には約2MiBの容量が必要です。<block ref="4cbfcbcec4de4349b3a0d749ca877c43" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="0f530163a3caf24c94571048a364e3a8" category="cell">ONTAP 9.5（文書化済み）</block>
+  <block id="6c5aced248a3c6c9c25798356a0e4fc9" category="cell">最適化されたスパースディレクトリ<block ref="7e464cb367dc4f9c8a3200495bed4def" prefix="(" category="inline-code"></block>)：インデックス付きディレクトリ内の空のブロックにホールパンチを実行します。公開ドキュメントには、それ以前の導入を裏付ける記述はありません。<block ref="63c6d23f7ae00c851617cae48ae139d9" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="8020ad245e7cbc2ac49c84b7f4ace684" category="cell">ONTAP 9.14.1</block>
+  <block id="2ec4cd445a752b94ea85eaf7e8cd74eb" category="cell">デフォルトは 320 MB です<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>。増加させる場合は、リリースおよびプラットフォームでサポートされる最大値を確認してください。<block ref="641c8ac33fa4c945e7b9ba33e11449a5" category="inline-link-macro-rx"></block> および <block ref="4b66c5aefb698bbc8955a45cd4aaeff1" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="ea1ad38d91c2e87ef2e9571bd55654fd" category="cell">ONTAP 9.17.1</block>
+  <block id="c20ce9d4d92b84da048b43d474ec7066" category="cell"><block ref="37c239a2b18b707cc085f3d2e9bc244b" prefix="" category="inline-code"></block>およびサポートされているSnapMirror転送用のパブリック ディレクトリ インデックス inode。<block ref="4146811f913e7364532462424a065508" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="3c64285bfea487b7f27647af13e80463" category="section-title">maxdir-sizeに関連するEMSメッセージ</block>
+  <block id="8f195f96437d9d26096e4e62b6ab97f1" category="section-title"><block ref="209419a97bf9bc94c34b7d7bdc1eefac" prefix="" category="inline-code"></block></block>
+  <block id="00525afb520b4f25dd7797c9668a1f69" category="paragraph">占有されているディレクトリエントリの数が、設定された警告パーセンテージを超えました。ボリュームIDとファイルIDを使用してディレクトリを特定し、そのエントリ数、現在のディレクトリファイルサイズ、および増加パターンを評価してください。</block>
+  <block id="f9918740302eff7c15a58ec1f54faf39" category="section-title"><block ref="b3858595805a9c8bfdd9eb4d86966268" prefix="" category="inline-code"></block></block>
+  <block id="d8f98c12148162fe227fc0d6ef26f09c" category="paragraph">ディレクトリが設定された警告パーセンテージ（通常は90%）に達しました。これは<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>制限の値です。イベントから取得したボリュームIDとファイルIDを使用して、ディレクトリパスを解決してください。上限に達する前に、名前空間を再構築するか、増加計画を立ててください。</block>
+  <block id="a688c4132d4feddc7eb83c45927c68bf" category="section-title"><block ref="a93cc355e985a40fb5a0dc5af652b716" prefix="" category="inline-code"></block></block>
+  <block id="84779849dcc6c69c39096697bb0b9525" category="paragraph">ディレクトリが設定された警告パーセンテージ（通常90%）に達したか、それを超えました。ボリュームの現在の<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>は、リリースで定義されているデフォルト値を下回っています（EMSリファレンスでは、そのデフォルト値はシステムメモリの1%とされています）。これは通常の<block ref="b3858595805a9c8bfdd9eb4d86966268" prefix=" " category="inline-code"></block>状態とは異なります。デフォルト値に戻すか、ディレクトリ構造を再構築するか、またはサポートされている別の値を選択するかを決定する前に、設定された上限値がデフォルト値を下回っている理由を特定してください。</block>
+  <block id="bc388e4620dcb0472eed4ddc4cbaf921" category="section-title"><block ref="07d7a78c0706069f9b9b8c5286480955" prefix="" category="inline-code"></block></block>
+  <block id="6ba87365b2de68c800dd4872d5daeff6" category="paragraph">ディレクトリに到達しました<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>。名前を追加する操作は、スロットが再利用可能になるか、名前空間が再構築されるか、または制限が引き上げられるまで失敗します。</block>
+  <block id="e730b1c2da806045cca48d040e7507c6" category="section-title"><block ref="ac4b41a0a1a8b26be2adb83d19c9ed53" prefix="" category="inline-code"></block></block>
+  <block id="f6ec79cdb9990bbbc8aec5e153a626fb" category="paragraph">起動時に、ONTAP は設定値がデフォルト値よりも高いボリュームに対して、この NOTICE を発行します。これは、非常に大きなディレクトリに対する操作にはパフォーマンス低下が伴う可能性があることを管理者に警告するものです。</block>
+  <block id="be27160db316252ff228898a9da6f576" category="section-title">スパース<block ref="1e36542efa12c0d5b70478c43512c5cf" prefix=" " category="inline-code"></block>イベント</block>
+  <block id="4bcb5f606b0dc5a63fea130327f4fd56" category="paragraph"><block ref="1e05e4185307973284a525fff6f0e349" prefix="" category="inline-code"></block>および<block ref="f88fb72e412b68d07a884e022b7339e5" prefix=" " category="inline-code"></block>は、大規模なスパース ディレクトリの列挙処理におけるコストを特定します。これらはディレクトリのレイアウトやハイウォーター動作に関連していますが、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>自体に到達したことを意味するわけではありません。</block>
+  <block id="f7572bed4a4625e63bfa9cbd17115b40" category="inline-link-macro">← 前へ：ボリュームに関する考慮事項</block>
+  <block id="8193c6e8bfefb121baa52d3cd072d6ab" category="cell"><block ref="8193c6e8bfefb121baa52d3cd072d6ab" category="inline-link-macro-rx"></block></block>
+  <block id="40ebfea0ae8e9f8bb5e25c1e6e72bdc5" category="inline-link-macro">次へ：ファイル数の増加とinode容量 →</block>
+  <block id="0dab0dfcee1fb702ea32dcc56afb7de6" category="cell"><block ref="0dab0dfcee1fb702ea32dcc56afb7de6" category="inline-link-macro-rx"></block></block>
+  <block id="35c3f73ea40769affdcc2b66e8773dd6" category="inline-link-macro">WAFL ディレクトリ EMS イベント</block>
+  <block id="9d8cd8e83eaf3f571cda8366536eda5f" category="list-text"><block ref="9d8cd8e83eaf3f571cda8366536eda5f" category="inline-link-macro-rx"></block></block>
+  <block id="5c8153e9dbb14f4bf5ca034a89dc8137" category="list-text">link:https://docs.netapp.com/us-en/ontap-ems/wafl-maxdirsize-events.html<block ref="55e4a9f40d4324dde2d741b8c6ef7833" prefix="[" category="inline-code"></block> EMSイベント^]</block>
+  <block id="cd3d80d5b6a93554cc5a15deefa0304d" category="summary">ONTAP の inode カウンタの変化と、ファイル数の増加が容量および NAS ワークロードに与える影響について説明します。</block>
+  <block id="df0bc5daa918aaa12a572a226f6a4efa" category="doc">ONTAPにおける大量のファイル数とinode容量</block>
+  <block id="fa62e2b12eed1d92c472bebf6250e34c" category="paragraph">ONTAPは、設定されたパブリックinode制限、現在のパブリックinode使用量、および割り当てられたパブリックinodeファイルの高水位容量を個別の値として報告します。</block>
+  <block id="32dc9a8b96e8cc17c92a07d447f756dd" category="section-title">ONTAP でのファイル数の増大</block>
+  <block id="8c8046da88cdddd2acd08cca9a502008" category="paragraph">ONTAPはファイルシステムオブジェクトを追跡するためにinodeを使用します。CLI、REST API、またはSystem Managerで以下のボリューム値を使用して、パブリックinodeの使用状況を監視できます：</block>
+  <block id="3d314dffe03eaf1266151ed2a32e422d" category="list-text"><block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix="" category="inline-code"></block>は、設定されたパブリックinodeの上限です。</block>
+  <block id="010fafa16e0064796ac87b517ca30b22" category="list-text"><block ref="d92450c6cbe85c59736df0f89d654a4d" prefix="" category="inline-code"></block> は、現在使用中のパブリック iノードの数です。</block>
+  <block id="16c9f7072a581fc8ce87be837c38e255" category="paragraph"><block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>オプションは、パブリック inode ファイルに割り当てられるパブリック inode エントリの数を制御します。<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>の上限を増やしても、inode または inode ファイル領域がアクティブ ファイル システムにすぐに割り当てられるわけではありません。その代わりに、ボリュームで許容される上限値を設定します。</block>
+  <block id="d0539318824b307310737a8fc38a04d6" category="paragraph">ファイル、ディレクトリ、ACL、名前付きストリーム、またはパブリックディレクトリインデックスを作成すると、パブリックinodeファイルが大きくなる可能性があります。オブジェクトを削除すると<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>パブリックinodeの数が減少し、再利用のためにパブリックinodeが返されますが、パブリックinodeファイルのサイズは縮小しません。</block>
+  <block id="6cd60d6d844d8d179219b3850d0b1345" category="inline-link-macro">監視例</block>
+  <block id="a7f7eea89f3ff531adf3cd3ac92fac33" category="paragraph">ファイル数の使用状況の詳細を表示する方法の例については、<block ref="fb6fe807c77b0140379407b7696e6a6c" category="inline-link-macro-rx"></block>を参照してください。サイジングのガイダンスについては、<block ref="d5dcdda42a9208c03ec5055ea1119b7f" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="912f61d96b2bda4885c7780de239a78b" category="section-title">inodeカウントの増加方法</block>
+  <block id="c119210404c1ff991811c9a196b484f4" category="inline-link-macro">プライベートiノード</block>
+  <block id="9347bd8eaae816e5fbe0a721e9890225" category="inline-link-macro">公開iノード</block>
+  <block id="a0f5b5781bfd8b8daf85290a0fdac429" category="paragraph">すべての inode がパブリック inode 制限にカウントされるわけではありません。<block ref="b9a04f505d018df26e5d0eb02c84a40e" category="inline-link-macro-rx"></block>はカウントされません。<block ref="8d60fb74a1ab87f3f19b7b85ce0b8d09" category="inline-link-macro-rx"></block>ファイル、ディレクトリ、ACL、名前付きストリーム、パブリックディレクトリインデックスなどはカウントされます。</block>
+  <block id="3707587b616e410ca9f19f1d45363c5d" category="paragraph"><block ref="d92450c6cbe85c59736df0f89d654a4d" prefix="" category="inline-code"></block>は、パブリック inode が使用されるたびに増加します。割り当てられた inode ファイルに既に空きパブリック inode が存在する場合、<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>は引き続き増加しますが、<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>は増加しません。空きパブリック inode が残っていない場合、ONTAP はパブリック inode ファイルを最大<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>まで拡張し、両方の値が増加します。</block>
+  <block id="8cba1f29fa8b4c19ede29ffe17ca4913" category="paragraph">一般的な操作には以下が含まれます：</block>
+  <block id="3e710f5b48fc6a14f8a94af2f3fdd275" category="list-text">ファイル、ディレクトリ、シンボリック リンク、または特殊ファイルの作成：親ディレクトリにパブリック inode を +1 し、新しい名前を追加します。</block>
+  <block id="304317820adb83ca285f285f3f86106c" category="list-text">ハードリンクを作成します：親ディレクトリにパブリックinodeが+0個、名前が+1個追加されます。</block>
+  <block id="0653c683f701f71c65303040660c5739" category="list-text">ACL inodeがまだ存在しないオブジェクトにNTFSまたはNFSv4 ACLを保存する場合：最大+1個のパブリックinode（ACL共有の対象）。</block>
+  <block id="a7151103f77184aa8cd819737b5c18e7" category="list-text">名前付きストリームを作成する場合：ストリーム用のパブリック inode が +1 され、必要に応じてストリームディレクトリ inode も追加されます。どちらも親ユーザーディレクトリに名前を追加しません。</block>
+  <block id="0230fae687a8e8d40050a3f64b90eca8" category="list-text">ディレクトリインデックスを公開領域に移動：インデックス付きディレクトリ1つにつき、約+1つの公開inodeが追加されます。</block>
+  <block id="64d506c9b6befee31a4d4d34e34171f4" category="paragraph">これらのオブジェクトタイプ、ACL共有、および<block ref="c7e76b952bc9fbc4a8f489df983e7bca" prefix=" " category="inline-code"></block>などのストリームが可視ファイル数に与える影響については、<block ref="b380ffd86e368ce2eca63e3ab71be44f" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="a7526b594c241f9b738e1d0bbb5fb510" category="paragraph"><block ref="d92450c6cbe85c59736df0f89d654a4d" prefix="" category="inline-code"></block>パブリックiノードが空き状態になると減少します。例えば、削除が完了し、オブジェクトがゾンビとして保持されなくなった後などです。<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>は最高水位を維持したままで、inodeファイルのサイズは減少しません。</block>
+  <block id="d740944a50f09961bc206925911c5f55" category="paragraph">新しいファイルは、割り当てられた inode ファイルがいっぱいになるまで再利用不可のレコードを作成し、その後、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>およびボリューム容量が許可する場合、ONTAP はそれを拡張します。</block>
+  <block id="41b41e1faade50dcf6cf2ec0bc61fbb6" category="section-title">ファイル数が多いとNASのワークロードにどのような影響があるか</block>
+  <block id="68a09bf627ba102abfaa332e419aeaf0" category="paragraph">ファイル数が多いほど、データ転送に対するメタデータ作業の割合が増加します。一般的な操作には以下が含まれます：</block>
+  <block id="c75b4cb5248fbc92d447377a6a284902" category="list-text">iノードの割り当てと解放</block>
+  <block id="fb271eac7e8d09ef23f6edd653a4574a" category="list-text">ディレクトリ名とファイルハンドルの検索</block>
+  <block id="afff347d012af405289b9ed702b8fc39" category="list-text">属性、権限、タイムスタンプの読み取りと更新</block>
+  <block id="b5623918244e2c26217c76be248a2465" category="list-text">ファイルの開閉、名前変更、リンク、削除</block>
+  <block id="9f1ff9e39c1a5ae04d4df9f9614cc106" category="list-text">ディレクトリの列挙とディレクトリツリーの走査</block>
+  <block id="910303e450130fb30d245ec4888eca34" category="list-text">分析、バックアップ、レプリケーション、またはセキュリティ機能のための名前空間のスキャン</block>
+  <block id="f018ae575f770833970d37391a68b2fd" category="paragraph">パフォーマンスへの影響は、処理速度、並行処理、プロトコル動作、名前空間レイアウト、キャッシュ状態、およびノードリソースによって異なります。ファイルの総数だけでは、パフォーマンスを予測することはできません。多数のアクティブなディレクトリに分散された数百万のファイルは、単一のディレクトリ空間に集中した同数のファイルよりも、より多くの並列処理能力を発揮できる可能性があります。</block>
+  <block id="bc60294d1aed1b624d03fd470ed56c94" category="paragraph">各 ONTAP 9 の inode は、inode ファイル内で 288 バイトを占有します。計画上の概算値は次のとおりです：</block>
+  <block id="6edea3dbfd81f94728242709326f04a0" category="cell">inode</block>
+  <block id="b0b29e273bd1a651beb24f61f8763324" category="cell">生のinodeバイトのおおよその値</block>
+  <block id="4fa3e15c51e9387823150c8e637b2bb1" category="cell">おおよそのバイナリ容量</block>
+  <block id="2db45ec60dc8fbc6790cd1635c3631c8" category="cell">1 million</block>
+  <block id="2e17a6d1f559aa98d7e2cab3f04c6e32" category="cell">288,000,000</block>
+  <block id="a8c613128e42722ff33cd177a4693c25" category="cell">274.7 MiB</block>
+  <block id="73468e79f84f938f44c7638d1b35eeee" category="cell">100 million</block>
+  <block id="6f437a4caca3752bad15f71a4ba7e84b" category="cell">28,800,000,000</block>
+  <block id="98d8b96441f1ab107c5b5c02c11ed10b" category="cell">26.8 GiB</block>
+  <block id="8452946a913c5da5d0753b575bc8e7b6" category="cell">10億</block>
+  <block id="ad033e0c155b9d4b7a5d0c4d79fdfd2d" category="cell">288,000,000,000</block>
+  <block id="1021f597bce7c2e1154389203e042626" category="cell">268.2 GiB</block>
+  <block id="8cace8707741eeec50cbd011567060fa" category="paragraph">これらの数値はinodeレコードを表しています。観測される物理的な使用状況には、inodeファイル構造、ブロック丸め、Snapshotの保持、その他のメタデータも含まれる場合があります。</block>
+  <block id="3df8c3f1376c8cdb3a07342970879075" category="paragraph"><block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を増やすと、許可される上限が引き上げられます。対応するすべての inode ファイル スペースがすぐに割り当てられるわけではありません。容量は、inode ファイルの増加に伴って消費されます。その後、パブリック inode の数が 100 万個になると、生の inode レコードは実際の volume 容量の 288 MB（約 274.7 MiB）を使用します。inode ファイルは縮小しないため、容量計画では過去の最大割り当て量を考慮する必要があります。後で<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を下げることはできますが、<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>を下回ることはできません。そのフィールドは、割り当てられた inode ファイルの最大値であり、ピーク時の<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>や以前の<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>設定ではありません。たとえば、inode ファイルがすでに 100 万レコードに増加している場合、現在の<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>がそれよりはるかに少なくても、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を 100 万未満に設定することはできません。inode ファイルがそこまで増加していない状態で<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を増やした場合は、現在の容量まで再度下げることができます。</block>
+  <block id="9e565f9944243bd237641016ddfd57af" category="paragraph">inode ファイルの使用済み物理容量は、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>使用容量とは別です。<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>各ディレクトリの名前マッピングファイルのバイトサイズを制限します。320 MB のディレクトリファイルは、そのディレクトリ内の 320 MB のディレクトリファイルブロックを使用します。同様のサイズの inode ファイルはボリューム全体の inode 集団を表し、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>による制限を受けません。</block>
+  <block id="f477ca7a4fca7ce4341bfb346b717a91" category="paragraph">容量単位でinodeファイル領域を検査する方法と、<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>をinode数として読み取る方法については、<block ref="2dff3dea147415edcfacac4b9f62a123" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="846ea40bcb01d0cfae334c9e38dc1e62" category="inline-link-macro">← 前へ：maxdir-size の機能、EMS、および監視</block>
+  <block id="fd61e393d1adb9cc2692b2b10885c4db" category="cell"><block ref="fd61e393d1adb9cc2692b2b10885c4db" category="inline-link-macro-rx"></block></block>
+  <block id="d8ef0f52ff44654c59bd5c70d3b97007" category="inline-link-macro">次：ONTAP inode の種類 →</block>
+  <block id="06c54e0a14ad8cf0e6ee2f0bf3aadbfe" category="cell"><block ref="06c54e0a14ad8cf0e6ee2f0bf3aadbfe" category="inline-link-macro-rx"></block></block>
+  <block id="2ae44a68f4b4d01216f8f81ea0603975" category="list-text"><block ref="2ae44a68f4b4d01216f8f81ea0603975" category="inline-link-macro-rx"></block></block>
+  <block id="5fc88fb8d7c0a48e0cdaec0da30885fc" category="list-text"><block ref="5fc88fb8d7c0a48e0cdaec0da30885fc" category="inline-link-macro-rx"></block></block>
+  <block id="3aa974be5bd8e2d0a5d6b755a3a91869" category="summary">ONTAP のiノード、パブリックおよびプライベートiノードのタイプ、ACL iノード、および名前付きストリームについて説明します。</block>
+  <block id="532bda85ba7e2c90b2885fb8565ad5d2" category="paragraph">ONTAPは公開inodeを使用して、FlexVolおよびFlexGroupボリュームに存在するファイルシステムオブジェクトを表します。各ボリュームには定められた最高水位制限があり（<block ref="2ae44a68f4b4d01216f8f81ea0603975" category="inline-link-macro-rx"></block>を参照）、ファイルシステムでは公開inodeもその制限にカウントされます。</block>
+  <block id="9ee87b81cee516ac1b6fabd88e995929" category="section-title">inodeとは何ですか？</block>
+  <block id="f01c2fde72a00fb484cb5935a127d5ce" category="paragraph">一般的に、inodeとは、オブジェクトのファイルシステム上の記録のことです。これは、識別情報や、種類、所有者、タイムスタンプ、権限などのメタデータを格納し、オブジェクトのデータを指し示します。オブジェクト名は、inode自体ではなく、ディレクトリに格納されます。</block>
+  <block id="6faa04e4046f2d210af007bf4192aa47" category="paragraph">ONTAP では、WAFL はこれらのレコードを各 FlexVol または FlexGroup 構成要素の非表示のボリュームレベル inode ファイルに保存します。パブリック inode はボリュームの<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>設定（一般的に maxfiles と呼ばれます）にカウントされます。パブリックオブジェクトを作成するとパブリック inode の使用量が増加しますが、プライベート inode では増加しません。inode ファイルの容量と拡張については、<block ref="bd5854be14b52897f2541532f3aba6e2" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="b0152bca3cd3e12b12653639e648d02d" category="paragraph">次の図は、パブリック inode ファイルが<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>、<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>の上限値、およびボリューム内で消費される容量とどのように関連しているかを示しています。</block>
+  <block id="4e3d6b60b04f00636be47c42bddea3df" category="image-alt">inodefile-public-capacity にネストされた files-used を示す ONTAP ボリューム inode ファイルの図</block>
+  <block id="c053bb8ceb267113725ce995743cd576" category="section-title">ONTAPにおけるinodeの種類</block>
+  <block id="bbe0e96660867244bd4810ae228b7196" category="paragraph">iノードの*タイプ*は、それがどのような種類のオブジェクトを表すかを示します。ONTAPはまた、各iノードを*パブリック*または*プライベート*iノード空間に配置します。パブリックiノードはmaxfilesにカウントされますが、プライベートiノードはカウントされません。ディレクトリインデックスのiノードは、ボリューム構成に応じてどちらの領域にも存在できます。</block>
+  <block id="fdbbd211c70d7de2025f2e4795ed54da" category="paragraph">パブリック iノードはボリュームのパブリック iノード ファイルから割り当てられ、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>および<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>にカウントされます。これらには、クライアントから見えるオブジェクトと、ディレクトリエントリとして表示されない公開メタデータオブジェクトが含まれます。</block>
+  <block id="4474f0ba254c55b98ac71c2477b3e222" category="paragraph">以下の表は、ONTAPで見つかったパブリック inode のリストとそれらに関する追加情報を示します。link:high-file-count-workloads-02-maxdirsize.html<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="[" category="inline-code"></block>] 列は、そのオブジェクトを作成すると親ディレクトリにディレクトリエントリが追加され、その結果、親のディレクトリファイルが拡張されるかどうかを示します。</block>
+  <block id="5638367ba3b072047e123d532bd6dfc7" category="cell">それが表すもの</block>
+  <block id="589ee08049edb688644f0f52a83ad2c1" category="cell">また、link:high-file-count-workloads-02-maxdirsize.html<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="[" category="inline-code"></block>]にもカウントされます。</block>
+  <block id="0b3f7771068243a31926076a7160b512" category="cell">通常ファイル</block>
+  <block id="38a7dedb51489346cccca11e779bddf8" category="cell">デフォルトのファイルの内容と属性</block>
+  <block id="8b971932a0809e0ab56678a49d30e086" category="cell">*はい。*ファイルを作成すると、親ディレクトリに名前が追加されます。</block>
+  <block id="38d4327360a8eb3180467b849f903316" category="cell">ディレクトリ名とディレクトリ自身のinode</block>
+  <block id="a19896c5ecb4a0116b1ebeab5b9b6eaf" category="cell">*はい。*ディレクトリを作成すると、親ディレクトリに名前が追加されます。新しいディレクトリには独自のディレクトリファイルもあり、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>それぞれ独立して制限されます。</block>
+  <block id="de9745068ffb9b30ccf6e2671c4c1415" category="cell">シンボリック リンク</block>
+  <block id="4aef5956805ae4de2f9e5c32ceedc0bd" category="cell">ファイルデータではなくパス名ポインタ</block>
+  <block id="fa973a3c5ecc951758ac607044ecc6c2" category="cell">*はい。*^{asterisk}^ シンボリック リンクを作成すると、親ディレクトリに名前が追加されます。</block>
+  <block id="ca4804e0390550cfebdf8e8d304df719" category="cell">特殊ファイル</block>
+  <block id="c56fd7abddf3ccaaa72f8a34148fad06" category="cell">UNIX FIFO、ソケット、またはデバイスノード</block>
+  <block id="477bac1d6ff8863c39f2cb1c51c5c3a9" category="cell">*はい。*特殊ファイルを作成すると、親ディレクトリに名前が追加されます。</block>
+  <block id="527a24318df825d8c4d39ea25c55a497" category="cell">名前付きストリーム</block>
+  <block id="179a157f5d7b6b2f4ba57a163008f5b5" category="cell">ファイルのデフォルトコンテンツ以外の追加データ（NTFS代替データストリーム）</block>
+  <block id="009fcd5dec7049dc2d26607cf2008299" category="cell">*いいえ。*ストリームは、親ユーザーディレクトリ内の名前ではありません。</block>
+  <block id="8c78f45031a0a093ee91e897130edde4" category="cell">ストリームディレクトリ</block>
+  <block id="368209baf47a3a58a4851ba6d3c93f9f" category="cell">ファイルの名前付きストリームの名前を保持する隠しコンテナ</block>
+  <block id="b972271d813a0bf3061d08d7fe6b06ee" category="cell">*いいえ。*これはユーザーに表示されないディレクトリエントリです。</block>
+  <block id="fb57230391c977e5fd3e23195a01716e" category="cell">ACL（xinode）</block>
+  <block id="85bb1cb91dfcdd8f18e565e6816eb861" category="cell">NTFSセキュリティ記述子またはNFSv4 ACLは、アクセス制御エントリ（ACE）データとして保存されます。</block>
+  <block id="c5855d255e9308c285c4d934228a87ec" category="cell">*いいえ。*ACLはディレクトリのエントリではありません。</block>
+  <block id="0b72cd2f63511fd7a4389ae89320de25" category="cell">ディレクトリインデックス（公開時）^{asterisk}{asterisk}^</block>
+  <block id="1c3333fbc51511161e41741754f816de" category="cell">Companion B+treeは、大規模なディレクトリ内で名前を検索するために使用されます。</block>
+  <block id="c111b1d2705a9233b6b74230a0201075" category="cell">*いいえ。*インデックスはディレクトリのエントリではありません。</block>
+  <block id="4b2473a7ebf9cd81e14dc1850979f99b" category="admonition">^*^ シンボリック リンクは、独自のパブリック inode とディレクトリエントリです。ハードリンクは異なります。既存の通常ファイル inode に対する別のディレクトリ名であり、独立した inode タイプではありません。ハードリンクを作成すると、ディレクトリエントリが追加され、親ディレクトリファイルのサイズが増加しますが、別のパブリック inode は割り当てられません。</block>
+  <block id="298e3d92e4c59730224b083dccd9c5b4" category="admonition">^**^ ディレクトリインデックスのinodeはデフォルトではプライベートです。それらは、<block ref="4146811f913e7364532462424a065508" category="inline-link-macro-rx"></block>の説明に従って、パブリックinode空間に移動できます。</block>
+  <block id="cf09e0d4f574335e36aa2a3bcc29a9ff" category="section-title">ACL iノード</block>
+  <block id="19d1f4c4053252b97bfd1b00f8d702cd" category="paragraph">ファイルまたはディレクトリに NTFS セキュリティ記述子または NFSv4 ACL がある場合、ONTAP はその ACL を別の ACL inode（拡張 inode、または xinode とも呼ばれる）として保存します。ACL inode には ACE が含まれています。ONTAP はパブリック inode 空間から割り当てるため、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>および<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>にカウントされます。ファイルまたはディレクトリの inode は、その ACL inode を参照します。</block>
+  <block id="6af667043d49c1cf1683190ae50e73c6" category="admonition">UNIXモードビットは、ファイルまたはディレクトリ自身のinodeに格納されます。追加のパブリックinodeは割り当てられません。</block>
+  <block id="3d8501bd419147f55e577427536462b5" category="paragraph">ACLのinode使用は、必ずしもファイルやディレクトリと1対1の関係にあるとは限りません：</block>
+  <block id="19313d5efafdecc3862c203a4b991c38" category="list-text">同じ保存済みセキュリティ記述子を持つファイルまたはディレクトリは、ONTAP の ACL 共有最適化によってそれらが統合される際に、ACL inode を共有できます。継承によって、共有の候補となる同一の記述子が生成されることがよくあります。</block>
+  <block id="12a2d1ec4bc9aaa999320750742c5a22" category="list-text">ACE、所有者またはグループ情報、制御フラグ、または継承結果が異なる場合、共有が行われない可能性があります。同一の記述子であっても、必ずしも統合されるとは限りません。例えば、共有が認識される前に別々の操作で作成または更新された場合などがこれに該当します。</block>
+  <block id="8b2ca0acd84e67571efd69905e4cf98e" category="list-text">作成リクエストが独自の ACE を提供せず、かつ親 ACL に継承属性がある場合、作成リクエストは親の ACL を継承できます。</block>
+  <block id="afef2096e0a43f84a317b232c54372f5" category="list-text">NTFSセキュリティスタイルのボリュームは、デフォルトでNTFS ACLを適用します。新しいファイルやディレクトリは、結果として保存される記述子が同一であれば、ACL の inode を共有できますが、管理者は、すべてのデフォルトまたは継承された ACL が1つの inode を共有すると想定してはなりません。</block>
+  <block id="8955f03e86d729f06a5e721f7928711c" category="list-text">モードビットのみを使用するUNIXセキュリティスタイルのオブジェクトは、NFSv4 ACLが保存されるまでACL inodeを消費しません。混合セキュリティスタイルには、モードビットのみで保護されたオブジェクトとACLで保護されたオブジェクトの両方を含めることができます。</block>
+  <block id="1ed356489f002b85ac30cc8d224931dc" category="section-title">名前付きストリーム</block>
+  <block id="dd9d894e6deb249fff53c5119873ac5b" category="paragraph">名前付きストリームとは、ユーザーが通常開くコンテンツとは別に、ファイルに添付される追加データのことです。ONTAP では、これは NTFS 代替データストリーム（ADS）の WAFL 表現です。ファイルのデフォルトの名前なしデータは、ベースファイルの inode に格納されます。追加の名前付きストリームはそれぞれ別のパブリック inode であり、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>および<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>にカウントされます。</block>
+  <block id="c2bf99496eccacebe4b526aabbf3042c" category="paragraph">名前付きストリームはファイルと共に保持されます。これらは一時的なスクラッチ領域ではなく、ONTAP が開く、コピーする、または保存する場合にのみ使用されるものではありません。ストリームは、そのストリームが削除されるか、ベースファイルが削除されるまで割り当てられたままになります。アプリケーションはストリームを作成し、後でそれを削除することができますが、ONTAP が名前付きストリームを自動的に期限切れにすることはありません。</block>
+  <block id="3d8f2189cd42a3449c1315de72749cd4" category="paragraph">注意すべき点：</block>
+  <block id="f85f27f6339ca8522204cd1e9a3796c3" category="list-text">SMBワークロードは、名前付きストリームを作成して使用します。Windows では、それらを<block ref="3101b8fae58d9e45d5fbc79787ac0f76" prefix=" " category="inline-code"></block>のように扱います。たとえば<block ref="32a59ed60728c06b488b7960be870313" prefix=" " category="inline-code"></block>のようになります。<block ref="c7e76b952bc9fbc4a8f489df983e7bca" prefix=" " category="inline-code"></block>は、Windows の Web メタデータのマークです。インターネットからファイルがダウンロードされると、Windows またはブラウザはゾーン ID （通常はインターネットゾーン）を記録し、エクスプローラ、SmartScreen、および Office がユーザーによるブロック解除までそのファイルを信頼できないものとして扱えるようにします。そのストリームは、削除されるまでファイル上に残ります。その他の一般的なソースとしては、バックアップおよびセキュリティアプリケーション、サイドカーデータを ADS として保存するアプリケーションなどが挙げられます。Microsoft Office<block ref="f0218a02bf293d5f5197a9fb5c5de2ec" prefix=" " category="inline-code"></block>のロックファイルと一時保存ファイルは、名前付きストリームではなく、通常のファイルおよびディレクトリエントリです。OneDriveによって同期されたファイルは、必ずしも<block ref="c7e76b952bc9fbc4a8f489df983e7bca" prefix=" " category="inline-code"></block>ストリームを受け取るわけではありません。動作はクライアントと転送パスによって異なります。</block>
+  <block id="aa3c887020a350b6daa52be228a341a2" category="list-text">SMB にアクセスする macOS クライアントは、Finder メタデータとリソース フォークに名前付きストリームを使用できます。これは一般的に<block ref="ce8c96ebed06bb41efa67f8c30492ea9" prefix=" " category="inline-code"></block>および<block ref="93f09792d8a61fc881cd1e2eabeff70d" prefix=" " category="inline-code"></block>として表されます。</block>
+  <block id="0eb4141275f6f2d41e80e9293a3a4d4b" category="list-text">通常のリスト表示では、名前付きストリームは非表示になります。エクスプローラ、macOS Finder、<block ref="736007832d2167baaae763fd3a3f3cf1" prefix=" " category="inline-code"></block>、および NFS<block ref="44ba5ca65651b4f36f1927576dd35436" prefix=" " category="inline-code"></block> /<block ref="77ddcb5f19832f4145345889013ab3a4" prefix=" " category="inline-code"></block>はデフォルトファイルを表示するため、<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>は表示可能な数を超える場合があります。Windows SMB クライアントからストリームを列挙するには、<block ref="3d4187e4706d99c3b2b5f97ab1f94064" prefix=" " category="inline-code"></block>または PowerShell<block ref="cb4a7a6b8dd13822df02ff186d04dc05" prefix=" " category="inline-code"></block>を使用します。ONTAP は NFSv4 の名前付き属性をサポートしていないため、NFS クライアントは SMB ストリームを追加の名前として認識しませんが、inode 自体は存在します。</block>
+  <block id="a76509be7d3e6c69b919b0eea61f15fe" category="list-text">隠しファイル、スワップファイル、またはバックアップファイル<block ref="35b36b28916d38b34abddf832e286126" prefix=" " category="inline-code"></block>によって作成された（例えば<block ref="b480a21efc466b3fcae08add48e9dd7d" prefix=" " category="inline-code"></block>または<block ref="c8d740ebde3dc2fc6922ffc1f702d7c9" prefix=" " category="inline-code"></block>）は通常のファイルおよびディレクトリエントリであり、名前付きストリームではありません。</block>
+  <block id="90edf8f06148e63fa63a034a598fdffb" category="list-text">NFSv4.2 拡張属性（xattrs）は、ONTAP 9.12.1 以降でサポートされる別の機能です。これらは ACL の inode ではないため、ACL の xinode としてカウントしないでください。</block>
+  <block id="4478b5e4b7289e9727a324c25d4b1ee9" category="section-title">NDMPのバックアップとリストアへの影響</block>
+  <block id="5c70ac5b3d99ab0b17377425a14389b3" category="paragraph">NDMPダンプおよびリストア処理中、ONTAPは通常ファイル、ディレクトリ、NTストリーム、ストリームディレクトリ、ACL iノードなどのオブジェクトクラスを個別に識別することで、各オブジェクトのデータとメタデータをシリアル化し、ダンプ統計情報に報告し、正しく再構築できるようにします。この分類では、個別のmaxfiles制限や個別の<block ref="0c5606ed319753bb2d86a485f23c8f6d" prefix=" " category="inline-code"></block>カウンターは作成されません。<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>は、パブリックiノードの合計数となります。</block>
+  <block id="054cff3773ab9d58f2b38458ae0b5ab4" category="paragraph">NDMPダンプは名前空間を走査し、それらのオブジェクトを一つずつシリアル化します。リストア機能も同様の方法でそれらを再構築します。そのため、パブリックinode数が多いと、ボリュームのデータ容量が控えめであったり、目に見えるファイル数が少なく見えたりしても、ダンプとリストアに時間がかかります。名前付きストリームとACL inodeは、エクスプローラ、Finder、<block ref="736007832d2167baaae763fd3a3f3cf1" prefix=" " category="inline-code"></block>、または<block ref="44ba5ca65651b4f36f1927576dd35436" prefix=" " category="inline-code"></block>に表示されない場合でもダンプおよびリストアの対象となるため、ダンプ統計では単純なディレクトリ一覧で示唆されるよりも多くのストリームおよびACLオブジェクトが報告される可能性があります。</block>
+  <block id="6b58b77c26f8c3c0b6d21163c54fc2c5" category="paragraph">このジョブは、スループットよりもメタデータに依存することが多いです。数百万個のinode、ACL、およびストリームを作成、検索、再構築するには、CPU、メモリ、およびストレージI/Oを消費しますが、オブジェクトあたりのデータ量は比較的少ないです。ファイルサイズが小さいこと、ACLの使用頻度が高いこと、名前付きストリームが多いことが、そのオーバーヘッドを増加させます。大規模なフラットディレクトリは、ダンプ時に列挙コストを増加させ、ファイル数の多いボリュームのリストアでは、オブジェクトが存在した後もディレクトリインデックスの再構築に時間がかかることがあります。データサイズのみから推定するのではなく、ストリームやACLを含む代表的なオブジェクト数を使用して、ダンプおよびリストアの所要時間を測定してください。</block>
+  <block id="d1f978e862d48fc5fa06cc6aa486d01f" category="paragraph">プライベートiノードは、ONTAP内部のメタデータレコードです。これらは別のプライベートiノード空間に存在し、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>または<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>のカウント対象にはならず、追加のクライアントファイルとして使用することもできません。</block>
+  <block id="902882048c40ce5949bdf6f3a68c7be1" category="paragraph">以下の表は、一般的なプライベートiノードの種類を示しています。</block>
+  <block id="e19e337a51f0b106e825bc553acc623d" category="cell">ディレクトリインデックス（デフォルト）^{asterisk}^</block>
+  <block id="4d72187a5e558f525b27414a0fe344c3" category="cell">*いいえ。*</block>
+  <block id="41bac08516650e1cf5af34e7ae39c2f6" category="cell">プライベートメタファイル</block>
+  <block id="b9fecd6e84655e7ef5149ec182a65de5" category="cell">ONTAPで使用される隠れたWAFLメタデータ</block>
+  <block id="7c3d115a77fd8d39fbbc0bb2bf54cfc7" category="cell">ゾンビ</block>
+  <block id="7c22316338256c9e89880af4de45b140" category="cell">参照または非同期削除が完了するまで保持される、リンクされていないオブジェクト</block>
+  <block id="e85ab464853fc26a5014a7a83a16721a" category="admonition">^*^ ディレクトリ インデックスはデフォルトでは非公開です。公開インデックス転送については<block ref="4146811f913e7364532462424a065508" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="231dd35fcaea9ff356e46e83be06b466" category="admonition">ほとんどの場合、プライベートinodeはmaxfilesにカウントされないため、プライベートinodeの使用状況を監視する必要はありません。ただし、NetAppサポートから指示された場合は除きます。</block>
+  <block id="cd336d7c71850ac788fdfe903c99bc30" category="section-title">ゾンビinode</block>
+  <block id="172a201fd0d749b70e31ebbdfab411c4" category="paragraph">リンクされていないファイルは、必ずしもすぐに解放されるとは限りません。ONTAPは、参照や非同期処理が完了するまで、一時的にゾンビとして保持することができます。そのため、大規模な非同期削除操作は、クリーンアップ処理中にプライベートinodeの使用量を増加させる可能性があります。繰り返しになりますが、プライベートinodeはボリューム内で許可されている合計数<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>にはカウントされません。</block>
+  <block id="12f518fddafcc74b18f31da64ace3e00" category="inline-link-macro">← 前へ：ファイル数とinode容量が多い</block>
+  <block id="b6245e0d28849923953bf5f0d443760c" category="cell"><block ref="b6245e0d28849923953bf5f0d443760c" category="inline-link-macro-rx"></block></block>
+  <block id="4ec3ee4ef2dc9caa6fdd2953713d3cc3" category="inline-link-macro">次は、Maxfiles と ONTAP inode 情報 →</block>
+  <block id="6c0b97f9f9bfa61ce2cdda3e039a95e3" category="cell"><block ref="6c0b97f9f9bfa61ce2cdda3e039a95e3" category="inline-link-macro-rx"></block></block>
+  <block id="4955c3127e3d32c88cc24ce982b54871" category="inline-link-macro">ONTAP NAS セキュリティスタイル</block>
+  <block id="e93d7f5a3379dc7412d7301fa0db300b" category="list-text"><block ref="e93d7f5a3379dc7412d7301fa0db300b" category="inline-link-macro-rx"></block></block>
+  <block id="07ef80ad3520d57db3d2bccfb34eab51" category="inline-link-macro">代替NTFSデータストリームの監査</block>
+  <block id="c20b49fb8e8905ca39756d4b27b7fec1" category="list-text"><block ref="c20b49fb8e8905ca39756d4b27b7fec1" category="inline-link-macro-rx"></block></block>
+  <block id="4d72c28f5ae794129f3182400591075b" category="summary">ONTAP の maxfiles 制限、NFS ファイル識別子、および inode 枯渇時の動作について説明します。</block>
+  <block id="43f4e650493543c3b2273acaed62dc49" category="paragraph">ONTAP ボリュームで使用可能なパブリック iノードの最大数は、ボリュームサイズ、設定された<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>値、リリースの動作、および絶対的な FlexVol の制限によって制約されます。</block>
+  <block id="7dd2ee20c344d5b014f0d56f0418c9ad" category="section-title">Maxfilesの制限</block>
+  <block id="254632a42a9a77a7c85ef9054dbc4980" category="list-text">通常のデフォルト値は、ボリューム容量の約32 KiBごとに1つのinodeというボリュームサイズから導き出されますが、ONTAPの使用可能容量係数とリリース動作の影響を受けます。</block>
+  <block id="d9bb9fc25e29fa71b9f2d17c357a9ba5" category="list-text"><block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix="" category="inline-code"></block>は、ボリューム容量4 KiBあたり約1つのinodeに基づいており、絶対上限が適用される前にONTAPの使用可能容量の調整が行われます。この比率を厳密な数式として扱うのではなく、フィールドに対してクエリを実行してください。</block>
+  <block id="a7e9691037ecfd2d054388d570d7cfa0" category="list-text">FlexVol ボリュームの絶対最大値は、2,040,109,451 個のパブリック iノードです。ONTAP ではボリュームサイズ 4 KiB あたり最大 1 つの inode しか許可されないため、FlexVol または FlexGroup の構成要素でその絶対値を設定可能にするには、サイズが約 7.8 TB 以上である必要があります。容量が小さいボリュームでは、この値が低くなります<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>。必ずそのフィールドを照会してください。使用可能な容量の調整により、サイズは正確に 4 KiB という計算式では表せません。</block>
+  <block id="a7c68b2de719fa78b3c256e8bde80645" category="list-text">FlexGroupは複数の構成要素から成り、それぞれが独自のinodeファイルと制限値を持ちます。FlexGroupで<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を設定します。ONTAPは、四捨五入および既存の配分制約に従い、FlexGroupの合計を構成要素全体に均等に分配します。構成要素が2,040,109,451個の公開inodeを保持できる必要がある場合も、同様に約7.8 TBの構成要素サイズが適用されます。</block>
+  <block id="fc71d7d7a5a627efce5437cc25f280ec" category="list-text">FlexGroup全体の合計は、唯一の運用上の境界ではありません。配置が不均一だと、ある構成要素が割り当てられたinode数に近づいたり、使い果たしたりする一方で、他の構成要素にはまだ空きスペースがあるという事態が発生する可能性があります。</block>
+  <block id="3a1348412f8c3f1b17fbaa5d736a793e" category="list-text">NFS の場合、FlexGroup のファイル数が約 20 億を超える一意のファイル ID についても、64 ビットのファイル識別子に依存します。を参照してください。<block ref="5a2fc4b4821e7568aad26c4bb9d042e6" category="inline-xref-macro-rx"></block></block>
+  <block id="d75dcaad75a2177eeb5631f5d18b926c" category="paragraph">理論上の最大値が特定のボリュームで設定可能であると想定するのではなく、必ず対象システムに問い合わせてください。</block>
+  <block id="1407d019cee2eb6c0984f83c6ecd6efb" category="section-title">NFS 64ビットファイル識別子とFlexGroupファイル数</block>
+  <block id="0847a33c86de97e4d9d21f9cf670a61c" category="paragraph"><block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix="" category="inline-code"></block>および<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>はinodeの制限です。NFSクライアントは*ファイルID*（<block ref="77ddcb5f19832f4145345889013ab3a4" prefix=" " category="inline-code"></block>または<block ref="ee37455102ba7b90e3c00db389141603" prefix=" " category="inline-code"></block>によって報告されるinode番号）も認識します。デフォルトでは、ONTAP NFSは32ビットのファイルIDを使用します。そのプロトコル識別子はSMBとは独立しており、SMBは同じファイルID構造を使用しません。</block>
+  <block id="e4f28262a904971ed0a31f737b158ba6" category="paragraph">FlexVol（および各FlexGroupコンスティチュエント）は、2,040,109,451 のパブリック i ノードに制限されており、これは 32 ビット符号付き最大値 2,147,483,647 をわずかに下回っています。FlexGroup名前空間は多数のコンスティチュエントで構成されているため、その*合計*ファイル数は 20 億を超える可能性があります（統合 ONTAP では最大 4,000 億、ONTAP 9.19.1 以降を実行する AFX では最大 1 兆）。32 ビット NFS ファイル ID を使用する場合：</block>
+  <block id="755073b19b5240134ab47b4c51513a60" category="list-text">2,147,483,647個以下の固有IDでは、衝突は数学的に不可能です。</block>
+  <block id="bd58cda5d6377b4ff39982e54dfb5199" category="list-text">ONTAPは、32ビット符号なしの最大値である4,294,967,295までのIDを配布することができます。カウントがその範囲を通過するにつれて衝突の可能性が高まり、符号なしの上限値に達すると衝突は必ず発生します。</block>
+  <block id="141dbccc7e09b42e29c8c1dcbf82c3ac" category="list-text">FlexGroup で<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を増やしても、NFS が 32 ビット ID をラップすることを防ぐことはできません。ONTAP は、32 ビット ID が使用されているという理由だけで、20 億で作成を停止するわけではありません。</block>
+  <block id="ab059192dc87122eb643b33f0c9e8e3e" category="paragraph">衝突は、2つの異なるオブジェクトが同じinode番号を共有しているように見える場合があります。クライアントは、古いファイルハンドル、<block ref="ea170e2cafb1337755c8b3d5ae4437f4" prefix=" " category="inline-code"></block>または<block ref="d67f249b90615ca158b1258712c3a9fc" prefix=" " category="inline-code"></block>中の循環ディレクトリ構造エラー、リスト表示の失敗、またはアプリケーションの障害を報告することがあります。</block>
+  <block id="11ac251f734d96f53c684a844680c8e2" category="paragraph">NFS で 20 億を超えるファイルを安全に扱うには、SVMのNFSサーバで 64 ビットファイル ID を有効にしてください（旧世代の 32 ビットアプリケーションとの互換性を保つため、デフォルトでは無効になっています）。ONTAP 9.7 以降、NFSv3 と NFSv4.x にはそれぞれ別のオプションがあります。両方のプロトコルを使用する場合は、両方を設定してください。そうしないと、一方のプロトコルがファイルを作成し続ける一方で、もう一方のプロトコルは競合エラーが発生する可能性があります。</block>
+  <block id="47ea8e13a297e4b5eb183cc3ba89ee56" category="paragraph">オプションを有効または無効にした後、NFSクライアントを再マウントしてください。ファイルシステムIDが変更されると、既存のマウントは再マウントするまで古いファイルハンドルを返す可能性があります。まず、別のSVM上でアプリケーションとOSのサポートをテストしてください。最新のNFSクライアントのほとんどは、64ビットIDに対応しています。</block>
+  <block id="cf5d6410d09622afc7704a91cc240c11" category="paragraph">64 ビット ID を無効にする必要がある場合は、FlexGroup 全体のNFS可視カウントを2,147,483,647以下に保ってください。一部のボリュームのみが20億ファイルを超える必要がある場合は、32ビットNASワークロードとファイル数の多いNASワークロードを異なるSVMに分割してください。</block>
+  <block id="3a1379b9535f51ada2f2d659f723aa99" category="section-title">32ビットNFSファイルID用のクォータ安全レール</block>
+  <block id="c301f10ebb48c07fbdea1279d97c18d1" category="paragraph">ONTAP 9.5以降では、NFSが32ビットIDをラップする前に、クォータ*ファイル*制限によって作成が停止される可能性があります。ツリーのクォータはボリュームルートで作成されたファイルには適用されず、qtreeで作成されたファイルのみに適用されます。したがって：</block>
+  <block id="ce8001fef99679463c8938298b512bdd" category="list-text">データセットを格納するqtreeを作成します。</block>
+  <block id="c4487178a3f760cfcac2328879f1e184" category="list-text">ファイル制限を 2,000,000,000 （または 2,147,483,647） とするツリークォータルールを作成します。</block>
+  <block id="771474a994a3ccf13db1012a77ffd4df" category="list-text">クォータを有効にして、サイズを変更します。</block>
+  <block id="2392ebc6727f77eb08dc0b5334a50e36" category="list-text">ボリュームルートではなく *qtree* をエクスポート、共有、マウントし、クライアントがボリュームレベルで作成できないようにアクセス許可またはエクスポートポリシーを使用します。</block>
+  <block id="8683c4cdd30eec19cc2588d41a0505f7" category="paragraph">作成者の身元が判明している場合は、ユーザーまたはグループごとのファイル制限ルールを代替手段として使用できます。これは32ビットNFS IDのための安全策であり、名前空間が20億ファイルを超える規模に拡大することが予想される場合に64ビット識別子を有効にすることの代替手段ではありません。</block>
+  <block id="9fecd2d4fb4dd0fb6ddbf890eb6d9453" category="section-title">NFS FSIDの変更</block>
+  <block id="9faa6d51fa3cea5559306c890eeab85e" category="paragraph">NFSはファイルシステムID（FSID）を使用して、クライアントがファイルシステムを識別できるようにします。ONTAPでは、ジャンクションされたボリュームは異なるFSIDを示す可能性があります。古いLinuxクライアントの中には、<block ref="4de53f769603f8e4542ee3267c08dd50" prefix=" " category="inline-code"></block>や<block ref="417e248f80c35ca0d471575a5fb951f5" prefix=" " category="inline-code"></block>などの操作でFSIDの変更を正しく処理できないものがあります。</block>
+  <block id="b950e1379c69b4031a5f4952dd7f13b3" category="paragraph">SVM NFSオプション<block ref="aec1d0515e83aefc73433785a8226ac7" prefix=" " category="inline-code"></block>および<block ref="e27b275a0d5e07ce544f3aa14d77ded4" prefix=" " category="inline-code"></block>（後者はONTAP 9.7以降のNFSv4.xを使用するFlexGroupに適用されます）は、その動作を制御します。FlexGroupおよびファイル数の多いその他のSVMについては、有効のままにしておいてください。FSIDの変更が有効になっている場合、各ボリュームは独自のファイルIDプールを持つため、それぞれ10億個のファイルを持つ10個のボリュームが1つの32ビットID空間を共有することはありません。無効になっている場合、32ビットまたは64ビットのファイルIDが*SVM*に適用されます。つまり、すべてのボリュームが1つのプールを共有し、衝突がはるかに早く発生します。</block>
+  <block id="2ac7027e1b8c3f2509a65ac7b19fe208" category="paragraph">レガシークライアントのFSID変更を無効にする必要がある場合は、まずそのSVMで64ビットファイルIDを有効にし、別のSVMでテストしてください。FSIDの変更を無効にしても、NFSv3ではスナップショットのFSIDは同一にはなりません。スナップショットコピーは依然として異なるFSIDを持ちます。</block>
+  <block id="6f80af6f0c49544c1097584f8797133c" category="section-title">maxfilesの上限を超えるとどうなりますか？</block>
+  <block id="3802f1e28a5a4f6c6873f1ac29b6e7c0" category="paragraph">公開されているinodeが利用できない場合：</block>
+  <block id="432f32995a2e17872eff7a458156df0b" category="list-text">パブリックinodeを必要とする新しいファイル、ディレクトリ、その他のオブジェクトは作成できません。</block>
+  <block id="7beb37d6757d45a726a8c944e85a4ee5" category="list-text">データ容量に余裕がある場合でも、クライアントは空き容量不足エラーやファイル作成エラーを受け取る可能性があります。</block>
+  <block id="b46d83303bdd94622001bc98424ee755" category="list-text">既存のオブジェクトおよび読み取り操作は、一般的に影響を受けません。</block>
+  <block id="6b43dfffd3142fadfdcc3a3dc9796539" category="list-text">オブジェクトを削除すると、パブリックinodeが再利用可能になる場合がありますが、inodeファイルの容量は割り当てられたままになります。</block>
+  <block id="a7676a37feac5ca366c699e150c8af24" category="list-text">ボリュームサイズとONTAPの制限が許す場合に、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を引き上げることで、追加オブジェクト用のスペースを確保できます。<block ref="5fc88fb8d7c0a48e0cdaec0da30885fc" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="b139c3d2ddc007cba6e710f1a4330ab9" category="inline-link-macro">FlexGroup コンスティチュエントイベント</block>
+  <block id="3296da7ee08af87aaa8308d044fd27ce" category="paragraph">FlexGroupボリュームでは、ある構成要素が他の構成要素よりも先にinodeの供給量に近づいたり、枯渇したりする可能性があります。ONTAPは、ほぼ満杯の構成要素への配置を減らします。これにより不均衡が生じ、使用可能なinodeを持つ構成要素により多くの処理がルーティングされる可能性があります。FlexGroupの合計だけでなく、構成要素の<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>および<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>を確認し、単一の構成要素ではなくFlexGroupに対して<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を引き上げてください。<block ref="e0b4a0e538b2d514c9a21581f0fc0cbe" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="572dcff249d6d10048147b7eb9196462" category="section-title">FlexGroup コンスティチュエントのスペース不足</block>
+  <block id="a237ca28e0b759d8cb9b2542f27ed7f2" category="paragraph">1つの構成要素が満杯になった場合でも、FlexGroupの他のメンバーには空き容量やinodeが存在する可能性があります。クライアントは依然として<block ref="e654d1196cfba5f5e0c0a869185f35cf" prefix=" " category="inline-code"></block>（または同様の「ディスクがいっぱいです」エラー）が表示されることがあります。その理由は次のとおりです：</block>
+  <block id="efed223fd63557565cae6fae56803186" category="list-text">その構成要素に着地するか、そこから転送できない状態を作成すると、その構成要素は失敗します。</block>
+  <block id="1266a7fe61cf14042c1b9db6b401b656" category="list-text">メンバーの*データ*容量が不足している場合、FlexGroup全体としてスペース不足を報告することがあります。</block>
+  <block id="400d62189586376b13ab5897aba13f70" category="list-text">平<block ref="44ba5ca65651b4f36f1927576dd35436" prefix=" " category="inline-code"></block>また、他の読み取りも失敗する可能性があります。FlexGroupはメタデータキャッシュに少量の書き込み可能領域（内部RAL予約領域）が必要です。メンバーが100%満杯になると、Snapshotの上書きやその他の優先度の高いコンシューマーがその予約領域を使用する可能性があります。</block>
+  <block id="fdee81343b7b52b1dc4408bb5b32610c" category="paragraph">構成要素を<block ref="02c37fe0473ebb5d08be11d7852bb5ac" prefix=" " category="inline-code"></block>および<block ref="eff7d5dba32b4da32d9a67a519434d3f" prefix=" " category="inline-code"></block>（または<block ref="52826eecae82da9c3238e354bbfc2a4e" prefix=" " category="inline-code"></block>）を使用して検査し、FlexGroupレベルの使用率のみに頼らないようにしてください。フルメンバーの空き領域またはinodeを解放するか容量を追加してください。<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>を引き上げたり、名前空間がグローバルに満杯であると仮定したりするのではなく。</block>
+  <block id="b057ff4cb74f0b84644d61b2603936a2" category="inline-link-macro">← 前へ： ONTAP inode タイプ</block>
+  <block id="ecacb02484e985e697906c1e5999e7b9" category="cell"><block ref="ecacb02484e985e697906c1e5999e7b9" category="inline-link-macro-rx"></block></block>
+  <block id="5dbdd4515a37d88385fa0e18a6990ec8" category="inline-link-macro">次へ：maxfilesの制御 →</block>
+  <block id="012b6b30685a9ae6ec2d1a0a81ce74d9" category="cell"><block ref="012b6b30685a9ae6ec2d1a0a81ce74d9" category="inline-link-macro-rx"></block></block>
+  <block id="1016955645cbf218a2f238a9df75720d" category="inline-link-macro">FlexVol volumeに許可されるデフォルトおよび最大ファイル数</block>
+  <block id="d40d9a4b33c7652877b7a4e51af11e20" category="list-text"><block ref="d40d9a4b33c7652877b7a4e51af11e20" category="inline-link-macro-rx"></block></block>
+  <block id="fad2d810978652bf5a12211d515b051a" category="list-text"><block ref="fad2d810978652bf5a12211d515b051a" category="inline-link-macro-rx"></block></block>
+  <block id="56e376fe2535791cd44e0d4c1f69b1b9" category="summary">ONTAP ボリュームファイルの上限を特定の値または現在の最大値に設定し、上限を引き上げた場合の影響を事前に理解しておく。</block>
+  <block id="0ccf5b8a574317be876aaaef1f7de659" category="paragraph">ボリューム<block ref="248d9da2c0d74a21dcc355578c72ff8d" prefix=" " category="inline-code"></block>オプションは、パブリック inode の上限です。ワークロードが inode を使い果たす前に、計画値または現在の値まで上げてください<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>。制限、NFS ファイル ID の動作、および枯渇の症状については、<block ref="2ae44a68f4b4d01216f8f81ea0603975" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="4309a4bf633f64f1d25b68d54f6a1937" category="section-title">特定の上限を設定する</block>
+  <block id="4035770cc79f51e45f934a5c5c7aac76" category="paragraph">キャパシティプランニングで特定の値が必要な場合に<block ref="3e0c140cbd902038eee89a794a71d572" prefix=" " category="inline-code"></block>を使用します：</block>
+  <block id="556f0b4fbd1f65049cf5063a0d0ebfa2" category="paragraph">ONTAPは、要求された値を、ボリュームサイズ、最大許容値、および既に割り当てられているinodeファイル容量と比較して検証します。設定された上限値は、既に達しているinodeファイル容量を下回る値にすることはできません。</block>
+  <block id="5b225116a0acda3fb5731b2c7835290c" category="paragraph">FlexGroup の場合は、FlexGroup 名と希望する FlexGroup 全体の合計を指定します。コンスティチュエントに対して個別に<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を設定しないでください。ONTAP は、要求された合計を現在のコンスティチュエント間で均等に分散し、各コンスティチュエントがそれぞれの割り当てを適用します。</block>
+  <block id="1e5dab226c262bb1c8b3288e59ced267" category="paragraph">値を変更した後、使用状況が設定された制限ほど均等に分散されるとは限らないため、構成要素レベルを検査してください<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>および<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>。</block>
+  <block id="0ef76a3665a041ae4ab352c47ccfefcf" category="paragraph">一部のONTAPコマンドは相対的な増加を受け入れます：</block>
+  <block id="d7486039685c951b3fc88ec9d3a55615" category="paragraph">結果を<block ref="0c5606ed319753bb2d86a485f23c8f6d" prefix=" " category="inline-code"></block>で確認します。</block>
+  <block id="6c004ae428dc3da99685209b2b1c7aff" category="section-title">ファイルを最初に最大サイズに設定する</block>
+  <block id="b1019996b4911ba45b3962a3cada4d6b" category="paragraph"><block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を現在の<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>に増やしても、パブリックinodeファイルの事前割り当ては行われず、対応するinodeレコード容量も予約されません。したがって、即時のスペースリスクは低くなります。ファイル数の多いNASボリュームの場合は、inodeが不足するイベントを待つのではなく、ボリュームサイズとプロトコルの制約が許す限り、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>をボリュームが保持できる最大値に設定してください。</block>
+  <block id="c78c395ccd2d955d8d99cade6eeda8af" category="paragraph">残りの考慮事項は、名前空間が実際にその上限に向かって拡大した場合に何が起こるか、およびそれ以上引き上げることができない制限に達した場合に何が起こるかについてのものです。</block>
+  <block id="416b86ad01c2c0aafe6ca64b6c02c4fd" category="list-text">*容量は、iノードが割り当てられる際にのみ消費されます。*ONTAP 9 のパブリック inode はそれぞれ、inode ファイル内で 288 バイトを使用し、さらに inode ファイル構造とその他のメタデータが含まれます。FlexVol の絶対的な上限値では、生の inode レコードだけでも約 2,040,109,451 × 288 バイト（約 547 GiB）になります。使用されたスペースは基盤となるストレージも占有するため、ボリュームの使用率だけでなく、総空き容量を監視してください。<block ref="bd5854be14b52897f2541532f3aba6e2" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="c48c7f58f0b24081c9eee284f65e4b11" category="list-text">*inode ファイルが拡張された後は、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>より低く設定することはできません。*上限を高く設定しても、未使用の容量はロックされません。ロックされるのは、割り当てられたレコードです。</block>
+  <block id="4272e2c44c1c509a875bb209fb26228a" category="list-text">*FlexVol では、2,040,109,451 が上限値です。*そのボリュームには、これ以上パブリック iノードを追加することはできません。ワークロードが1つのボリュームの絶対上限を超える可能性がある場合は、FlexGroup を使用することで、構成要素を追加できます。FlexVol または構成要素を*現在のサイズ*で許容される最大値に設定することは依然として適切です。その値は、多くの場合、2,040,109,451 をはるかに下回ります。</block>
+  <block id="b1b9f5362d9720bc1a89a5dea93c3767" category="list-text">*FlexGroup 全体の合計は20億iノードを超える可能性があります*（統合ONTAPでは最大4000億、ONTAP 9.19.1以降を実行しているAFXでは最大1兆）。NFSの場合、表示されるファイルIDの数が20億に近づく前に、64ビットのファイル識別子を有効にしてください。参照してください<block ref="676acfef156ed83110b3692f5ba1996b" category="inline-link-macro-rx"></block>。</block>
+  <block id="7decbb5df306bedae5c235e17f74d39c" category="list-text">*引き続き監視する<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>に対して<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>。*最大設定にすると、デフォルトの上限が予期せぬ形で削除されますが、サポートされている上限に達すると、ボリューム内のinodeが不足する可能性があります。</block>
+  <block id="bdce5182bc568396a96a832b4ee8fc7b" category="paragraph">現在の最大値を適用するには、ONTAP 9.9.1以降の詳細な<block ref="3f546520c0335e0a7342cfb31fb40d60" prefix=" " category="inline-code"></block>アクションを使用してください：</block>
+  <block id="cb196ef5cddf344076fb18bcdd5ef7fa" category="paragraph">これは1回限りの処理であり、永続的な割り当てモードではありません。<block ref="b326b5062b2f0e69046810717534cb09" prefix=" " category="inline-code"></block>のみが有効です。後でボリュームが拡張された場合に、新しい最大値を適用するには、再度実行してください。最大値未満の特定の値を設定する場合は、<block ref="248d9da2c0d74a21dcc355578c72ff8d" prefix=" " category="inline-code"></block>を使用します。FlexVol volume（またはFlexGroup構成要素）が約7.8 TB以上の場合、設定可能な最大値は絶対的な上限である2,040,109,451になり、この値はボリュームサイズが大きくなってもそれ以上増加しません。</block>
+  <block id="b6c33c25d934b1636c2c4b248afd34ff" category="inline-link-macro">← 前へ：Maxfiles と ONTAP inode 情報</block>
+  <block id="d14c47f432e54c8437f4e1c2dc3113aa" category="cell"><block ref="d14c47f432e54c8437f4e1c2dc3113aa" category="inline-link-macro-rx"></block></block>
+  <block id="7c8603ed7954c90d8a0d7ad3523222d5" category="inline-link-macro">次へ：maxfiles、EMSイベント、およびONTAPの機能強化の監視 →</block>
+  <block id="773135f18c1fb17f9d5fdf1cf15cd0a9" category="cell"><block ref="773135f18c1fb17f9d5fdf1cf15cd0a9" category="inline-link-macro-rx"></block></block>
+  <block id="39c2318767212118846bf0f1014b8ee6" category="summary">ONTAP maxfilesの使用状況の監視、inode EMSイベントの解釈、およびリリースにおける機能強化のレビューを行います。</block>
+  <block id="a67662ee912526774b7d0f445e940b75" category="paragraph">現在のパブリックinodeの使用状況と、パブリックinodeファイルに割り当てられた上限容量の両方を監視してください。EMSイベントを使用して、枯渇とコンスティチュエントの不均衡を検出します。</block>
+  <block id="59e3dcd37cf08ef7f6f1df7ec655446c" category="section-title">maxfilesに関連するEMSメッセージ</block>
+  <block id="2b803291887c984520d400fa4ee66174" category="section-title"><block ref="4ba949083f6a82a458c532315ad1c812" prefix="" category="inline-code"></block></block>
+  <block id="80c2f077df5b55b4ff2eba29e2832f87" category="paragraph">このERRORイベントは、ボリュームのinodeが不足していることを示しています。inodeが利用可能になるか、設定されている最大値が増加するまで、新しいファイルシステムオブジェクトを作成できません。制限を変更する前に、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>、<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>、<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>、およびボリュームの容量を確認してください。</block>
+  <block id="35b87bd73b67ea30fe4a38bd8512faf2" category="list-text"><block ref="2031a22d5c934cb4f9a72e82575ca716" prefix="" category="inline-code"></block>構成要素のiノードがほぼ枯渇していることを示します。ONTAPはその構成要素への作成数を減らし、配布やパフォーマンスに影響を与える可能性があります。</block>
+  <block id="ae8234d3451b406d741fcab72e766f19" category="list-text"><block ref="9b6a7665a7a2d4d06f529683b39f7d0b" prefix="" category="inline-code"></block>構成要素のinodeが不足しており、新しいファイルを受け入れることができないことを示します。</block>
+  <block id="2bef9032cc49d3d6c970631b58a1be90" category="list-text"><block ref="bc024cc410b57fb0c4a54526cdc6e04f" prefix="" category="inline-code"></block>これは、ほぼ満杯または満杯イベントを引き起こした条件が現在は該当しないことを示しています。</block>
+  <block id="9caabfdb47b1cdc8dc7a3050904f95dc" category="paragraph">FlexGroup イベントについては、構成要素の分布と FlexGroup レベルの合計を調査してください。1 つの構成要素に直接<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を設定するのではなく、FlexGroup のファイル許容量を引き上げてください。*データ*容量が不足している構成要素は、FlexGroup 全体に<block ref="e654d1196cfba5f5e0c0a869185f35cf" prefix=" " category="inline-code"></block>を報告させ、さらに失敗<block ref="44ba5ca65651b4f36f1927576dd35436" prefix=" " category="inline-code"></block>することもあります。<block ref="2c312ad3f1852a35521a8efbb7f6037e" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="3cf0bdd258be6177c271ef87db5895d2" category="paragraph">CLIを使用して、パブリック上限と現在の使用状況を確認します：</block>
+  <block id="cc0ba210ec09c5d81128827ef82c068a" category="paragraph">高度な権限では、最大可能値と割り当てられたパブリックinodeファイル容量を含めます：</block>
+  <block id="7dba9c18b9075c2d6a13c9597990256e" category="paragraph">REST API を使用して、パブリック<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>の上限と現在の使用状況を取得します：</block>
+  <block id="7b372169c506e7cc69d8bdf47a475137" category="paragraph">REST<block ref="f550cadffa4edad04f3b3926a9f7a0e8" prefix=" " category="inline-code"></block>および<block ref="53bd4787d147454c817a832a67bce571" prefix=" " category="inline-code"></block>フィールドはCLI<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>および<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>に対応しています。詳細CLIフィールドは<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>に使用します。</block>
+  <block id="0b799c45aaf034f20724f0b5b9285c6d" category="paragraph"><block ref="d92450c6cbe85c59736df0f89d654a4d" prefix="" category="inline-code"></block>には、公開ACL iノード、名前付きストリーム、ストリームディレクトリ、公開ディレクトリインデックス、およびその他の公開オブジェクトが含まれます。<block ref="0c5606ed319753bb2d86a485f23c8f6d" prefix=" " category="inline-code"></block>では、ACL-inodeカウンタは別途提供されません。</block>
+  <block id="061dbd97a64de35b738075bfaca27187" category="paragraph">現在の使用量とinodeファイル容量の両方を追跡します。大規模な削除後に<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>の値が低くなっても、inodeファイルの容量が回復したことを意味するものではありません。</block>
+  <block id="528afc38b02c6a61ae306457ab20e81b" category="section-title">ONTAPのmaxfilesに関連する機能と機能強化</block>
+  <block id="c4206f44cb4a86c33d1c23dec158554e" category="cell">以前の ONTAP 9 リリース</block>
+  <block id="92577782ca044ad06758d93c67c819ab" category="cell">管理者は<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>と<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>を検査し、特定の<block ref="248d9da2c0d74a21dcc355578c72ff8d" prefix=" " category="inline-code"></block>値を設定できます。デフォルトの自動値は、ボリュームサイズが約680 GBに達した時点で21,251,126で増加が停止していました。これはデフォルトサイズのプラトー（上限）であり、設定可能な最大値ではありません。</block>
+  <block id="74eb178224c5fa701fbcd96998feaafe" category="cell">ONTAP 9.9.1</block>
+  <block id="76190f99d725863a91bc49e6942d945e" category="cell"><block ref="fbd2daff3aa0eb25a3a83718a9714b52" prefix=" " category="inline-code"></block>を追加しました。これは<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を現在の<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>に設定するワンショットアクションです。<block ref="2e1605f8a04a971285e7a2ba5bfea4f5" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="b6e60011eab2ca1cf5d6c756a1bbfc5e" category="cell">ONTAP 9.13.1</block>
+  <block id="777e4abe0373e1fefbe41078a74be374" category="cell">ボリュームが以前の約2100万という上限を超えて増加するにつれて、自動的なデフォルトinodeサイズ調整が継続されます。</block>
+  <block id="b70f959a3aeb0a7db488a55bb9760a78" category="cell">ディレクトリインデックスのinodeをパブリックinode空間に配置し、移行するオプションを追加しました。<block ref="4146811f913e7364532462424a065508" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="8c9108ed2d1909b0235497e5838d6955" category="paragraph">リリースサポートおよび制限事項は、プラットフォームおよびボリュームタイプによって異なる場合があります。使用中の ONTAP リリースのコマンドリファレンスで動作を確認してください。</block>
+  <block id="160e6b4c60cc8937c3cc75c9e3b93052" category="inline-link-macro">← 前へ：maxfilesの制御</block>
+  <block id="9a165f478c831b350cfc7486e94b2011" category="cell"><block ref="9a165f478c831b350cfc7486e94b2011" category="inline-link-macro-rx"></block></block>
+  <block id="531766925ceb338e4f36c62623e4bbee" category="inline-link-macro">次へ：計画アプローチ →</block>
+  <block id="f56a0615e7d6700eb0e2ed1878c4c9c4" category="cell"><block ref="f56a0615e7d6700eb0e2ed1878c4c9c4" category="inline-link-macro-rx"></block></block>
+  <block id="8435e30947de4263006359d074b357b6" category="list-text">link:https://docs.netapp.com/us-en/ontap-ems/callhome-no-events.html<block ref="4ba949083f6a82a458c532315ad1c812" prefix="[" category="inline-code"></block> EMSリファレンス^]</block>
+  <block id="cd17ebde61d474086fc2ea93733d9427" category="inline-link-macro">FlexGroup inode EMSイベント</block>
+  <block id="610cdd81a93b8ad3051bdbfae69791b7" category="list-text"><block ref="610cdd81a93b8ad3051bdbfae69791b7" category="inline-link-macro-rx"></block></block>
+  <block id="7047504de97491a757b3c9bc607ded7d" category="summary">ONTAP でファイル数の多い NASワークロードのサイジングを行う前に、inode、ディレクトリ、操作レート、および容量の見積もりを収集してください。</block>
+  <block id="014082508343a51fd36d02cb74d61670" category="paragraph">ファイル数の多いNASワークロードの計画は、単一のファイル数や容量の数値ではなく、4つの異なる見積もりから始めてください。</block>
+  <block id="c4adbd18f85bb67872826219423160f6" category="list-text">ワークロードライフサイクル全体におけるファイルシステムオブジェクトの総数</block>
+  <block id="a0cbe6bddf592fc5ea9b331986c405d1" category="list-text">最大規模のディレクトリにおけるピークエントリー数</block>
+  <block id="99a435e50edb883f1980e520933c0d25" category="list-text">ピーク時の作成、検索、列挙、削除率</block>
+  <block id="915516916ed7964ed6818d9b90fd86d3" category="list-text">ユーザーデータ、inode、ディレクトリ、ディレクトリインデックス、Snapshotコピー、および拡張のための容量</block>
+  <block id="f078e6ef9ae1daa44fbbac4b7ccf753c" category="paragraph">以下の方法を用いて、これらの入力データを収集してください。</block>
+  <block id="510c87500e568b60d047ffe478c2b258" category="section-title">オブジェクトの総数とinodeのヘッドルームを調べます。</block>
+  <block id="fb8408e2cdb50f312e806cb7c710b0fb" category="paragraph">アプリケーションインベントリをONTAPのパブリックinodeカウンターと比較する：</block>
+  <block id="b9cf4dc46d47545a07168890aada7404" category="paragraph">FlexGroup の場合は、設定された合計値と各コンスティチュエントの使用状況の両方を確認します。</block>
+  <block id="9a00ac0ff4418a31de09b6bb72ad26b8" category="list-text">合計見積もりには、予測されるファイル、ディレクトリ、ストリーム、ACL、パブリックディレクトリインデックス、一時オブジェクト、および移行の重複を含めてください。</block>
+  <block id="79075d5cb48fc6634ecc5b8dd72c5d58" category="inline-link-macro">ACL共有</block>
+  <block id="ba75827afa4b9d69a1f45b3271a7b178" category="list-text">ACLが一般的な場合は、予測されるファイルとディレクトリ数の最大2倍を<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>の保守的な開始見積もりとして使用してください。各NTFSまたはNFSv4 ACLは追加のパブリックinodeを消費できますが、<block ref="384dffd17f5195d101af99e60af06fcb" category="inline-link-macro-rx"></block>によって実際の使用量を削減できます。代表的なデータを使用して検証してください。</block>
+  <block id="9a4e1b8eec2592558e9bc2a72fcedfa7" category="list-text">アプリケーションのインベントリまたは移行評価を使用して、成長を予測してください。<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>は現在の使用量であり、将来のピーク使用量ではありません。</block>
+  <block id="541d900919a68a9515c742c835c71162" category="paragraph">NetApp XCPは現在の名前空間内のファイルとディレクトリの数を数えることができます。XCP 1.5以降：</block>
+  <block id="9bb2e9f02ad93ac18df3dcae8c50bff6" category="paragraph">この<block ref="1051648d0a5a726e0234c2579abcd347" prefix=" " category="inline-code"></block>レポートにはファイル数とディレクトリ数が含まれます。これには、ディレクトリエントリとして表示されないACL inodeや名前付きストリームは含まれていないため、アプリケーションプロファイルからそれらを追加してください。ファイル数の多いデータセットの場合は、処理に時間がかかる場合があります。XCPは合計値を出力する前にツリー構造をスキャンします。XCP 1.5 サブコマンドの注記および関連するスキャンについては、<block ref="0c90cf67d2a9c2e2b5e400c17a8b62bd" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="2d479ab15d69f74f659fa9a8e4823cd0" category="section-title">最大のディレクトリを見つける</block>
+  <block id="37a6ee9b5852d4b0bdd6aa641c97316c" category="list-text">アプリケーションインベントリ、移行ツール、または制御された名前空間スキャンを使用して、エントリが最も多いディレクトリを特定します。</block>
+  <block id="5637c197915a1bf2dc4254918d6add00" category="list-text">制限に近づいているディレクトリについて、<block ref="b3858595805a9c8bfdd9eb4d86966268" prefix=" " category="inline-code"></block>と関連するEMSイベントを確認してください。</block>
+  <block id="072edbabc32304dcbc84e30b0753a6d9" category="list-text">ディレクトリオブジェクト自体を、<block ref="309f0393f6b9933e0b779d252fb16f5f" category="inline-link-macro-rx"></block>で説明するように測定します。</block>
+  <block id="ae937e3b89b51b6f2663653e4ea7f192" category="list-text">モデルファイル名の長さと代替名は、<block ref="e0e2503a3085feee61226f9dc6c1bb33" category="inline-link-macro-rx"></block>に記載されているとおりです。</block>
+  <block id="4af2e342eaa5cd226d114695105efa75" category="paragraph">XCPは、ディレクトリをエントリ数またはディレクトリファイルサイズに基づいてランク付けできます。<block ref="1051648d0a5a726e0234c2579abcd347" prefix=" " category="inline-code"></block>レポートには、最大のディレクトリのエントリ数が<block ref="9a19e4962658ae45e6a1aea119360fe4" prefix=" " category="inline-code"></block>として含まれています。すべてのディレクトリとそのメタデータファイルのサイズを、大きい順に一覧表示するには：</block>
+  <block id="a07b2412f95fad941a745ab3db47e1db" category="paragraph">指定したエントリ数（この例では2,000件）を超えるディレクトリを一覧表示するには：</block>
+  <block id="9d5a4104f2b1cad58931104d51a93c94" category="paragraph">これらのスキャンによって、使用頻度の高いディレクトリが特定されます。これらはモデリング名の長さとエンコーディングを<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>に対して置き換えるものではありません。</block>
+  <block id="0eb65bfc3f2fa714c34300f24dc2ffc4" category="section-title">メタデータ操作率を測定する</block>
+  <block id="2045da70a797e26a5cb524311a7babba" category="list-text">アプリケーションテレメトリ、クライアントワークロードツール、パケットトレース、ONTAPパフォーマンス統計、またはHarvestなどの監視ツールを使用して、作成、検索、オープン、クローズ、属性、列挙、名前変更、削除のレートを測定します。</block>
+  <block id="3daebdb78603ec425626c37bf602118a" category="list-text">代表的な同時実行性、およびウォームキャッシュとコールドキャッシュの両方の動作をテストします。</block>
+  <block id="f1ae661cb32237d8327b12a45dbb7d34" category="list-text">スループット測定値は、メタデータを多く含むワークロードを必ずしも特徴づけるものではありません。特に<block ref="d3457857c3b336c738f741b28fa914e1" prefix=" " category="inline-code"></block>、オペレーションカウンターが手がかりになる場合があります。</block>
+  <block id="61b63160bc47b0b2f1b5313bf8a0f46a" category="section-title">メタデータとSnapshot容量を確認する</block>
+  <block id="e21e495d99347f121687b53463b710cd" category="list-text"><block ref="02c37fe0473ebb5d08be11d7852bb5ac" prefix=" " category="inline-code"></block>を使用して、ユーザーデータ、ファイルシステムメタデータ、inode、およびSnapshotリザーブを分離します。</block>
+  <block id="27af6c502f855a128e63508bcc7d22fb" category="list-text"><block ref="67ff4bdb4fa0904f7c2aad37e9cbbfff" prefix=" " category="inline-code"></block>を使用して、ボリュームのアグリゲートフットプリントを確認します。</block>
+  <block id="fe4d705d69300865613d2e6c256af148" category="list-text">生の ONTAP 9 inode レコードを<block ref="bff66c63926c7fdbe76fcac6f529c50d" prefix=" " category="inline-code"></block>として推定し、ディレクトリとファイルのサイズを追加します。</block>
+  <block id="4794b30e79adcb5f64a1cf2a79867141" category="list-text">ユニファイドONTAPで、<block ref="2d2a51ba4ba356cb2255c8188435d256" prefix=" " category="inline-code"></block>を使用してアグリゲートメタデータを確認します。</block>
+  <block id="f978d4700e9a16038836c38b060a02b4" category="list-text">AFX では、<block ref="3c74c42e64e78be5f9347581b897489c" prefix=" " category="inline-code"></block>を使用してStorage Availability Zoneのメタデータを確認します。</block>
+  <block id="e6fafc267ef68c6b563c3d38c6cebb6a" category="list-text">ホストからインベントリできないその他のシステムメタデータのために、容量の約1%を確保してください。</block>
+  <block id="86387fdc8b522976130634ebaf1b44b6" category="section-title">maxdir-sizeとmaxfilesを混同しないでください</block>
+  <block id="7d1b8cfdb35d1ce73f865aebb21d05ba" category="list-text"><block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix="" category="inline-code"></block>（maxfiles）は、FlexVolまたはFlexGroupコンスティチュエントのパブリック inode の上限です。</block>
+  <block id="5b600f5f02b7b5841ccd1a42598a3dbe" category="list-text"><block ref="e247c5267284bdf6c8c4ff36810192aa" prefix="" category="inline-code"></block> は、ボリューム内の各ディレクトリファイルのバイト上限です。いくつの名前が収まるかは、ボリュームファイルの数ではなく、名前の長さとエンコード方式によって決まります。</block>
+  <block id="c9ea1c7cab91c1f3b79427524e4b1ef9" category="list-text">総ボリュームファイル数から<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>を導出せず、1つのディレクトリに収まる名前の数を推定するために<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>を使用しないでください。</block>
+  <block id="b9a1a3c83c0321c2a2e6170fcb91b361" category="inline-link-macro">← 前へ：maxfiles、EMSイベント、ONTAP機能強化の監視</block>
+  <block id="2f556e9c05749a346ee9f23d56b78b00" category="cell"><block ref="2f556e9c05749a346ee9f23d56b78b00" category="inline-link-macro-rx"></block></block>
+  <block id="10a87e3ada8e32b802d33d5cf5184a6e" category="inline-link-macro">次：ファイル数の多いNASワークロードのベストプラクティス →</block>
+  <block id="337a337d8912b4681614ac57285d7da4" category="cell"><block ref="337a337d8912b4681614ac57285d7da4" category="inline-link-macro-rx"></block></block>
+  <block id="309f0393f6b9933e0b779d252fb16f5f" category="list-text"><block ref="309f0393f6b9933e0b779d252fb16f5f" category="inline-link-macro-rx"></block></block>
+  <block id="2cf2d4b3752705b90c8f093a8217823e" category="summary">高ファイル数のNASワークロードをONTAPで計画、展開、監視、および運用します。</block>
+  <block id="e2555d61ed92e87307dabd5f775a3117" category="paragraph">ファイル数の多いワークロードの設計では、パブリックinodeの総数、最大ディレクトリ内のエントリ数、メタデータ操作レート、およびライフサイクルタスクを考慮する必要があります。<block ref="c4cc53e575d976b43bd48c2b31604253" category="inline-link-macro-rx"></block>に記載されているようにそれらの入力を収集し、以下の推奨事項に従ってください。ファイル数を唯一の制限として扱ったり、データ容量だけに頼ったりしないでください。</block>
+  <block id="7179c28498d4bb1120f16bc574f96484" category="section-title">ストレージのサイズを決定する前に、ネームスペースのプロファイリングを行う</block>
+  <block id="1a3f77df2f449c5cd4390a3bdbf50327" category="paragraph">収集または推定：</block>
+  <block id="12c918febee876a2e8e40bf175dfc07a" category="list-text">現在およびピーク時のファイル、ディレクトリ、ストリーム、およびACLオブジェクトの合計数</block>
+  <block id="000392027214b042e5133ff79b37c06a" category="list-text">年間成長率またはプロジェクト段階別成長率</block>
+  <block id="b20ab9307812eb60f064d91b0109fcbf" category="list-text">1秒あたりに作成および削除されるファイルのピーク値</block>
+  <block id="4db70f46b3d0b553138d128f572f7eb2" category="list-text">1つのディレクトリにおけるピークエントリ</block>
+  <block id="6e7849ff48477596b965eba7d6e4ab4b" category="list-text">ファイル名の長さ分布と文字セット</block>
+  <block id="b10ab42cfe1b2b24bf59b64b746b5144" category="list-text">SMB DOS 8.3または代替NFS名の使用</block>
+  <block id="28cfc5aeaa3010cf813b3b17c3c4364a" category="list-text">読み取り、書き込み、検索、属性、列挙、名前変更、削除レート</block>
+  <block id="6d6a37fa7743a206ad7e3926e447c3c1" category="list-text">Snapshotスケジュールおよび保持</block>
+  <block id="280c198148fbb0fcd619fbea6af12c61" category="list-text">バックアップ、レプリケーション、移行、分析、およびセキュリティスキャンの頻度</block>
+  <block id="72eeb8bc7d26e1652fccc97201ad4816" category="paragraph">日平均値ではなく、最高水位の値を使用してください。ビルドパイプライン、分析ジョブ、移行、および一時的なスクラッチワークフローは、多くの場合、短期間に最大の名前空間を作成し、その後クリーンアップしますが、inodeファイルとディレクトリファイルは、クリーンアップ後もハイウォーターマークを保持する可能性があります。</block>
+  <block id="15e741e02a0e9927eeff83b806487c2b" category="section-title">maxfilesとmaxdir-sizeを個別に設定する</block>
+  <block id="0234606fda72a934be721fff77bc65cf" category="paragraph">2つの異なる予測を維持します：</block>
+  <block id="c755a8653d3d51e26174f59ff406b5b9" category="list-text">*ボリュームinode予測：* FlexVolまたは各FlexGroupコンスティチュエントで想定されるすべてのパブリックファイルシステムオブジェクト。</block>
+  <block id="8e795a6022934996250399f72406cd28" category="list-text">*最大ディレクトリ予測：* 最も多くの名前または最も大きな名前を持つディレクトリの、ディスク上のディレクトリファイルバイト数。</block>
+  <block id="6d55792de223f4aa51fb424b6a3636ab" category="paragraph">*一方の値から他方の値を導き出さないでください。*シャーディングされた名前空間（ファイルが複数のディレクトリに分割されている）は、大きなディレクトリを作成せずに<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>を使い果たす可能性があります。単一のフラットディレクトリは、ボリュームに数百万の空きinodeがある状態でも<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の制限に達する可能性があります。</block>
+  <block id="2bb29ce6eba1a9c382d2da7e00420ab3" category="paragraph">*NTFSまたは高度にACLが設定された名前空間において、目に見えるファイル数のみに基づいてサイズを設定しないでください<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>。*ディレクトリ、ACL iノード、名前付きストリーム、その他の公開オブジェクトをプロジェクションに含めてください。ACLが多用されている場合は、予測されるファイルとディレクトリ数の最大2倍を保守的な開始見積もりとして<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>に使用し、ACL共有により実際の使用量が削減される可能性があるため、代表的なデータを用いて検証してください。</block>
+  <block id="3f8edfd6f2c194874158aa05c77da2c3" category="list-text">ファイル数の多いボリュームの場合、ボリュームサイズとプロトコルの制約が許す限り、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を現在の<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>に設定してください。この上限は領域を事前に割り当てるものではなく、繰り返し上限を引き上げることなく<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>が許容量まで拡張できるようにするものです。</block>
+  <block id="e39eddaaabb3134860c0eca23736b001" category="list-text">単一ディレクトリの必要性が明確に示された場合にのみ<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>上げます。通常は約2%ずつ段階的に増加させます。<block ref="5fc88fb8d7c0a48e0cdaec0da30885fc" category="inline-link-macro-rx"></block>および<block ref="96da23ce6b4b1c691b22ebd86ad0737e" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="895e9936b84204ac2cc4b7966ba9c97c" category="paragraph"><block ref="b380ffd86e368ce2eca63e3ab71be44f" category="inline-link-macro-rx"></block> および <block ref="e0e2503a3085feee61226f9dc6c1bb33" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="593820b772f10bf5a4d22aed69f84396" category="section-title">シャーディングされたディレクトリ構造を推奨します</block>
+  <block id="b62d04856e957b6df39771e251493bc0" category="paragraph">名前空間のレイアウトには、一般的に3種類あります。</block>
+  <block id="7614b23660c3e0807d0d3cafe5700f2e" category="list-text">*フラット：* 1つまたは少数のディレクトリに、同じ階層に多数のファイルが含まれています。</block>
+  <block id="dab6e8c56936262bccd3ba42dac640e0" category="list-text">*ワイド：* 多数のトップレベルディレクトリがファイルを分割します。</block>
+  <block id="d7a7552ce0c12cccc570d7eb786c85c3" category="list-text">*Deep:* 最上位ディレクトリの数が少ないほど、サブディレクトリのレベルが複数になります。</block>
+  <block id="adb4fe5ee78ff81990b236c77ded3d1f" category="image-alt">フラットな名前空間と、1つのディレクトリに多数のファイルがある場合を比較した図</block>
+  <block id="e23ae5ebe1f5d183cba70599f0c7b3b0" category="paragraph">アプリケーションが広範囲または深い階層構造を利用できる場合は、可能な限り、数百万もの名前を単一のフラットなディレクトリレベルに配置することは避けてください。フラットレイアウトはメモリとCPUの処理を集中させ、大量<block ref="a59cda03fc199ec763301e878c4dfe74" prefix=" " category="inline-code"></block>、<block ref="1e36542efa12c0d5b70478c43512c5cf" prefix=" " category="inline-code"></block>、検索、および削除操作時のレイテンシを増加させる可能性があります。FlexGroupボリュームでは、大きなフラットディレクトリはリモートエントリをさらに生成し、FlexVolでの同じ表示名数の場合よりも早くディレクトリファイルが上限に近づく可能性があります<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>。</block>
+  <block id="4fa83c42eac4ca408ef7ecba85fab65e" category="paragraph">FlexGroupボリュームは一般的に、1つの大きなフラットなディレクトリよりも、多数の小さなディレクトリで構成する方がうまく機能します。約2MiB以下のディレクトリは、単純なスキャンパスに留まります。ONTAP 9.2以降では、より大きなディレクトリが自動的にインデックス化されるため、ターゲットを絞った検索が容易になります。インデックス作成によって、非常に大きなディレクトリがシャーディングされた階層構造と同等になるわけではありません。列挙、ワイルドカードスキャン、および単一ディレクトリ作成時のシリアル化は依然として適用されます。ONTAPは、親ディレクトリへのファイルのローカル性を優先しながら、FlexGroupの子ディレクトリをリモートに配置することができ、これによりそれらのファイルのリモートレイテンシを低減します。</block>
+  <block id="c3318c6b1fa64f093bc38299c6927fd7" category="paragraph">ファイルを階層構造に分散させるということは、ディレクトリ数を増やし、各ディレクトリ内のファイル数を減らすことを意味します。</block>
+  <block id="1b456412549c0805eb2927cd415dda99" category="paragraph">一般的なシャーディングキーには以下が含まれます：</block>
+  <block id="f6ef6ac96a6cbf54771496e92747c36b" category="list-text">ハッシュ接頭辞</block>
+  <block id="fff57e1c48dfe3bcfb3b36eeed7b459c" category="list-text">顧客、プロジェクト、またはテナント</block>
+  <block id="7dcea3edd7bf65f68ae900c67c6ee94e" category="list-text">日付または時間帯</block>
+  <block id="ea1a0eec9a1affd26fcc7bdf0feb0ce1" category="list-text">データセット、ジョブ、またはワークフローのステージ</block>
+  <block id="1c924f9ed045b97f876b5931000e05d3" category="list-text">オブジェクトタイプまたはライフサイクル状態</block>
+  <block id="2e6ad0ef67f1d567523afed09c0dcfe4" category="paragraph">ディレクトリ操作を管理しやすいように十分な数のシャードを選択しますが、ディレクトリ数自体が過剰になるほど多くのほぼ空のディレクトリを作成しないようにしてください。決定論的な方式では、ファイルの配置が予測可能になり、クライアントはすべてのシャードをスキャンすることなくファイルの位置を特定できます。</block>
+  <block id="38e1e259898a322da5733dae555524e1" category="paragraph">フラットなレイアウトと深いレイアウトは、どちらも有効です。完全なパス長は、NASプロトコル、クライアントのオペレーティングシステム、およびアプリケーションの制限内に収めてください。フラットなレイアウトが避けられない場合は、<block ref="309f0393f6b9933e0b779d252fb16f5f" category="inline-link-macro-rx"></block>で説明されているように、最大のディレクトリファイルの現在のサイズと<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>ヘッドルームを監視し、制御された増加が適切かどうかを検証してください。</block>
+  <block id="25cc3c208a53c6c7473d396619bf43e9" category="section-title">適切なボリュームアーキテクチャを選択してください</block>
+  <block id="b3a15e84a6a956fda47323be822a9076" category="paragraph">1つのボリュームの容量（1TB未満）、inodeの規模（20億未満）、およびパフォーマンス領域がワークロード（取り込み量の減少、クライアント数の減少）を満たす場合は、FlexVolを使用してください。FlexVolボリュームは、クラスター内で多数のボリューム/ファイルシステムを作成する必要があり、総ボリューム数に達するリスクがあるワークロード（Kubernetes PVCなど）や、VMwareデータストアについても考慮する必要があります。</block>
+  <block id="3c19decc92e7d2fe011678221989f72e" category="paragraph">ワークロードがより大きな総容量（300TB超）、ファイル数の規模（20億超）、および構成要素とノード間の並列処理のメリットを享受できる場合は、FlexGroupを使用してください。</block>
+  <block id="ef68111c83778c96aea6227dc024c06c" category="paragraph">計画すべき事項：</block>
+  <block id="093395c92d7ffa92268293c092b64990" category="list-text">構成要素ごとのiノード制限と分布</block>
+  <block id="1c51f2bc8011ac749b491da5096ef5cd" category="list-text">NFS 64ビットファイル識別子（FlexGroupが約20億ファイルを超える可能性がある場合）（<block ref="676acfef156ed83110b3692f5ba1996b" category="inline-link-macro-rx"></block>を参照）</block>
+  <block id="511149af6e03fe3755d03f03ef9204ea" category="list-text">総容量と構成要素容量のバランス（注：NetApp AFXの場合、これは必須ではありません）</block>
+  <block id="60c99709fd0e78d91dc00c50d783755b" category="list-text">ワークロードの配置動作</block>
+  <block id="12959f2e0e43f245b2ad18b7dd5b33de" category="list-text">FlexGroup 固有のディレクトリエントリ表現</block>
+  <block id="4283f83b615395cc92b172259eab6d95" category="list-text">データ保護互換性</block>
+  <block id="2267d3a579244cdacd500ac3c51efe53" category="list-text">ファイルが配布されたときのアプリケーションの動作</block>
+  <block id="74f40f2f3571ff707a7831f540db87bf" category="paragraph">FlexGroupは、1つの論理ディレクトリに対する操作を自動的に並列化することはありません。パフォーマンスのバランスを維持するためには、ディレクトリ間でのシャード分割が引き続き有効です。</block>
+  <block id="424f66e2c97b600b5afe782cfd3546ca" category="section-title">営業利益率を残す</block>
+  <block id="2e04cd31b54ba08f52ad30aa6cd064b7" category="paragraph">使用中のinode数または最大のディレクトリファイルの100%で定常状態の動作を計画しないでください。予期せぬ増加、一時オブジェクト、Snapshot保持メタデータ、ACLとストリーム、移行の重複、バックアップ作業、FlexGroup配置の不均衡、およびファイル名を変更するソフトウェアの変更のために余裕を確保してください。</block>
+  <block id="3b0e7932ad1d3ccfebb5c4be52cb3f58" category="paragraph"><block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を現在の最大値に設定することは上限を意味するものであり、最後のinodeがなくなるまで実行できるという許可ではありません。その上限に達するずっと前に<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>のアラートを設定してください。<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>については、<block ref="96da23ce6b4b1c691b22ebd86ad0737e" category="inline-link-macro-rx"></block>における約2%増加のガイダンスは、上限を引き上げる方法を示すものであり、普遍的な運用マージンではありません。</block>
+  <block id="3e875ee9dc3e61e37070d71fd8381420" category="section-title">メタデータ容量を考慮する</block>
+  <block id="b0570031724a3a9e1dff1f327f91369e" category="paragraph">inodeファイル、ディレクトリファイル、インデックス、Snapshot、およびアグリゲートメタデータをそれぞれ個別に予算化します。割り当てられたパブリックinodeごとに288バイトを基本inodeファイル推定値として使用します。<block ref="bd5854be14b52897f2541532f3aba6e2" category="inline-link-macro-rx"></block>を参照してください。<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を増やしても、そのスペースはすぐには割り当てられません。割り当てられたinodeファイルのピーク容量を永続的なものとして扱います。</block>
+  <block id="53eb8651d274c67b0001a7307a045343" category="paragraph"><block ref="02c37fe0473ebb5d08be11d7852bb5ac" prefix=" " category="inline-code"></block>を使用して、すべてのCLIカウンターをバイト値として変換するのではなく、inodeとメタデータの容量を検査してください。</block>
+  <block id="2144169336499e0617c7a05c4915684d" category="section-title">現実的なファイル名のシナリオを使用する</block>
+  <block id="e646e35b4c6936e073763c7f22d97f8e" category="paragraph">少なくとも以下のテストを実施してください：</block>
+  <block id="b6d19105ed816a100cdd4b821dc00381" category="list-text">ASCII文字のみの短い名前</block>
+  <block id="10c6a9435783b246572b39e4f4b6e71c" category="list-text">ワークロードのファイル名の中央値と上位パーセンタイル値の長さ</block>
+  <block id="fbcc7a65a17e20e253069083c3cfb644" category="list-text">非ASCII文字または補助Unicode文字を使用する場合</block>
+  <block id="4164c650630d9a11812b11152488f243" category="list-text">DOS 8.3エイリアスを生成するSMBワークロード</block>
+  <block id="bc89f7508d1897671222a24476d2028d" category="list-text">代替名を必要とするマルチプロトコルアクセス</block>
+  <block id="ee2b10d33e1fc0f143a70100447a3445" category="list-text">FlexGroup 本番環境の配置代表</block>
+  <block id="6614b386a2fa8b2502dfa2fe9ff45478" category="paragraph">パスの長さとベース名の長さは互換性がありません。複数のディレクトリにまたがる長いパスは、プロトコルの制限や inode 数に影響を与え、各ディレクトリにはその直下のコンポーネントのみが格納されます。</block>
+  <block id="00f9a80964a6c9575418d65f35dc5d8b" category="section-title">スループットだけでなく、メタデータ操作もテストする</block>
+  <block id="f44350ab1309cebb184d65c64bb5959c" category="paragraph">連続的な帯域幅テストでは、ファイル数が多い場合の動作を予測することはできません。含む：</block>
+  <block id="dfd21da1674ed3abf9127c2a8a49e9a6" category="list-text">ファイルとディレクトリを作成する</block>
+  <block id="4a9fc0872f95b3de0680a146b58a2bf6" category="list-text">既存名と未登録名の検索</block>
+  <block id="0326e538ed29b581f3413e17a3a3eba2" category="list-text"><block ref="77ddcb5f19832f4145345889013ab3a4" prefix="" category="inline-code"></block>または属性演算</block>
+  <block id="8c633f8dbdb076e53b3238710cc561b9" category="list-text">開閉</block>
+  <block id="c676c93a6cdbe35a1ecb275f0f6779e5" category="list-text">ディレクトリ内およびディレクトリ間で名前を変更する</block>
+  <block id="584fc6101dbab0af7f727e38be0d2f36" category="list-text">リンク解除と再帰的削除</block>
+  <block id="21c6f98402be0975abea49c9a5b69b79" category="list-text">ディレクトリの完全列挙と部分列挙</block>
+  <block id="314212130fd2f122d47306c9b3c838b3" category="list-text">ワイルドカード検索</block>
+  <block id="aa4840da7062f5a817f0194612404d47" category="list-text">コールドキャッシュとウォームキャッシュの実行</block>
+  <block id="0d3d96e1c89e5bd97ff8037fdd1e640a" category="list-text">必要に応じてNFSとSMBの混在アクセス</block>
+  <block id="07074b036b9499e28be80f513d6408d5" category="paragraph">レイテンシ分布、CPU、キャッシュの動作、ネットワーク負荷、および完了時間を測定します。本番環境でSnapshot、レプリケーション、分析、バックアップ、セキュリティスキャンが同時に実行される場合は、これらの操作中にテストを繰り返してください。</block>
+  <block id="c09e169f87222776835c4dfca7f229c5" category="section-title">ライフサイクル操作を検証する</block>
+  <block id="ec6aae69072166e4930dbcefb5580b10" category="paragraph">初回取り込み以降のテスト：</block>
+  <block id="c280b53616f424a6176ed493334ff0bf" category="list-text">予測されるピーク数への拡大</block>
+  <block id="5f4bfd0aa70895e2988ba200b385c358" category="list-text">大規模削除と非同期削除</block>
+  <block id="6b3760e9ce2bfd92685feda2753e312f" category="list-text">バックアップと復元</block>
+  <block id="393755dbc70f5d6955d723262e09061f" category="list-text">SnapMirror の初期化、更新、フェイルオーバー、および再同期</block>
+  <block id="de623df82499de2f787cc4c5c2eeb3a3" category="list-text">クローンやスナップショットを多用するワークフロー</block>
+  <block id="4c8b7b48a42e5bead3877b4b31e4e4dd" category="list-text">ボリュームの移動またはストレージのフェイルオーバー</block>
+  <block id="f4508a728088fe85958cad2209671571" category="list-text">ONTAPのアップグレード、および必要に応じたリバートチェック</block>
+  <block id="2982b41e1437317ddfd7819a30efc476" category="list-text">FlexVol から FlexGroup への移行、またはプロトコル環境間の移行</block>
+  <block id="03533304991d1ba831ff8f5d6a85fb2e" category="paragraph">ディレクトリインデックスは、転送先で作成または転送する必要がある場合があります。パブリックインデックス転送を有効にするのは、再構築を回避することでリカバリが大幅に改善される場合に限ります。ローカル検索の改善にはつながりません。参照：<block ref="e8fbab8e3f897452fa523ca069f3a632" category="inline-link-macro-rx"></block></block>
+  <block id="6b3542a02d335e7a79c553cc65b67381" category="section-title">inodeの制限と割り当てを監視する</block>
+  <block id="733b2929dbdc4f92d350e0799cb0eef6" category="paragraph"><block ref="2dff3dea147415edcfacac4b9f62a123" category="inline-link-macro-rx"></block>で説明されているように、<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>を<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>および<block ref="e88c75146b28c1c27220224aa52da2fc" prefix=" " category="inline-code"></block>と比較して追跡します。<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>が<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>に達する前にアラートを送信します。FlexGroupボリュームの場合、全体的な合計に余裕があるように見える場合でも、コンスティチュエント レベルのイベントを調査します。</block>
+  <block id="7ef369c13af098a65782854ca4d0f3bf" category="section-title">大規模ディレクトリを監視する</block>
+  <block id="c6c1d7b41173a3e35a76cf5b79dc6a10" category="paragraph">ディレクトリファイルサイズを測定し、<block ref="309f0393f6b9933e0b779d252fb16f5f" category="inline-link-macro-rx"></block>の説明に従って EMS ファイル ID を解決します。警告が発生する前に、既知のフラットなディレクトリや頻繁に更新されるディレクトリをインベントリしてください。</block>
+  <block id="abf0d8566aa3de32b3a9d8ddd827fdeb" category="section-title">故障が発生する前に警告に対応する</block>
+  <block id="676093340e6179cb6704f671c62713d1" category="paragraph">inode の警告：</block>
+  <block id="9b93e58f9be8a8bdce54d62f58839e8e" category="list-text">チェック<block ref="d92450c6cbe85c59736df0f89d654a4d" prefix=" " category="inline-code"></block>、<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>、<block ref="e15bc244a0d3e47eb85cc3b39242fc0b" prefix=" " category="inline-code"></block>、ボリュームサイズ、および容量。</block>
+  <block id="0c8ec36ca2e20b198d47b67430e25ff9" category="list-text">成長が予想されるものか、異常なものかを判断します。</block>
+  <block id="4d5e177744be0e236d7f53cb04541818" category="list-text">増加<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>、ボリュームを拡張するか、必要に応じて不要なオブジェクトを削除してください。</block>
+  <block id="fb945cb25bc5a10d3644a0c052d59b55" category="list-text">FlexGroup の場合は、影響を受けるコンスティチュエントと配置バランスを確認してください。</block>
+  <block id="cdab485ba73f53c3ee1c4dca9d379958" category="paragraph">ディレクトリサイズに関する警告について：</block>
+  <block id="fe46e500c34976fa1d6c30ca46104ac1" category="list-text">ディレクトリのinodeをパスに解決します。</block>
+  <block id="a5f6b88e51f25a93e5c668a2f3ea5fb3" category="list-text">現在のディレクトリのファイルサイズを測定し、ファイル名の挙動を分析します。</block>
+  <block id="a2470f2482b04827e0d337631121073d" category="list-text">際限のないフラットディレクトリの拡大を阻止します。</block>
+  <block id="2e09ae4987ecd46c905cf0b2c5ccdac5" category="list-text">可能な場合は、名前を新しいディレクトリにシャードまたは移行してください。</block>
+  <block id="4b4cb4fcb3ea3084131df52ff6ef6b16" category="list-text">増加<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>は、アプリケーションの再構築が不可能であり、かつパフォーマンスリスクが理解されている場合に限り行ってください。</block>
+  <block id="b236c2ebb52691819b881d4195f23350" category="paragraph"><block ref="4ba949083f6a82a458c532315ad1c812" prefix=" " category="inline-code"></block>または<block ref="07d7a78c0706069f9b9b8c5286480955" prefix=" " category="inline-code"></block>を待たないでください。その時点では、クライアントの作成はすでに失敗しています。</block>
+  <block id="a11f542d633b4a4e6a368c5f82c7b163" category="section-title">削除動作の管理</block>
+  <block id="32c8b327bf7d05df50663b2e91e4c57b" category="paragraph">ファイルを削除すると、パブリックinodeが解放されて再利用できるようになりますが、パブリックinodeファイルのサイズは縮小されません。同様に、ディレクトリから名前を削除すると、ディレクトリのスロットが再利用可能になりますが、通常はディレクトリファイルの最大サイズは縮小されません。</block>
+  <block id="00479c8ef25ca55594f6908949296ad1" category="paragraph">大規模な削除はメタデータを大量に消費する可能性があり、一時的にプライベートゾンビiノードを増加させる可能性があります。本番トラフィックと競合する場合は、クライアント側の再帰的削除をレート制限してください<block ref="373d5cc730dd449760c437daf3d5a6d5" prefix="(" category="inline-code"></block>）。</block>
+  <block id="673707fbad752d2ebf03c0a253cc53ab" category="paragraph">ONTAP 9.8 以降、<block ref="2f61bd138c3ec1694874ec59c0fe54f8" prefix=" " category="inline-code"></block> は NFS や SMB 経由ではなく、クラスタからディレクトリを削除することで、クライアントおよびネットワークの競合を回避します。これは FlexVol および FlexGroup ボリュームに適用されます。ONTAP はパスをスキャンし、最初にサブディレクトリの内容を削除し、並列削除タスクを実行します（デフォルトは 5,000 の同時タスク。50 から 100,000 まで設定可能）。TR-4571 のテストでは、24,000 エントリのツリーにおいてシングルスレッドの<block ref="373d5cc730dd449760c437daf3d5a6d5" prefix=" " category="inline-code"></block> と比較して約 10 倍高速でした。</block>
+  <block id="eb58961aea6c28863986df9b67f2fc26" category="paragraph">制約事項：ボリュームはオンラインでマウントされている必要があり、パスはディレクトリである必要があり（単一のファイルではない）、非同期削除ジョブは一度に1つしか実行できません。</block>
+  <block id="b611bba87bafb008a2adc68a67d3a651" category="paragraph">大きなスパースディレクトリが問題となる場合は、残りのエントリを新しいディレクトリにコピーしてください。<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>を低下させても、コンパクト化は行われません。<block ref="63c6d23f7ae00c851617cae48ae139d9" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="2ac09cb0ee0d1ce76f35a1fc6ded4c20" category="section-title">プランノードとHAヘッドルーム</block>
+  <block id="c02e8e4d6e0e745968073c0bbc3b1ae8" category="paragraph">ファイル数が多い処理は、データスループットが低い場合でも、CPU、メモリ、キャッシュ、ストレージI/Oを大量に消費します。以下のための余裕を確保してください：</block>
+  <block id="8ad1552c4d6e23de508d7e5efdeb5b19" category="list-text">メタデータの急増</block>
+  <block id="95faf9ae6095b07eb3047f371fec64af" category="list-text">コールドキャッシュのルックアップと列挙</block>
+  <block id="f5830bb77bdbe5a2ae23d643ef39e7d0" category="list-text">スキャナーとデータ保護</block>
+  <block id="11ed2d05a0bfc32786ac6cc8cbc76c0e" category="list-text">ストレージのフェイルオーバーまたはテイクオーバー</block>
+  <block id="125c9b12b7216c9a106ebe1993171ff9" category="list-text">FlexGroup リモート操作</block>
+  <block id="fefee051b1350c929460c7dacc00aa46" category="list-text">ノードを共有するその他のボリューム</block>
+  <block id="c42e5946bcf267ca5fb906bcd99fd50d" category="paragraph">ワークロードのバランスを取るには、容量やスループットだけでなく、観測されたメタデータの需要も考慮に入れてください。ネットワークとディスクの帯域幅が利用可能に見えても、ノードがメタデータによって制限されることがあります。</block>
+  <block id="087442e33771edbb21fa2a9e39f35f4b" category="section-title">クライアント接続をデータ LIF とノード全体に分散させる</block>
+  <block id="b485aec48654fc01d1499ca3f402fd95" category="paragraph">ファイル数の多いNASは、メタデータに制約を受けることが多いです。NFSまたはSMBマウントは通常、1つのTCP接続を使用して1つのデータLIFにアクセスし、そのLIFは1つのノード上に存在します。多数のクライアント、スキャナ、またはバックアップジョブが同じアドレスをマウントすると、クラスタの他の部分がアイドル状態であっても、そのノードはプロトコル処理にCPUを消費します。FlexGroupはファイル操作をクラスタネットワーク経由でリダイレクトできますが、クライアント接続を所有するノードへの負荷は解消されません。</block>
+  <block id="c0734d0170590251ac36f60627077e7d" category="list-text">SVM内に複数のデータLIF（データネットワークインターフェース）を作成し、ワークロードを処理する各ノードに複数のLIFを配置することで、クライアントが各ノードに複数の経路でアクセスできるようにします。</block>
+  <block id="8e1c3b2e1c4333c1d6d8e63984c05e9c" category="list-text">参加すべきすべてのノードが、そのSVM内に少なくとも1つのデータLIFを持っていることを確認してください。</block>
+  <block id="be6f2de2dfe5960da75923395b87005d" category="list-text">これらのLIFとノード全体でマウントのバランスを取ります。IPアドレスでマウントする場合は、アドレスを均等に選択してください。クライアントが名前でマウントする場合、1つのFQDNの背後に複数のLIFアドレスを提示し、DNSロード バランシングを使用してください。</block>
+  <block id="9219dbae1324c2bec2303004ed878151" category="list-text">ワークロード全体を単一のLIFまたは単一のノードに固定しないでください。</block>
+  <block id="e9a1352693840bef2b68b2101ac24e99" category="paragraph">NFS<block ref="bb0fc0de24da5f7976510a315e4b7120" prefix=" " category="inline-code"></block>またはSMBマルチチャネルをサポートする単一のクライアントは、1つのマウント上で追加の接続を開くことができます。これはそのクライアントにとって有益ですが、多数のクライアントをLIFやノードに分散させる方法を置き換えるものではありません。</block>
+  <block id="738572bb86845019f9b4641cdef4d22b" category="section-title">現在の ONTAP リリースを使用する</block>
+  <block id="e55a963883dd95029fb2e710a53be254" category="paragraph">ONTAP の以降のリリースには、ディレクトリインデックス作成、inode 管理の改善、スパースディレクトリの最適化、ディレクトリインデックスの転送、その他ファイル数の多いシステム向けの機能強化が含まれています。アップグレードの決定にあたっては、プラットフォームのサポート状況、データ保護の互換性、およびアプリケーションの適合性を考慮する必要があります。</block>
+  <block id="aad4351d6e0d3901faf27836563c2d71" category="paragraph">ファイル数が多いという理由だけで機能を有効にしないでください。</block>
+  <block id="c1a4001d01740deb66721a1d6245ee1d" category="list-text">単一ディレクトリの要件が明確に示されている場合にのみ、<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>を引き上げてください。</block>
+  <block id="98d267828b625eddc00408c17ea8dc27" category="list-text">適切な場合は現在の最大値に<block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix=" " category="inline-code"></block>を設定します。<block ref="5fc88fb8d7c0a48e0cdaec0da30885fc" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="3611f859ba71de999a2992c2450be810" category="list-text">ディレクトリインデックス転送は、レプリケーションまたはリストア時にインデックスを保持する必要がある場合にのみ有効にしてください。</block>
+  <block id="de794de55f3a4764200f3ed81ee57978" category="list-text">ファイルシステム分析は、その分析結果がスキャン作業を正当化する場合にのみ有効にしてください。</block>
+  <block id="bd6c0597a0b350475a5b2f3f1127e12a" category="list-text"><block ref="7805299bd0a810ecc218b9f897d0b4a8" prefix=" " category="inline-code"></block>と<block ref="7e464cb367dc4f9c8a3200495bed4def" prefix=" " category="inline-code"></block>は、有効化スイッチではなくステータスとして扱います。</block>
+  <block id="edabf92cfdd17ae476ddc22dbc7dbe24" category="paragraph">ONTAP 9.17.1 以降、ファイルシステム分析は、新しく作成された NAS SVM の新しいボリュームでデフォルトで有効にすることができます。無効になっていると想定するのではなく、チェック<block ref="89b388eef7bc80aaf1a4377290a92fd9" prefix=" " category="inline-code"></block>し、ファイル数の多いワークロードを評価する際には、その名前空間スキャンを考慮してください。</block>
+  <block id="7eecfa7462322aea7eba343bda912ff5" category="section-title">前提条件と閾値を文書化する</block>
+  <block id="c374271b2424ed1cabed9b7bd0207345" category="paragraph">レコード：</block>
+  <block id="5151d462388604d9cf42dd9d04f81a16" category="list-text">ワークロードとファイル名に関する前提条件</block>
+  <block id="3d6513f9f612b3675f75b503d2529b1e" category="list-text">ファイル数とディレクトリ数のピーク値</block>
+  <block id="2900de29b620fd38c049df1f76d0cbb6" category="list-text">選択されたマージン</block>
+  <block id="5821a008ad1974a7028ba00fba182531" category="list-text">ボリュームと構成要素の配置</block>
+  <block id="e5ab2cfe25a2e64db2a4f6e4285abf19" category="list-text">データLIFとクライアントマウントレイアウト</block>
+  <block id="1f18a964205ae48fd18f0a83b56b21bb" category="list-text"><block ref="45b963397aa40d4a0063e0d85e4fe7a1" prefix="" category="inline-code"></block>と<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>の値</block>
+  <block id="11cefe838c5acd899f435dd863f6098b" category="list-text">アラートのしきい値と対応担当者</block>
+  <block id="976b885d0121e2bd14035622205eba2a" category="list-text">想定される取り込み率と削除率</block>
+  <block id="03777b64a5ec2be7be90fe2cd340b8ee" category="list-text">リカバリと移行の目標</block>
+  <block id="d7d8919bcc5cc27ae7da6e724bdaa3aa" category="list-text">ONTAPリリースとプラットフォームの依存関係</block>
+  <block id="c2008c96256bd3addbd75112351c90bf" category="paragraph">アプリケーションのバージョン、ファイル名の形式、保持期間、プロトコル、またはデータ保護ワークフローが変更された場合は、モデルを見直してください。</block>
+  <block id="eb27352db2620dc9bf82d155a76c3c46" category="inline-link-macro">← 前へ：計画アプローチ</block>
+  <block id="1d53064872ce8b51cd201491dcfa95f9" category="cell"><block ref="1d53064872ce8b51cd201491dcfa95f9" category="inline-link-macro-rx"></block></block>
+  <block id="070e4629ecb4de3726c473c8463789eb" category="list-text"><block ref="070e4629ecb4de3726c473c8463789eb" category="inline-link-macro-rx"></block></block>
+  <block id="ccb21e7b71ea3309b373124ab2e9d54e" category="section-title">ファイル数の多いワークロード</block>
+  <block id="87e4aed8a519da43d5ba216f86e0a069" category="paragraph"><block ref="fdfa61193d1a20ad2876c816fcc52cde" category="inline-link-macro-rx"></block>ファイル数の多い NAS ワークロードが ONTAP メタデータをどのように使用するか、<block ref="87fa326a8b08315a6712cdeda1a9a9d6" prefix=" " category="inline-code"></block>および<block ref="e247c5267284bdf6c8c4ff36810192aa" prefix=" " category="inline-code"></block>がどのように異なるスケーリング境界を定義するか、そして容量とパフォーマンスを考慮したネームスペースの計画方法について説明します。</block>
+  <block id="635f9ad6cab39593a272e1c0ba52b17b" category="sidebar">ファイル数の多いNASワークロード</block>
+  <block id="980aaa905a8089510a3314fab2d792dc" category="sidebar">Maxdir-sizeと大きなディレクトリ</block>
+  <block id="33aad678b052c2d8b59b7dd33d606087" category="sidebar">機能、EMS、およびモニタリング</block>
+  <block id="8a7e0beccfabd338dccfddb2c0fbe7d2" category="sidebar">iノードタイプ</block>
+  <block id="9a00e15ca5553b10b87330540e61f76f" category="sidebar">モニタリング、EMS、および機能強化</block>
+  <block id="c2ffe02d76c4f089648f1647b43e4ee5" category="sidebar">ベストプラクティス</block>
 </blocks>

@@ -18,6 +18,13 @@ NetApp NFSソリューションはデータ管理を簡素化し、コストを�
 
 
 
+[[high-file-count-workloads]]
+== ファイル数の多いワークロード
+
+link:high-file-count-workloads/high-file-count-workloads-01-overview.html["NetApp ONTAP NASボリュームにおける高ファイル数ワークロード"]ファイル数の多い NAS ワークロードが ONTAP メタデータをどのように使用するか、 `maxfiles`および `maxdir-size`がどのように異なるスケーリング境界を定義するか、そして容量とパフォーマンスを考慮したネームスペースの計画方法について説明します。
+
+
+
 [[nfs]]
 == NFS
 

@@ -1,0 +1,176 @@
+---
+sidebar: sidebar 
+permalink: high-file-count-workloads/high-file-count-workloads-01-overview.html 
+keywords: ONTAP, NAS, NFS, SMB, high file count, maxfiles, maxdir-size, maxdirsize, inodes, directory 
+summary: ファイル数の多いNASワークロードがONTAPメタデータをどのように使用するか、およびmaxfilesとmaxdir-sizeがどのように異なるスケーリング境界を定義するかについて説明します。 
+---
+= NetApp ONTAP NASボリュームにおける高ファイル数ワークロード
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/high-file-count-workloads/
+
+
+[role="lead"]
+ファイル数の多いNASワークロードは、少数の大きなファイルが中心となるワークロードよりも、名前空間とメタデータの操作に重点を置きます。このドキュメントセットでは、NetApp ONTAPが大量のファイルを保存および管理する方法、 `maxfiles`と `maxdir-size`の制限を区別する方法、および予測可能な容量とパフォーマンスを実現するためのNASネームスペースの計画方法について説明します。
+
+
+
+[[what-is-meant-by-a-high-file-count-workload]]
+== ファイル数が多いワークロードとはどういう意味ですか？
+
+ファイル数が多いというのは、実際のワークロードを表すには少々不適切な表現です。すべてのワークロードが高ファイル数ワークロードとなる特定のファイル数しきい値は存在しません。その判断は、ファイル総数だけではなく、他の要素にも左右されます。
+
+たとえば次のように指定できます。
+
+* ボリューム内にはいくつのファイルとディレクトリが存在しますか？
+* 1つのディレクトリにいくつの名前が集中しているか
+* ファイルの作成、オープン、列挙、名前変更、削除の頻度
+* ファイル名の長さ、パスの長さ、文字セット、およびプロトコルによって生成された代替名
+* データアクセスがディレクトリ、FlexGroup構成要素、およびクラスターノード全体に分散しているかどうか
+* アプリケーションが名前空間全体をスキャンまたは一覧表示する頻度
+* スナップショットのコピー数と保持期間
+
+
+ワークロードの予測されるネームスペースが、inode計画、ディレクトリファイルの増加、メタデータ容量、クライアント操作のレイテンシ、バックアップまたはレプリケーションの動作、あるいは復旧時間に重大な影響を与える可能性がある場合、そのワークロードはファイル数が多いものとして扱う必要があります。
+
+しかし、数百万ものファイルが多数のディレクトリに分散しているワークロードは、同じ数のファイルを単一のディレクトリに配置するワークロードとは大きく異なる動作をする可能性があります。
+
+
+
+[[workloads-commonly-associated-with-high-file-counts]]
+== ファイル数が多い場合によく見られるワークロード
+
+すべてのワークロードがファイル数の多いプロファイルを生成するわけではありませんが、以下のリストは、ファイル数の多いワークロードと見なされる一般的なワークロードの一部を示しています。
+
+* 電子設計自動化（EDA）と半導体設計フロー
+* ソフトウェアのソースツリー、パッケージリポジトリ、継続的インテグレーションのビルドエリア
+* 画像、トークン、チェックポイント、またはその他の小さなオブジェクトを含む人工知能および機械学習データセット
+* ゲノミクスおよびライフサイエンス分野のパイプライン
+* メディアレンダリング、視覚効果、アニメーションフレームのリポジトリ
+* ホームディレクトリ、部門別共有フォルダ、コンテンツ管理リポジトリ
+* 分析、テレメトリ、およびロギング環境では、多数の短命ファイルが生成されます。
+* 科学およびハイパフォーマンスコンピューティングのスクラッチスペース
+
+
+ファイルのサイズはワークロードのファイル数が多いかどうかを決定づけるものではありませんが、ファイル数が多いワークロードは多くの場合、多数の小さなファイルで構成されており、データセットの容量使用量は控えめであるにもかかわらず、単一ボリューム内の多くのinodeを消費する可能性があります。
+
+
+
+[[high-file-count-challenges]]
+== ファイル数が多い場合の課題
+
+ファイル数の多いワークロードは、ファイル数やスループットが少ないワークロードでは必ずしも発生しない、特有の解決困難な課題を数多く抱えています。
+
+
+
+[[metadata-operations]]
+=== メタデータ操作
+
+各ファイルまたはディレクトリにはinodeが必要であり、オブジェクト名はinode自体ではなくディレクトリ内に存在します。ファイルの作成、検索、属性の取得、名前の変更、列挙、削除といった一般的なメタデータ操作は、データスループットが低い場合でも、ファイル数が多いワークロードの大部分を占める可能性があります。このようなシナリオでは、CPU使用率、演算の逐次処理、およびネットワークのRTTがパフォーマンスのボトルネックとなる可能性があります。プロトコルの動作も重要です。NFS および SMB クライアントは、ルックアップ、オープン、クローズ、属性、ディレクトリ読み取り操作のさまざまな組み合わせを発行できますが、多くの場合これらはプロトコル バージョンに依存します。その結果、使用するプロトコルとプロトコル バージョンによって、同様のファイル数が多いワークフローでも異なる結果が得られることがあります。
+
+
+
+[[capacity]]
+=== Capacity
+
+ONTAPは、公開iノードをシステム管理下の非表示のボリュームレベルiノードファイルに格納します。ONTAP 9の各iノードは288バイトを使用するため、iノードファイル自体がボリューム内の使用可能な容量を消費します。割り当てられた100万個のパブリックiノードは約288 MBの容量を使用します。オブジェクトを削除すると、再利用のためにiノードが解放されますが、iノードファイル自体は縮小しません。
+
+さらに、ディレクトリファイルは、同じディレクトリに多数の名前を保存すると、容量を消費します。これらのディレクトリファイルはinodeファイルの一部ではありません。これらは名前とinode番号へのマッピングを保存し、 `maxdir-size`それぞれを個別に制限します。320 MBというデフォルト設定は上限値であり、予約値ではありません。1つのディレクトリファイルが320 MBのディレクトリファイルブロックにまで拡張された場合、それらのブロックは実際のボリューム容量のうち320 MBを使用します。
+
+これら2つの構造は積み重なる可能性があります。割り当てられるinode数が多い場合、inodeファイルだけで数GBに達することがあり、さらに1つ以上の大きなディレクトリファイルが加わることで、数百MBの容量が追加される可能性があります。ボリュームには、すべてのディレクトリサイズが小さいまま大きなinodeファイルを持つものもあれば、inodeファイルは小さいまま大きなディレクトリが1つ存在するものもあります。そのメタデータは使用済みボリューム容量を消費しますが、クライアント側のユーザーデータファイルの一覧のみを参照している場合は見落としやすいものです。inodeファイルはユーザーから見えないファイルです。ディレクトリファイルのサイズは、ディレクトリオブジェクト自体に表示されます。
+
+
+
+[[directory-enumeration]]
+=== ディレクトリ列挙
+
+大きなディレクトリは小さなディレクトリよりも列挙に時間がかかり、多くのファイルが削除されたディレクトリのスキャンは依然としてコストがかかる場合があります。ディレクトリファイルサイズは、名前を削除した後でも、最大値のまま維持されます。インデックス付きディレクトリのホールパンチングにより、空の物理ブロックを回収して `READDIR`中にスキップできますが、通常は報告されたサイズを縮小しません。link:high-file-count-workloads-02-maxdirsize.html#how-the-maxdir-size-cap-behaves["maxdir-size の上限値の動作について"]およびlink:high-file-count-workloads-04-maxdirsize-indexing.html#sparse-directories-and-hole-punching["スパースディレクトリとホールパンチング"]を参照してください。
+
+
+
+[[failure-domain-concentration]]
+=== 故障領域の集中
+
+数百万件のエントリを1つのディレクトリに集中させると、単一ディレクトリのスケーリングとシリアル化のポイントが作成され、ディレクトリ自体だけでなく、そのディレクトリを所有するノード（またはボリューム）のパフォーマンスにも影響を与える可能性があります。ファイルを複数のディレクトリ階層に分散させることで、並列処理が向上し、ディレクトリスキャンの範囲が縮小され、運用タスクが容易になります。
+
+
+
+[[data-protection-and-recovery]]
+=== データ保護と復旧
+
+オブジェクト数が多いと、名前空間スキャン、バックアップカタログ作成、レプリケーション、リストア処理、およびリストア後のディレクトリインデックス構築に時間がかかる場合があります。例えば、NetApp SnapMirror は変更されたメタデータとファイルデータの両方を複製するため、作成、削除、名前変更が多数含まれるベースラインや更新は、ファイル数や容量が小さくてもコストが高くなる可能性があります。これらの課題は、NDMPベースのバックアップにも及ぶ可能性があります。
+
+SnapMirrorによるディレクトリ インデックス転送の詳細については、link:high-file-count-workloads-04-maxdirsize-indexing.html["ONTAPのディレクトリインデックス作成"]を参照してください。
+
+
+
+[[maxfiles-compared-with-maxdir-size]]
+== Maxfilesとmaxdir-sizeの比較
+
+ `maxfiles`と `maxdir-size`の概念は、ONTAPのさまざまなリソースを保護します。どちらも他方の代わりにはなりませんが、混乱を招くことがよくあります。このセクションでは、それらの点を明確にします。
+
+ボリュームには十分な空きinodeがあっても、1つのディレクトリ内で `maxdir-size`に達することがあります。さらに、データセットはディレクトリサイズを大きくすることなく、ボリューム内のパブリックinodeの供給を使い果たしてしまう可能性があります。クライアントの症状は最初は似ているように見えます。NFSは通常 `ENOSPC`を返し、SMBは通常 `STATUS_DISK_FULL`を返します。ディレクトリがいっぱいになると、ボリュームに空きinodeとデータ容量がある場合でも `STATUS_CANNOT_MAKE`を返すことがあります。
+
+次の表は、通常のデフォルト値、およびONTAPで許可される最小値と最大値を示しています。FlexVol `files`の最大値はボリューム サイズに依存するため、絶対的な上限を設定可能として扱う前に、クエリを実行して `files-maximum-possible`確認してください。詳細は、link:high-file-count-workloads-10-maxfiles-limits.html["MaxfilesとONTAP inode情報"]およびlink:high-file-count-workloads-02-maxdirsize.html["Maxdir-size と large ONTAP ディレクトリ"]に記載されています。
+
+[cols="2,2,3,3,3"]
+|===
+| 上限 | 環境 | デフォルト | 最小 | 最大 
+
+
+| `maxfiles` (`-files`） | FlexVol | ボリュームサイズ32 KiBあたり約1つのパブリックinode | 最低購入数量の制限はありません。 `files`は `inodefile-public-capacity`以下に下げることはできません。 | 2,040,109,451個のパブリックiノード。小さいボリュームの場合、 `files-maximum-possible`ボリュームサイズ4 KiBあたり約1つのinodeと、値が低くなります。2,040,109,451を設定可能にするには、ボリュームが約7.8 TB以上である必要があります。 
+
+
+| `maxfiles` (`-files`） | FlexGroup | コンスティチュエントごとの同じ密度を、FlexGroup全体の合計として報告 | 構成要素ごとの最低値は同じです。合計は1つの構成要素ではなく、FlexGroupに設定してください。 | 統合 ONTAP では最大 4,000 億のパブリック i ノード、ONTAP 9.19.1 以降を実行する AFX では最大 1 兆のパブリック i ノードをサポートします。各コンスティチュエントの上限は 2,040,109,451 のままです。 
+
+
+| `maxdir-size` | FlexVol と FlexGroup | 320 MB | 4 KiB | 4 GB 
+|===
+ `maxdir-size` は、FlexVol と FlexGroup で同じ上限値です。FlexGroup は、この上限値にコンスティチュエント数を乗算しません。上限値を引き上げる前に、ONTAP リリースおよびプラットフォームでサポートされている `maxdir-size`最大値を確認してください。link:high-file-count-workloads-07-maxdirsize-features-ems.html["maxdir-sizeの機能、EMS、および監視"] を参照してください。
+
+
+
+[[what-is-maxdir-size]]
+=== maxdir-sizeとは何ですか？
+
+ `maxdir-size`これは、そのボリューム内の個々のディレクトリファイルがどれだけ大きくなることができるかという、ボリュームごとの上限値です。これは、固定されたエントリ数ではなく、容量値として提示されています。ただし、単一ディレクトリ内の名前の数は、ディレクトリのサイズを増加させる要因の1つです。ファイル名の長さ、Unicode文字表現、SMB 8.3エイリアス、NFS代替名、およびFlexGroupリモートエントリの表現方法はすべて、ディレクトリサイズに影響します。ボリュームの `maxdir-size`値を増やすと、この設定では、スペースを事前に割り当てるのではなく、ディレクトリごとに拡張を許可します。
+
+* maxdir-sizeの計算の詳細については、link:high-file-count-workloads-02-maxdirsize.html["Maxdir-size と large ONTAP ディレクトリ"]を参照してください。
+* ディレクトリのインデックス情報については、link:high-file-count-workloads-04-maxdirsize-indexing.html["ONTAPのディレクトリインデックス作成"]を参照してください。
+* 容量、パフォーマンス、および制限超過時の動作については、link:high-file-count-workloads-05-maxdirsize-impact.html["maxdir-sizeの影響"]を参照してください。
+* FlexVol および FlexGroup の考慮事項については、link:high-file-count-workloads-06-maxdirsize-volume-types.html["ボリュームに関する考慮事項"] を参照してください。
+* リリースの機能強化とEMSイベントについては、link:high-file-count-workloads-07-maxdirsize-features-ems.html["maxdir-sizeの機能、EMS、および監視"]を参照してください。
+
+
+
+
+[[what-is-maxfiles]]
+=== maxfilesとは何ですか？
+
+`maxfiles`（ボリュームレベルのオプションとして設定 `-files`）は、単一ボリュームで使用可能なパブリック inode 数の構成可能な上限です。その数には、ファイルやディレクトリだけでなく、名前付きストリーム、ACL、その他のパブリックオブジェクトも含まれます。これらのオブジェクトの中には、通常のディレクトリ一覧には表示されないものもあります。ボリュームには、それらのレコードを格納する隠し inode ファイルが含まれています。ONTAP は、新しいパブリック inode が必要で空きレコードが残っていない場合に、 `-files`の設定とボリュームの合計サイズに達するまで inode ファイルを拡張します。 `-files`の設定可能な最大値は、ボリュームサイズと ONTAP の制限によって異なります。
+
+* iノードカウンタと容量については、link:high-file-count-workloads-08-maxfiles-high-file-counts.html["ファイル数とinode容量が多い"]を参照してください。
+* パブリックおよびプライベートinodeタイプについては、link:high-file-count-workloads-09-maxfiles.html["ONTAP inode タイプ"]を参照してください。
+* ボリュームサイズの制限、NFS ファイル ID、および枯渇動作については、link:high-file-count-workloads-10-maxfiles-limits.html["MaxfilesとONTAP inode情報"]を参照してください。
+* 設定方法については `-files`、link:high-file-count-workloads-11-maxfiles-controlling.html["maxfilesの制御"]を参照してください。
+* EMSイベントとモニタリングについては、link:high-file-count-workloads-12-maxfiles-monitoring.html["maxfiles、EMSイベント、ONTAP機能強化のモニタリング"]を参照してください。
+* inode、ディレクトリ、操作レート、および容量の推定値の収集方法については、link:high-file-count-workloads-13-planning.html["計画アプローチ"]を参照してください。
+* 設計および運用に関する推奨事項については、link:high-file-count-workloads-14-best-practices.html["ファイル数が多いNASワークロードのベストプラクティス"]を参照してください。
+
+
+[cols=">"]
+|===
+
+
+| link:high-file-count-workloads-02-maxdirsize.html["次へ：Maxdir-size と大規模な ONTAP ディレクトリ →"] 
+|===
+
+
+[[related-information]]
+== 関連情報
+
+* link:high-file-count-workloads-08-maxfiles-high-file-counts.html["ファイル数とinode容量が多い"]
+* link:https://docs.netapp.com/us-en/ontap/volumes/display-file-inode-usage-task.html["ONTAP ボリュームのファイルと inode の使用状況を確認する"^]
+* link:https://docs.netapp.com/us-en/ontap/volumes/cautions-increasing-maximum-directory-size-concept.html["FlexVolの最大ディレクトリ サイズ"^]
+* link:https://docs.netapp.com/us-en/ontap/flexgroup/index.html["FlexGroup ボリューム管理"^]
+
