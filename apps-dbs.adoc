@@ -98,11 +98,4 @@ NOTE: このドキュメントは、以前に公開されたテクニカルレ�
 link:https://docs.netapp.com/us-en/netapp-solutions-sap/["ONTAP上のSAP HANAデータベースソリューション"^]SAPソリューションの構成、管理、自動化に関するベストプラクティスについては、NetAppのSAPソリューションページを参照してください。
 
 
-
-[[epic]]
-== エピック
-
-link:https://docs.netapp.com/us-en/ontap-apps-dbs/epic/epic-overview.html["Epic on ONTAPのベストプラクティス"^]ONTAPに適切に導入するための設定基準を満たしながら、オンプレミスとクラウドにEpicを導入するためのベストプラクティスを理解するためのガイドです。
-
-
 NOTE: 本ドキュメントは、以前に公開されたテクニカルレポート（TR-3923）『NetApp best practices for Epic_』に代わるものです。
