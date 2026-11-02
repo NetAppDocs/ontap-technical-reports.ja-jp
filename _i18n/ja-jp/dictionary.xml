@@ -2057,7 +2057,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="69bdc8c83ef26acac8abddded97f8b64" category="paragraph"><block ref="69bdc8c83ef26acac8abddded97f8b64" category="inline-image-macro-rx" type="image"></block></block>
   <block id="8ccb316b5c1b78555f8a38a9affe4408" category="section-title">メタデータを多く含むワークロードの結果</block>
   <block id="3bd1fd712f75938356695de5aab35052" category="paragraph">AFX ONTAP 9.18.1 の変更により、これらのタイプのワークロードにおける NFSv4.x のパフォーマンスが大幅に向上し、NFSv3 のパフォーマンスとの差が（15%以内に）縮まりました。</block>
-  <block id="c583e153d978cb5844d41c32c86a31ff" category="paragraph">当社のパフォーマンスエンジニアリングチームは、標準的なAI画像、EDA、およびソフトウェアビルドのベンチマークのパフォーマンスを比較し、以前のONTAPリリースから大幅な改善を発見しました。</block>
   <block id="aa6ef0e541d33677fb78f28cb622a5b5" category="paragraph"><block ref="aa6ef0e541d33677fb78f28cb622a5b5" category="inline-image-macro-rx" type="image"></block></block>
   <block id="a6a8f697c065d890bf89843c649c7358" category="paragraph">ストレージの提示方法にはかなり大きなアーキテクチャ上の違いがありますが、NetApp AFXの機能セットとONTAPの管理方法は実質的に変更されていません。これは完全に意図的な設計です。ONTAPはONTAPであり、可能な限り学習曲線はほとんど、あるいは全くないはずです。そしてこの場合、NetApp AFXは依然としてONTAPを実行しています。</block>
   <block id="da7e3e739f578be1f4c13495e5461eff" category="section-title">管理 – CLI</block>
@@ -2962,7 +2961,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="4790820e71d568645bb04f281809cab5" category="paragraph">現在、ノードの種類は<block ref="9cf787ca68118452f94875110bf7c0d8" category="inline-link-macro-rx"></block>および<block ref="a67c7f87cb090f0e7a2eb2e9e2ce04a7" category="inline-link-macro-rx"></block>であり、読み取りと書き込みのスループットはおおよそ以下の値になります*。新しいハードウェアがNetApp AFXで利用可能になると、これらの制限は変更される可能性があります。</block>
   <block id="7243f720b1a11790b4333cc5b0935200" category="list-text">パフォーマンス数値は、<block ref="451033c113f4cb2c96f7cf68d47e4bb7" category="inline-link-macro-rx"></block>ベンチマークツールとシーケンシャル読み取り / 書き込みを使用して取得しました。</block>
   <block id="0afd336df6e2f35fa9136b405a81257e" category="admonition">複数のクライアントが複数のファイルを読み書きすることで最大のパフォーマンスが達成されました。これは以下の<block ref="b5e0ef07acc1f0284ac7885ebafed6e2" category="inline-link-macro-rx"></block>セクションに示されています。</block>
-  <block id="830183f90a7d21bc3023a5a607dc46b7" category="cell">約17GB/s （+70%増）</block>
   <block id="913b914fe6c0068aa828d6146b79c0a5" category="paragraph">例えば、統合された ONTAP クラスターでは、各ノードに専用のディスク セットが備わっています。その結果、パフォーマンスはノードが所有するディスクのみに向けられます。1 つのノードしか 1 組のディスクにアクセスできないため、パフォーマンスは直接アクセスできるディスクに制限されます。</block>
   <block id="82f771d84cb467c143d321be8dbc7f21" category="paragraph">NetApp AFXは、利用可能なすべてのディスクをストレージ可用性ゾーン（SAZ）と呼ばれる単一の容量プールに統合します。その結果、すべてのノードが利用可能なすべてのディスクを読み取り / 書き込みに活用できるようになります。ディスクとノードが分離されているため、統合型ONTAPアーキテクチャと比較して、同じ（またはそれ以上の）スループット性能を得るために必ずしも多くのシェルフを必要とするわけではありません。NetApp AFXの分離型アーキテクチャは、ディスク シェルフのパフォーマンスの可能性を最大限に引き出します。</block>
   <block id="7f810f955c236680f67b2a1021577415" category="paragraph">ONTAP 9.19.1以降、ノード：シェルフの飽和比は少なくとも4：1であり、8：3も可能です。</block>
@@ -3844,4 +3842,6 @@ ONTAPは、インライン圧縮、ハードウェアの無停止アップグレ
   <block id="8a7e0beccfabd338dccfddb2c0fbe7d2" category="sidebar">iノードタイプ</block>
   <block id="9a00e15ca5553b10b87330540e61f76f" category="sidebar">モニタリング、EMS、および機能強化</block>
   <block id="c2ffe02d76c4f089648f1647b43e4ee5" category="sidebar">ベストプラクティス</block>
+  <block id="047ac8d5a4555f864c4a724edbef5e44" category="cell">約16GB/s （+60%増）</block>
+  <block id="d20323b4b266c4cb39fa13a0be177ac0" category="paragraph">当社のパフォーマンスエンジニアリングチームは、標準的なAI、EDA、ソフトウェアビルドのベンチマークのパフォーマンスを比較し、以前のONTAPリリースから大幅な改善を確認しました。</block>
 </blocks>
